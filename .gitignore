@@ -1,0 +1,48 @@
+# Ignore the node_modules folder
+node_modules/
+
+# Log files
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Database files
+*.sqlite
+*.sqlite3
+
+# Directory for local SQLite database storage
+db/
+
+# Debugger files
+.vscode/
+
+# Environment configuration files
+.env
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
+*.log
+
+# IDE specific files
+.idea/
+*.sublime-workspace
+*.sublime-project
+*.code-workspace
+
+# Sequelize migrations and seeders if generated to track versions
+migrations/
+seeders/
+
+# Build directory (if you're using it)
+dist/
+build/
+
+# Coverage directory used by testing frameworks
+coverage/
