@@ -7,11 +7,11 @@ const OrderItem = require("./OrderItems");
 // User.hasOne(Order);
 // Order.belongsTo(User); // корзина принадлежит User
 
-Item.hasMany(OrderItem);
-OrderItem.belongsTo(Item);
-
 Categorie.hasMany(Item);
 Item.belongsTo(Categorie);
+
+Item.hasMany(OrderItem);
+OrderItem.belongsTo(Item);
 
 // Order.hasMany(OrderItem);
 // OrderItem.belongsTo(Order);

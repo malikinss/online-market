@@ -1,4 +1,5 @@
 const Categorie = require("../models/Categories");
+const ApiError = require("../error/ApiError");
 
 class CategorieController {
     async create(req, res){
