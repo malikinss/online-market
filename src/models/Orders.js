@@ -33,7 +33,7 @@ const Order = sequelize.define(
     },
   },
   {
-    tableName: 'orders',
+    tableName: "orders",
     timestamps: true,
   }
 );
