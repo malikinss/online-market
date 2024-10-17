@@ -1,9 +1,30 @@
 const sequelize = require("../config/dbConnect");
-const {DataTypes} = require("sequelize");
+const { DataTypes } = require("sequelize");
+const {
+  validationRules,
+  createValidation,
+} = require("../utils/validationHandling");
 
-const Categorie = sequelize.define('categorie', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    name: {type: DataTypes.STRING, unique: true, allowNull: false},
-})
+const Category = sequelize.define(
+  "category",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
 
-module.exports = Categorie;
+    name: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+      validate: createValidation(validationRules.category.name, "category"),
+    },
+  },
+  {
+    tableName: "categories",
+    timestamps: true,
+  }
+);
+
+module.exports = Category;
