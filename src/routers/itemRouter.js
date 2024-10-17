@@ -12,4 +12,10 @@ router.get('/', itemController.getAll);
 // GET item by id
 router.get('/:id', itemController.getOne);
 
+// PUT item by id
+router.put('/:id', itemController.updateById);
+
+// DELETE item by id
+router.delete('/:id', itemController.deleteById);
+
 module.exports = router;
