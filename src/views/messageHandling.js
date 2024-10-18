@@ -23,6 +23,8 @@ const messages = {
       "The order status must be in [Created, Paid, Awaiting payment, Payment error, Payment cancelled]",
     price:
       "The price must be a number with a maximum of 8 digits before the decimal point and no more than 2 digits after the decimal point.",
+    img: "The image URL must end with .jpg, .jpeg, .png, or .gif",
+    
   },
 
   success: {
