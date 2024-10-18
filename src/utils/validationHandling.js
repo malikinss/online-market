@@ -40,22 +40,20 @@ const validationRules = {
     ],
   },
 
-  // Validation rules for orderItem
   orderItem: {
-    quantity: popularRegExps.positiveNumber,  // Quantity must be a positive number
-    price: popularRegExps.moneyValue,         // Price must be a valid monetary value
+    quantity: popularRegExps.positiveNumber,
+    price: popularRegExps.moneyValue,
   },
 
-  // Validation rules for Item
   item: {
-    name: popularRegExps.itemName,            // Item name must be a string between 2 and 100 characters
-    price: popularRegExps.positiveNumber,     // Price must be a positive number
-    stock: popularRegExps.positiveNumber,     // Stock must be a positive number
+    name: popularRegExps.itemName,
+    price: popularRegExps.positiveNumber,
+    stock: popularRegExps.positiveNumber,
+    img:  /\.(jpg|jpeg|png|gif)$/i, // The image URL must end with .jpg, .jpeg, .png, or .gif
   },
 
-  // Validation rules for Category
   category: {
-    name: popularRegExps.itemName,            // Category name must be a string between 2 and 100 characters
+    name: popularRegExps.itemName,
   },
 };
 
