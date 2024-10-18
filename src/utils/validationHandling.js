@@ -5,6 +5,7 @@ popularRegExps = {
   personalName: /^[a-zA-Z]{2,20}$/, // User names
   positiveNumber: /^\d+$/, // Positive integer
   moneyValue: /^\d{1,8}(\.\d{1,2})?$/, // Money value with two decimal places
+  itemName: /^[A-Za-z0-9\s\-]{2,100}$/, // Item name: alphanumeric, spaces, and hyphens
 };
 
 const validationRules = {
@@ -38,8 +39,25 @@ const validationRules = {
       "Returned",
     ],
   },
-};
 
+  // Validation rules for orderItem
+  orderItem: {
+    quantity: popularRegExps.positiveNumber,  // Quantity must be a positive number
+    price: popularRegExps.moneyValue,         // Price must be a valid monetary value
+  },
+
+  // Validation rules for Item
+  item: {
+    name: popularRegExps.itemName,            // Item name must be a string between 2 and 100 characters
+    price: popularRegExps.positiveNumber,     // Price must be a positive number
+    stock: popularRegExps.positiveNumber,     // Stock must be a positive number
+  },
+
+  // Validation rules for Category
+  category: {
+    name: popularRegExps.itemName,            // Category name must be a string between 2 and 100 characters
+  },
+};
 
 /**
  * Creates a validation object for the specified rule and field name.
