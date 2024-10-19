@@ -1,12 +1,12 @@
-const Categorie = require("../models/Categories");
+const Category = require("../models/Categories");
 const ApiError = require("../error/ApiError");
 
-class CategorieController {
+class CategoryController {
     async create(req, res) {
         try {
             const { name } = req.body;
-            const categorie = await Categorie.create({ name });
-            return res.json(categorie);
+            const category = await Category.create({ name });
+            return res.json(category);
         } catch (e) {
             throw ApiError.badRequest(e.message);
         }
@@ -14,7 +14,7 @@ class CategorieController {
 
     async getAll(req, res) {
         try {
-            const categories = await Categorie.findAll();
+            const categories = await Category.findAll();
             return res.json(categories);
         } catch (e) {
             throw ApiError.badRequest(e.message);
@@ -26,16 +26,16 @@ class CategorieController {
             const { id } = req.params;
             const { name } = req.body;
     
-            const categorie = await Categorie.findOne({ where: { id } });
+            const category = await Category.findOne({ where: { id } });
     
             if (!categorie) {
                 throw ApiError.notFound("Categorie not found");
             }
     
-            categorie.name = name || categorie.name;
-            await categorie.save();
+            category.name = name || category.name;
+            await category.save();
     
-            return res.json(categorie);
+            return res.json(category);
         } catch (e) {
             next(e);
         }
@@ -46,20 +46,20 @@ class CategorieController {
         try {
             const { id } = req.params;
 
-            const categorie = await Categorie.findOne({ where: { id } });
+            const category = await Categorie.findOne({ where: { id } });
 
-            if (!categorie) {
-                throw ApiError.notFound("Categorie not found");
+            if (!category) {
+                throw ApiError.notFound("Category not found");
             }
 
-            await categorie.destroy();
+            await category.destroy();
 
-            return res.json({ message: "Categorie deleted successfully" });
+            return res.json({ message: "Category deleted successfully" });
         } catch (e) {
             next(e);
         }
     }
 }
 
-module.exports = new CategorieController();
+module.exports = new CategoryController();
 
