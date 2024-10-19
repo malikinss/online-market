@@ -28,7 +28,7 @@ class CategoryController {
     
             const category = await Category.findOne({ where: { id } });
     
-            if (!categorie) {
+            if (!category) {
                 throw ApiError.notFound("Categorie not found");
             }
     
