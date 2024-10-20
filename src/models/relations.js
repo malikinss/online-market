@@ -6,7 +6,7 @@ const Payment = require("./Payments");
 const OrderItem = require("./OrderItems");
 
 const Item = require("./Items");
-const Categorie = require("./Categories");
+const Category = require("./Categories");
 
 const initRelations = (sequelize) => {
   User.hasOne(UserAddress);
@@ -24,8 +24,8 @@ const initRelations = (sequelize) => {
   Item.hasMany(OrderItem);
   OrderItem.belongsTo(Item);
 
-  Categorie.hasMany(Item);
-  Item.belongsTo(Categorie);
+  Category.hasMany(Item);
+  Item.belongsTo(Category);
 };
 
 module.exports = initRelations;

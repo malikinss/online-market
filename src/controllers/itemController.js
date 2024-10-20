@@ -7,11 +7,11 @@ const { title } = require("process");
 class ItemController {
   async create(req, res, next) {
       try {
-          const { name, description, price, stock, categorieId } = req.body;
+          const { name, description, price, stock, categoryId } = req.body;
           const { img } = req.files;
           let fileName = uuid.v4() + ".jpg";
           img.mv(path.resolve(__dirname, '..', 'static', fileName));
-          const item = await Item.create({ name, description, price, stock, categorieId, img: fileName });
+          const item = await Item.create({ name, description, price, stock, categoryId, img: fileName });
 
           return res.json(item);
       } catch (e) {
@@ -21,11 +21,11 @@ class ItemController {
 
   async getAll(req, res, next) {
       try {
-          const { categorieId } = req.query;
+          const { categoryId } = req.query;
           const whereClause = {};
 
-          if (categorieId) {
-              whereClause.categorieId = categorieId;
+          if (categoryId) {
+              whereClause.categoryId = categoryId;
           }
 
           const items = await Item.findAll({ where: whereClause });
@@ -50,7 +50,7 @@ class ItemController {
   async updateById(req, res, next) {
       try {
           const { id } = req.params;
-          const { name, description, price, stock, categorieId } = req.body;
+          const { name, description, price, stock, categoryId } = req.body;
 
           const item = await Item.findOne({ where: { id } });
 
@@ -62,7 +62,7 @@ class ItemController {
           item.description = description || item.description;
           item.price = price || item.price;
           item.stock = stock || item.stock;
-          item.categorieId = categorieId || item.categorieId;
+          item.categoryId = categoryId || item.categoryId;
 
           await item.save();
 

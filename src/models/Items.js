@@ -44,6 +44,15 @@ const Item = sequelize.define(
       allowNull: false,
       validate: createValidation(validationRules.item.img, "item image"),
     },
+
+    categoryId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'categories',
+        key: 'id'
+      }
+    },
   },
   {
     tableName: "items",
@@ -52,3 +61,4 @@ const Item = sequelize.define(
 );
 
 module.exports = Item;
+
