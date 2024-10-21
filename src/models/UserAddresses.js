@@ -1,66 +1,87 @@
 const sequelize = require("../config/dbConnect");
 const { DataTypes } = require("sequelize");
 const {
-  validationRules,
-  createValidation,
+    validationRules,
+    createValidation,
 } = require("../utils/validationHandling");
 
 const UserAddress = sequelize.define(
-  "address",
-  {
-    id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
-    },
+    "address",
+    {
+        id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true,
+        },
 
-    country: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: createValidation(validationRules.address.country, "country"),
-    },
+        userId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: "users",
+                key: "id",
+            },
+            validate: {
+                isInt: true,
+            },
+        },
 
-    city: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: createValidation(validationRules.address.city, "city"),
-    },
+        country: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: createValidation(
+                validationRules.address.country,
+                "country"
+            ),
+        },
 
-    street: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: createValidation(validationRules.address.street, "street"),
-    },
+        city: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: createValidation(validationRules.address.city, "city"),
+        },
 
-    building: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: createValidation(
-        validationRules.address.building,
-        "building number"
-      ),
-    },
+        street: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: createValidation(
+                validationRules.address.street,
+                "street"
+            ),
+        },
 
-    apartment: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      validate: createValidation(
-        validationRules.address.apartment,
-        "apartment number"
-      ),
-    },
+        building: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            validate: createValidation(
+                validationRules.address.building,
+                "building number"
+            ),
+        },
 
-    postal: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: createValidation(validationRules.address.postal, "postal code"),
+        apartment: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            validate: createValidation(
+                validationRules.address.apartment,
+                "apartment number"
+            ),
+        },
+
+        postal: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            validate: createValidation(
+                validationRules.address.postal,
+                "postal code"
+            ),
+        },
     },
-  },
-  {
-    tableName: 'addresses',
-    timestamps: true,
-  }
+    {
+        tableName: "addresses",
+        timestamps: true,
+    }
 );
 
 module.exports = UserAddress;
