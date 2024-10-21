@@ -62,7 +62,6 @@ class CategoryController {
 
 module.exports = new CategoryController();
 
-
 // const Category = require("../models/Categories");
 // const ApiError = require("../error/ApiError");
 
@@ -90,22 +89,21 @@ module.exports = new CategoryController();
 //         try {
 //             const { id } = req.params;
 //             const { name } = req.body;
-    
+
 //             const category = await Category.findOne({ where: { id } });
-    
+
 //             if (!category) {
 //                 throw ApiError.notFound("Categorie not found");
 //             }
-    
+
 //             category.name = name || category.name;
 //             await category.save();
-    
+
 //             return res.json(category);
 //         } catch (e) {
 //             next(e);
 //         }
 //     }
-    
 
 //     async deleteById(req, res) {
 //         try {
@@ -127,4 +125,3 @@ module.exports = new CategoryController();
 // }
 
 // module.exports = new CategoryController();
-
