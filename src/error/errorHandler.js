@@ -1,5 +1,5 @@
 const { handleError } = require("../controllers/userController");
-const ApiError = require("../error/ApiError");
+const ApiError = require("./ApiError");
 
 /**
  * Handles errors and passes them to the next middleware.
