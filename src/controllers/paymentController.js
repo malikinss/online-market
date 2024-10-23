@@ -1,63 +1,97 @@
 const Payment = require("../models/Payments");
-const ApiError = require("../error/ApiError");
 
+const checkForFalsyValues = require("../utils/falsyChecker");
+const findByField = require("../utils/findByField");
+
+const handleError = require("../error/errorHandler");
+
+/**
+ * Controller for managing order payments.
+ */
 class PaymentController {
+    /**
+     * Create a new order payment.
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     */
     async create(req, res, next) {
         try {
             const { status } = req.body;
+
+            // Check for falsy values in the payment fields
+            checkForFalsyValues([status], next);
+
+            // Create a new payment in the database
             const payment = await Payment.create({ status });
 
             return res.json(payment);
-        } catch (e) {
-            next(ApiError.badRequest(e.message));
+        } catch (error) {
+            handleError(next, "creating payment", error);
         }
     }
 
-    async getAll(req, res, next) {
+    /**
+     * Get a payment by ID.
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     */
+    async getById(req, res, next) {
         try {
-            const payments = await Payment.findAll();
-            return res.json(payments);
-        } catch (e) {
-            next(ApiError.badRequest(e.message));
+            const { id } = req.params;
+            const payment = await findByField(id, Payment, next);
+            return res.json(payment);
+        } catch (error) {
+            handleError(next, "fetching payment", error);
         }
     }
 
+    /**
+     * Update a payment by ID.
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     */
     async updateById(req, res, next) {
         try {
             const { id } = req.params;
             const { status } = req.body;
 
-            const payment = await Payment.findOne({ where: { id } });
+            // Check for falsy values in the payment fields
+            checkForFalsyValues([status], next);
 
-            if (!payment) {
-                return next(ApiError.notFound("Payment not found"));
-            }
+            const payment = await findByField(id, Payment, next);
 
-            payment.status = status || address.status;
+            // Update the payment status field, keeping existing value if not provided
+            Object.assign(payment, { status: status || payment.status });
 
+            // Save the updated payment to the database
             await payment.save();
 
             return res.json(payment);
-        } catch (e) {
-            next(e);
+        } catch (error) {
+            handleError(next, "updating payment", error);
         }
     }
 
+    /**
+     * Delete a payment by ID.
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     */
     async deleteById(req, res, next) {
         try {
             const { id } = req.params;
 
-            const payment = await Payment.findOne({ where: { id } });
-
-            if (!payment) {
-                return next(ApiError.notFound("Payment not found"));
-            }
+            const payment = await findByField(id, Payment, next);
 
             await payment.destroy();
 
             return res.json({ message: "Payment deleted successfully" });
-        } catch (e) {
-            next(e);
+        } catch (error) {
+            handleError(next, "deleting payment", error);
         }
     }
 }
