@@ -1,11 +1,24 @@
 const UserAddress = require("../models/UserAddresses");
 const ApiError = require("../error/ApiError");
 
+const checkForFalsyValues = require("../utils/falsyChecker");
+const findByField = require("../utils/findByField");
+
 class UserAddressController {
     async create(req, res, next) {
         try {
             const { country, city, street, buillding, apartment, postal } =
                 req.body;
+
+            checkForFalsyValues([
+                country,
+                city,
+                street,
+                buillding,
+                apartment,
+                postal,
+            ]);
+
             const address = await UserAddress.create({
                 country,
                 city,
@@ -29,17 +42,23 @@ class UserAddressController {
         }
     }
 
+    async getAddress(req, res, next) {
+        try {
+            const { id } = req.params;
+            const address = await findByField(id, UserAddress, next);
+            return res.json(address);
+        } catch (e) {
+            next(ApiError.badRequest(e.request));
+        }
+    }
+
     async updateById(req, res, next) {
         try {
             const { id } = req.params;
             const { country, city, street, buillding, apartment, postal } =
                 req.body;
 
-            const address = await UserAddress.findOne({ where: { id } });
-
-            if (!address) {
-                return next(ApiError.notFound("Address not found"));
-            }
+            const address = await findByField(id, UserAddress, next);
 
             address.country = country || address.country;
             address.city = city || address.city;
@@ -60,11 +79,7 @@ class UserAddressController {
         try {
             const { id } = req.params;
 
-            const address = await UserAddress.findOne({ where: { id } });
-
-            if (!address) {
-                return next(ApiError.notFound("Address not found"));
-            }
+            const address = await findByField(id, UserAddress, next);
 
             await address.destroy();
 
