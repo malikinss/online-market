@@ -1,6 +1,6 @@
 const ApiError = require("../error/ApiError");
 
-const checkForFalsyValues = (values) => {
+const checkForFalsyValues = (values, next) => {
     if (values.some((field) => !field)) {
         return next(
             ApiError.badRequest(
