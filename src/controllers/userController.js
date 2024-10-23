@@ -120,7 +120,15 @@ class UserController {
 
             // Find user by ID
             const user = await findByField(userId, User, next);
-            return res.json(user);
+
+            // Find userAddress by ID
+            const address = await findByField(
+                user.addressId,
+                UserAddress,
+                next
+            );
+
+            return res.json({ user, address });
         } catch (error) {
             this.handleError(next, "retrieving user information", error);
         }
