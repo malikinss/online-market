@@ -10,14 +10,10 @@ class UserAddressController {
             const { country, city, street, buillding, apartment, postal } =
                 req.body;
 
-            checkForFalsyValues([
-                country,
-                city,
-                street,
-                buillding,
-                apartment,
-                postal,
-            ]);
+            checkForFalsyValues(
+                [country, city, street, buillding, apartment, postal],
+                next
+            );
 
             const address = await UserAddress.create({
                 country,
