@@ -7,9 +7,9 @@ const ApiError = require("../error/ApiError");
  * @param {function} next - Express middleware function for handling errors.
  * @returns {Object} The found element or an error if not found.
  */
-async function findById(id, Model, next) {
+async function findByField(field, Model, next) {
     try {
-        const element = await Model.findOne({ where: { id } });
+        const element = await Model.findOne({ where: { field } });
 
         if (!element) {
             return next(ApiError.notFound("Element not found"));
@@ -23,4 +23,4 @@ async function findById(id, Model, next) {
     }
 }
 
-module.exports = { findById };
+module.exports = findByField;
