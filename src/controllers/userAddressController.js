@@ -4,6 +4,8 @@ const ApiError = require("../error/ApiError");
 const checkForFalsyValues = require("../utils/falsyChecker");
 const findByField = require("../utils/findByField");
 
+const handleError = require("../error/errorHandler");
+
 /**
  * Controller for managing user addresses.
  */
