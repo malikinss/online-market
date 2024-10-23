@@ -122,9 +122,10 @@ class UserController {
             const user = await findByField(userId, User, next);
 
             // Find userAddress by ID
-            const address = await findByField(
+            const address = await UserAddressController.getAddress(
                 user.addressId,
-                UserAddress,
+                req,
+                res,
                 next
             );
 
