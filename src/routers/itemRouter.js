@@ -3,19 +3,15 @@ const router = new Router();
 const itemController = require("../controllers/itemController");
 
 // http://127.0.0.1:3000/api/item
-// POST Create item
-router.post('/', itemController.create);
+router
+    .route("/")
+    .post(itemController.create) // POST Create item
+    .get(itemController.getAll); // GET all items
 
-// GET all items || all items by category id
-router.get('/', itemController.getAll);
-
-// GET item by id
-router.get('/:id', itemController.getOne);
-
-// PUT item by id
-router.put('/:id', itemController.updateById);
-
-// DELETE item by id
-router.delete('/:id', itemController.deleteById);
+router
+    .route("/:id")
+    .get(itemController.getOne) // GET item by id
+    .put(itemController.updateById) // PUT item by id
+    .delete(itemController.deleteById); // DELETE item by id
 
 module.exports = router;
