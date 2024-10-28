@@ -17,13 +17,13 @@ class PaymentController {
      */
     async create(req, res, next) {
         try {
-            const { status } = req.body;
+            const { orderId } = req.body;
 
             // Check for falsy values in the payment fields
-            checkForFalsyValues([status], next);
+            checkForFalsyValues([orderId], next);
 
             // Create a new payment in the database
-            const payment = await Payment.create({ status });
+            const payment = await Payment.create({ orderId, status: false });
 
             return res.json(payment);
         } catch (error) {
