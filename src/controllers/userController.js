@@ -1,27 +1,26 @@
 const User = require("../models/Users");
 const UserAddress = require("../models/UserAddresses");
-const UserAddressController = require("../controllers/userAddressController");
+
+const UserAddressController = require("./userAddressController");
+
 const bcrypt = require("bcrypt");
 const generateJWT = require("../utils/generateJWT");
+
 const findByField = require("../utils/findByField");
 const {
     checkUserUniqueness,
     checkForFalsyValues,
     validatePassword,
 } = require("../utils/validationHandling");
+
+const handleError = require("../error/errorHandler");
+
 const ApiError = require("../error/ApiError");
 
+/**
+ * Controller for managing users.
+ */
 class UserController {
-    /**
-     * Handles errors and passes them to the next middleware.
-     * @param {Function} next - Express next middleware function.
-     * @param {string} message - Error message.
-     * @param {Error} error - Original error object.
-     */
-    handleError(next, message, error) {
-        return next(ApiError.internal(`Error ${message}: ${error.message}`));
-    }
-
     /**
      * Registers a new user.
      * @param {Object} req - Express request object.
