@@ -1,41 +1,80 @@
 const sequelize = require("../config/dbConnect");
 const { DataTypes } = require("sequelize");
 const {
-  validationRules,
-  createValidation,
+    validationRules,
+    createValidation,
 } = require("../utils/validationHandling");
 
 const OrderItem = sequelize.define(
-  "orderItem",
-  {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
+    "orderItem",
+    {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+        },
 
-    quantity: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: createValidation(validationRules.orderItem.quantity, "quantity"),
-    },
+        orderId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: "orders",
+                key: "id",
+            },
+            validate: {
+                isInt: true,
+            },
+        },
 
-    unitPrice: {
-      type: DataTypes.DECIMAL(10, 2),
-      allowNull: false,
-      validate: createValidation(validationRules.orderItem.price, "unit price"),
-    },
+        itemId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: "items",
+                key: "id",
+            },
+            validate: {
+                isInt: true,
+            },
+        },
 
-    totalPrice: {
-      type: DataTypes.DECIMAL(10, 2),
-      allowNull: false,
-      validate: createValidation(validationRules.orderItem.price, "total price"),
+        quantity: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            validate: createValidation(
+                validationRules.orderItem.quantity,
+                "quantity"
+            ),
+        },
+
+        unitPrice: {
+            type: DataTypes.DECIMAL(10, 2),
+            allowNull: false,
+            validate: createValidation(
+                validationRules.orderItem.price,
+                "unit price"
+            ),
+        },
+
+        totalPrice: {
+            type: DataTypes.DECIMAL(10, 2),
+            allowNull: false,
+            validate: createValidation(
+                validationRules.orderItem.price,
+                "total price"
+            ),
+        },
     },
-  },
-  {
-    tableName: "orderitems",
-    timestamps: true,
-  }
+    {
+        tableName: "orderitems",
+        timestamps: true,
+        hooks: {
+            beforeSave: (orderItem) => {
+                // Автоматическое вычисление `totalPrice` перед сохранением
+                orderItem.totalPrice = orderItem.unitPrice * orderItem.quantity;
+            },
+        },
+    }
 );
 
 module.exports = OrderItem;
