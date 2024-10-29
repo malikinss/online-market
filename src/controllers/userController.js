@@ -56,7 +56,7 @@ class UserController {
 
             // Hash the password
             const hashedPassword = await bcrypt.hash(password, 5);
-
+            console.log(hashedPassword);
             // Create a new user
             const user = await User.create({
                 firstName,

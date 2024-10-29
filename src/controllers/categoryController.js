@@ -29,7 +29,7 @@ class CategoryController {
             const category = await Category.findOne({ where: { id } });
 
             if (!category) {
-                return next(ApiError.notFound("Category not found"));
+                next(ApiError.notFound("Category not found"));
             }
 
             category.name = name || category.name;
