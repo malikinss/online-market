@@ -2,14 +2,13 @@ const Order = require("../models/Orders");
 const Item = require("../models/Items");
 const OrderItem = require("../models/OrderItems");
 
+const ApiError = require("../error/ApiError");
+
 const OrderController = require("./orderController");
 const PaymentController = require("./paymentController");
 
 const checkForFalsyValues = require("../utils/falsyChecker");
 const findByField = require("../utils/findByField");
-
-const handleError = require("../error/errorHandler");
-
 /**
  * Controller for managing order items.
  */
@@ -56,8 +55,8 @@ class OrderItemController {
 
                 return res.json(orderItem);
             }
-        } catch (error) {
-            handleError(next, "creating orderItem", error);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
         }
     }
 
@@ -72,8 +71,8 @@ class OrderItemController {
             const id = req.params.id;
             const orderItem = await findByField(id, OrderItem, next);
             return res.json(orderItem);
-        } catch (error) {
-            handleError(next, "fetching orderItem", error);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
         }
     }
 
@@ -92,8 +91,8 @@ class OrderItemController {
             const orderItems = await OrderItem.findAll(query);
 
             return res.json(orderItems);
-        } catch (error) {
-            handleError(next, "fetching orderItems", error);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
         }
     }
 
@@ -124,8 +123,8 @@ class OrderItemController {
             await order.save();
 
             return res.json(orderItem);
-        } catch (error) {
-            handleError(next, "updating orderItem", error);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
         }
     }
 
@@ -144,8 +143,8 @@ class OrderItemController {
             await orderItem.destroy();
 
             return res.json({ message: "OrderItem deleted successfully" });
-        } catch (error) {
-            handleError(next, "deleting orderItem", error);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
         }
     }
 }

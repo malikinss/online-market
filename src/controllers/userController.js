@@ -13,8 +13,6 @@ const {
     validatePassword,
 } = require("../utils/validationHandling");
 
-const handleError = require("../error/errorHandler");
-
 const ApiError = require("../error/ApiError");
 
 /**
@@ -73,9 +71,8 @@ class UserController {
             // Generate JWT token and return it
             const token = generateJWT(user.id, user.email, user.role);
             return res.json({ token });
-        } catch (error) {
-            this.handleError(next, "creating user", error);
-        }
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
     }
 
     /**
@@ -101,10 +98,9 @@ class UserController {
             // Generate JWT token and return it
             const token = generateJWT(user.id, user.email, user.role);
             return res.json({ token });
-        } catch (error) {
-            this.handleError(next, "during authorization", error);
-        }
-    }
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
+    }}
 
     /**
      * Retrieves the current user's information.
@@ -129,8 +125,8 @@ class UserController {
             );
 
             return res.json({ user, address });
-        } catch (error) {
-            this.handleError(next, "retrieving user information", error);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
         }
     }
 
@@ -160,8 +156,8 @@ class UserController {
             await user.save();
 
             return res.json({ message: "Password successfully changed" });
-        } catch (error) {
-            this.handleError(next, "changing password", error);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
         }
     }
 
@@ -192,8 +188,8 @@ class UserController {
             await user.save();
 
             return res.json(user);
-        } catch (error) {
-            this.handleError(next, "updating user information", error);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
         }
     }
 
@@ -225,10 +221,11 @@ class UserController {
             await user.destroy();
 
             return res.json({ message: "User successfully deleted" });
-        } catch (error) {
-            this.handleError(next, "deleting user", error);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
         }
     }
+}
 }
 
 module.exports = new UserController();

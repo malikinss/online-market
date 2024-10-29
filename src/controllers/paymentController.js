@@ -3,7 +3,7 @@ const Payment = require("../models/Payments");
 const checkForFalsyValues = require("../utils/falsyChecker");
 const findByField = require("../utils/findByField");
 
-const handleError = require("../error/errorHandler");
+const ApiError = require("../error/ApiError");
 
 /**
  * Controller for managing order payments.
@@ -26,8 +26,8 @@ class PaymentController {
             const payment = await Payment.create({ orderId, status: false });
 
             return res.json(payment);
-        } catch (error) {
-            handleError(next, "creating payment", error);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
         }
     }
 
@@ -42,8 +42,8 @@ class PaymentController {
             const { id } = req.params;
             const payment = await findByField(id, Payment, next);
             return res.json(payment);
-        } catch (error) {
-            handleError(next, "fetching payment", error);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
         }
     }
 
@@ -70,8 +70,8 @@ class PaymentController {
             await payment.save();
 
             return res.json(payment);
-        } catch (error) {
-            handleError(next, "updating payment", error);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
         }
     }
 
@@ -90,8 +90,8 @@ class PaymentController {
             await payment.destroy();
 
             return res.json({ message: "Payment deleted successfully" });
-        } catch (error) {
-            handleError(next, "deleting payment", error);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
         }
     }
 }

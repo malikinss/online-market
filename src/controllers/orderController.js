@@ -30,8 +30,8 @@ class OrderController {
             });
 
             return res.json(order);
-        } catch (error) {
-            handleError(next, "creating order", error);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
         }
     }
 
@@ -48,8 +48,8 @@ class OrderController {
             const order = await findByField(id, Order, next);
 
             return res.json(order);
-        } catch (error) {
-            handleError(next, "fetching order", error);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
         }
     }
 
@@ -68,8 +68,8 @@ class OrderController {
             const userOrders = await Order.findAll(query);
 
             return res.json(userOrders);
-        } catch (error) {
-            handleError(next, "fetching orders", error);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
         }
     }
 
@@ -99,8 +99,8 @@ class OrderController {
             await order.save();
 
             return res.json(order);
-        } catch (error) {
-            handleError(next, "updating order", error);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
         }
     }
 
@@ -119,8 +119,8 @@ class OrderController {
             await order.destroy();
 
             return res.json({ message: "Order deleted successfully" });
-        } catch (error) {
-            handleError(next, "deleting order", error);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
         }
     }
 }
