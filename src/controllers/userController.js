@@ -73,6 +73,7 @@ class UserController {
             return res.json({ token });
         } catch (e) {
             next(ApiError.badRequest(e.message));
+        }
     }
 
     /**
@@ -100,7 +101,8 @@ class UserController {
             return res.json({ token });
         } catch (e) {
             next(ApiError.badRequest(e.message));
-    }}
+        }
+    }
 
     /**
      * Retrieves the current user's information.
@@ -225,7 +227,6 @@ class UserController {
             next(ApiError.badRequest(e.message));
         }
     }
-}
 }
 
 module.exports = new UserController();
