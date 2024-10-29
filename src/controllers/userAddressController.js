@@ -1,7 +1,7 @@
 const UserAddress = require("../models/UserAddresses");
 const ApiError = require("../error/ApiError");
 
-const checkForFalsyValues = require("../utils/falsyChecker");
+const { checkForFalsyValues } = require("../utils/validationHandling");
 const findByField = require("../utils/findByField");
 
 /**
@@ -16,26 +16,54 @@ class UserAddressController {
      */
     async create(req, res, next) {
         try {
-            const { country, city, street, building, apartment, postal } =
-                req.body.address;
+            const address = req.body.address;
 
-            // Check for falsy values in the address fields
-            checkForFalsyValues(
+            if (!address) {
+                return next(ApiError.badRequest("Address data is required."));
+            }
+
+            const { country, city, street, building, apartment, postal } =
+                address;
+
+            const isFalsy = checkForFalsyValues(
                 [country, city, street, building, postal],
                 next
             );
 
+            //console.log("test =", isFalsy);
+            if (!isFalsy) {
+                return;
+            }
+
+            const parsedBuilding = parseInt(building);
+            const parsedApartment = parseInt(apartment);
+            const parsedPostal = parseInt(postal);
+
+            const notValid =
+                isNaN(parsedBuilding) ||
+                isNaN(parsedApartment) ||
+                isNaN(parsedPostal);
+
+            if (notValid) {
+                return next(
+                    ApiError.badRequest(
+                        "Building, apartment, and postal must be valid numbers."
+                    )
+                );
+            }
+
             // Create a new address in the database
-            const address = await UserAddress.create({
+            const newAddress = await UserAddress.create({
                 country,
                 city,
                 street,
-                building: parseInt(building, 10),
-                apartment: apartment ? parseInt(apartment, 10) : null,
-                postal: parseInt(postal, 10),
+                building: parsedBuilding,
+                apartment: parsedApartment,
+                postal: parsedPostal,
             });
 
-            return res.json(address);
+            res.locals.address = newAddress;
+            next();
         } catch (e) {
             next(ApiError.badRequest(e.message));
         }

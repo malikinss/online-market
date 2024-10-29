@@ -49,10 +49,6 @@ const User = sequelize.define(
         password: {
             type: DataTypes.STRING,
             allowNull: false,
-            validate: createValidation(
-                validationRules.user.password,
-                "password"
-            ),
         },
 
         phone: {

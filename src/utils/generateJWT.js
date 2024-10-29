@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+
 const generateJWT = (id, email, role) => {
     const secretKey = process.env.SECRET_KEY;
 

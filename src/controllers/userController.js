@@ -11,9 +11,11 @@ const {
     checkUserUniqueness,
     checkForFalsyValues,
     validatePassword,
+    validatePasswordCreation,
 } = require("../utils/validationHandling");
 
 const ApiError = require("../error/ApiError");
+const { messages } = require("../views/messageHandling");
 
 /**
  * Controller for managing users.
@@ -28,35 +30,53 @@ class UserController {
      */
     async registration(req, res, next) {
         try {
-            const {
-                firstName,
-                lastName,
-                email,
-                password,
-                phone,
-                role,
-                address,
-            } = req.body;
+            const userData = req.body;
 
-            // Check for required fields
-            checkForFalsyValues(
-                [email, password, firstName, lastName, phone, address],
+            if (!userData || typeof userData !== "object") {
+                return next(ApiError.badRequest("User data is required"));
+            }
+
+            const { firstName, lastName, email, password, phone, role } =
+                userData;
+
+            const isFalsy = checkForFalsyValues(
+                [email, password, firstName, lastName, phone],
                 next
             );
+
+            if (!isFalsy) {
+                return;
+            }
 
             // Check email and phone uniqueness
-            await checkUserUniqueness(email, phone, null, next);
-
-            // Create user address
-            const newAddress = await UserAddressController.create(
-                req,
-                res,
+            const isUnique = await checkUserUniqueness(
+                email,
+                phone,
+                User,
                 next
             );
+
+            consaole.log(isUnique);
+
+            if (!isUnique) {
+                return;
+            }
+
+            // Create user address
+            await UserAddressController.create(req, res, next);
+            const createdAddress = res.locals.address;
+
+            const isValidPswd = validatePasswordCreation(password);
+
+            if (!isValidPswd) {
+                return next(
+                    ApiError.badRequest(messages.error.requirements("Password"))
+                );
+            }
 
             // Hash the password
             const hashedPassword = await bcrypt.hash(password, 5);
-            console.log(hashedPassword);
+
             // Create a new user
             const user = await User.create({
                 firstName,
@@ -65,14 +85,17 @@ class UserController {
                 password: hashedPassword,
                 phone,
                 role: role || "user",
-                addressId: newAddress.id,
+                addressId: createdAddress.dataValues.id,
             });
 
             // Generate JWT token and return it
             const token = generateJWT(user.id, user.email, user.role);
+
+            // console.log("\nTEST666666666 = ", res);
+            // console.log("\n");
             return res.json({ token });
         } catch (e) {
-            next(ApiError.badRequest(e.message));
+            return next(ApiError.badRequest(e.message));
         }
     }
 

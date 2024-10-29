@@ -16,7 +16,8 @@ const validationRules = {
         firstName: popularRegExps.personalName,
         lastName: popularRegExps.personalName,
         phone: /^0\d{9}$/, // Phone number format: 0XXXXXXXXX
-        password: /^[a-zA-Z0-9!@#$%^&*]{8,20}$/, // Password with allowed characters
+        password:
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/, // Password with allowed characters
         roles: ["user", "admin"], // User roles
     },
 
@@ -25,7 +26,7 @@ const validationRules = {
         city: popularRegExps.geographicName,
         street: popularRegExps.geographicName,
         building: popularRegExps.positiveNumber,
-        appartment: popularRegExps.positiveNumber,
+        apartment: popularRegExps.positiveNumber,
         postal: /^\d{7}$/, // Postal code format: 7 digits long
     },
 
@@ -88,32 +89,65 @@ const createValidationIsIn = (rule, fieldName) => ({
     },
 });
 
-const checkUserUniqueness = async (email, phone, userId = null, next) => {
-    // Execute requests simultaneously to check email and phone
-    const [candidateEmail, candidatePhone] = await Promise.all([
-        User.findOne({
-            where: {
-                email,
-                ...(userId ? { id: { [Op.ne]: userId } } : {}),
-            },
-        }),
-        User.findOne({
-            where: {
-                phone,
-                ...(userId ? { id: { [Op.ne]: userId } } : {}),
-            },
-        }),
-    ]);
+/**
+ * Checks the uniqueness of a user's email and phone number.
+ *
+ * @param {string} email - The user's email address.
+ * @param {string} phone - The user's phone number.
+ * @param {Model} Model - The database model to query.
+ * @param {string|null} userId - The ID of the user to exclude (if updating).
+ * @param {Function} next - The next middleware function for error handling.
+ * @returns {Promise<boolean>} - Returns true if unique; otherwise, throws an error.
+ */
+const checkUserUniqueness = async (
+    email,
+    phone,
+    Model,
+    userId = null,
+    next
+) => {
+    try {
+        // Check for existing users with the same email and phone
+        const excludeSameUser = { id: { [Op.ne]: userId } };
 
-    if (candidateEmail || candidatePhone) {
-        return next(
-            ApiError.badRequest(
+        // Execute requests simultaneously to check email and phone
+        const [existingEmail, existingPhone] = await Promise.all([
+            Model.findOne({
+                where: {
+                    email,
+                    ...(userId ? excludeSameUser : {}),
+                },
+            }),
+            Model.findOne({
+                where: {
+                    phone,
+                    ...(userId ? excludeSameUser : {}),
+                },
+            }),
+        ]);
+
+        // Return an error if an existing user is found
+        if (existingEmail || existingPhone) {
+            throw ApiError.badRequest(
                 "A user with such email or phone number already exists"
-            )
-        );
+            );
+        }
+
+        return true; // Unique email and phone
+    } catch (error) {
+        // Handle error by throwing it for higher-level middleware to catch
+        throw ApiError.internal("Database query failed");
     }
 };
 
+/**
+ * Checks an array of values for any falsy (null, undefined, empty string, etc.) values.
+ * If a falsy value is found, calls the `next` function with an error message.
+ *
+ * @param {Array} values - An array of values to check for falsy values.
+ * @param {Function} next - The callback function to be called with an error if a falsy value is found.
+ * @returns {boolean} Returns `true` if all values are truthy, otherwise calls `next` with an error.
+ */
 const checkForFalsyValues = (values, next) => {
     if (values.some((field) => !field)) {
         return next(
@@ -122,6 +156,8 @@ const checkForFalsyValues = (values, next) => {
             )
         );
     }
+
+    return true;
 };
 
 const validatePassword = async (password, curUserPassword) => {
@@ -133,6 +169,11 @@ const validatePassword = async (password, curUserPassword) => {
     }
 };
 
+const validatePasswordCreation = (password) => {
+    const regex = validationRules.user.password;
+    return regex.test(password);
+};
+
 module.exports = {
     validationRules,
     createValidation,
@@ -140,4 +181,5 @@ module.exports = {
     checkUserUniqueness,
     checkForFalsyValues,
     validatePassword,
+    validatePasswordCreation,
 };
