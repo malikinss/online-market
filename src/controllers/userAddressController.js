@@ -21,7 +21,7 @@ class UserAddressController {
 
             // Check for falsy values in the address fields
             checkForFalsyValues(
-                [country, city, street, building, apartment, postal],
+                [country, city, street, building, postal],
                 next
             );
 
@@ -30,10 +30,11 @@ class UserAddressController {
                 country,
                 city,
                 street,
-                building,
-                apartment,
-                postal,
+                building: parseInt(building, 10),
+                apartment: apartment ? parseInt(apartment, 10) : null,
+                postal: parseInt(postal, 10),
             });
+
             return res.json(address);
         } catch (e) {
             next(ApiError.badRequest(e.message));

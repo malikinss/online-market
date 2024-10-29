@@ -15,18 +15,6 @@ const UserAddress = sequelize.define(
             autoIncrement: true,
         },
 
-        userId: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: "users",
-                key: "id",
-            },
-            validate: {
-                isInt: true,
-            },
-        },
-
         country: {
             type: DataTypes.STRING,
             allowNull: false,

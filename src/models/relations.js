@@ -9,8 +9,8 @@ const Item = require("./Items");
 const Category = require("./Categories");
 
 const initRelations = (sequelize) => {
-    User.hasOne(UserAddress, { foreignKey: "userId" });
-    UserAddress.belongsTo(User, { foreignKey: "userId" });
+    User.hasOne(UserAddress);
+    UserAddress.belongsTo(User);
 
     User.hasMany(Order);
     Order.belongsTo(User);
