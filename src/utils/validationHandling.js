@@ -1,9 +1,8 @@
 const ApiError = require("../error/ApiError");
 const { Op } = require("sequelize");
-
 const { messages } = require("../views/messageHandling");
 
-popularRegExps = {
+const popularRegExps = {
     geographicName: /^[A-Za-z\s\-’'é]{2,100}$/, // Geographic names (countries and cities)
     personalName: /^[a-zA-Z]{2,20}$/, // User names
     positiveNumber: /^\d+$/, // Positive integer
@@ -20,7 +19,6 @@ const validationRules = {
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/, // Password with allowed characters
         roles: ["user", "admin"], // User roles
     },
-
     address: {
         country: popularRegExps.geographicName,
         city: popularRegExps.geographicName,
@@ -29,7 +27,6 @@ const validationRules = {
         apartment: popularRegExps.positiveNumber,
         postal: /^\d{7}$/, // Postal code format: 7 digits long
     },
-
     order: {
         price: popularRegExps.moneyValue,
         status: [
@@ -43,19 +40,16 @@ const validationRules = {
             "Returned",
         ],
     },
-
     orderItem: {
         quantity: popularRegExps.positiveNumber,
         price: popularRegExps.moneyValue,
     },
-
     item: {
         name: popularRegExps.itemName,
         price: popularRegExps.positiveNumber,
         stock: popularRegExps.positiveNumber,
         img: /\.(jpg|jpeg|png|gif)$/i, // The image URL must end with .jpg, .jpeg, .png, or .gif
     },
-
     category: {
         name: popularRegExps.itemName,
     },
@@ -106,37 +100,34 @@ const checkUserUniqueness = async (
     userId = null,
     next
 ) => {
-    try {
-        // Check for existing users with the same email and phone
-        const excludeSameUser = { id: { [Op.ne]: userId } };
+    const findUserByField = async (fieldValue, fieldName) => {
+        const excludeSameUser = userId ? { id: { [Op.ne]: userId } } : {};
+        return await Model.findOne({
+            where: {
+                [fieldName]: fieldValue,
+                ...excludeSameUser,
+            },
+        });
+    };
 
-        // Execute requests simultaneously to check email and phone
+    try {
         const [existingEmail, existingPhone] = await Promise.all([
-            Model.findOne({
-                where: {
-                    email,
-                    ...(userId ? excludeSameUser : {}),
-                },
-            }),
-            Model.findOne({
-                where: {
-                    phone,
-                    ...(userId ? excludeSameUser : {}),
-                },
-            }),
+            findUserByField(email, "email"),
+            findUserByField(phone, "phone"),
         ]);
 
-        // Return an error if an existing user is found
         if (existingEmail || existingPhone) {
             throw ApiError.badRequest(
-                "A user with such email or phone number already exists"
+                "User with such email or phone already exists"
             );
         }
 
-        return true; // Unique email and phone
+        return true;
     } catch (error) {
-        // Handle error by throwing it for higher-level middleware to catch
-        throw ApiError.internal("Database query failed");
+        if (error instanceof ApiError) {
+            throw error; // Обрабатываем специфические ошибки
+        }
+        return next(ApiError.internal("Ошибка запроса к базе данных"));
     }
 };
 
@@ -160,18 +151,11 @@ const checkForFalsyValues = (values, next) => {
     return true;
 };
 
-const validatePassword = async (password, curUserPassword) => {
-    // Сравниваем пароли
+const validatePassword = async (password, curUserPassword, next) => {
     const isPasswordValid = await bcrypt.compare(password, curUserPassword);
-
     if (!isPasswordValid) {
         return next(ApiError.internal("Wrong Password"));
     }
-};
-
-const validatePasswordCreation = (password) => {
-    const regex = validationRules.user.password;
-    return regex.test(password);
 };
 
 module.exports = {
@@ -181,5 +165,4 @@ module.exports = {
     checkUserUniqueness,
     checkForFalsyValues,
     validatePassword,
-    validatePasswordCreation,
 };

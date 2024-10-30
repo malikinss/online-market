@@ -14,8 +14,9 @@ const {
     validatePasswordCreation,
 } = require("../utils/validationHandling");
 
+const { getValidHashedPassword } = require("../utils/passwordHandler");
+
 const ApiError = require("../error/ApiError");
-const { messages } = require("../views/messageHandling");
 
 /**
  * Controller for managing users.
@@ -31,22 +32,15 @@ class UserController {
     async registration(req, res, next) {
         try {
             const userData = req.body;
-
-            if (!userData || typeof userData !== "object") {
-                return next(ApiError.badRequest("User data is required"));
-            }
-
             const { firstName, lastName, email, password, phone, role } =
                 userData;
 
+            // Check for falsy values
             const isFalsy = checkForFalsyValues(
                 [email, password, firstName, lastName, phone],
                 next
             );
-
-            if (!isFalsy) {
-                return;
-            }
+            if (!isFalsy) return; // Early return if any values are falsy
 
             // Check email and phone uniqueness
             const isUnique = await checkUserUniqueness(
@@ -55,46 +49,44 @@ class UserController {
                 User,
                 next
             );
+            if (!isUnique) return;
 
-            consaole.log(isUnique);
-
-            if (!isUnique) {
-                return;
-            }
+            const hashedPassword = await getValidHashedPassword(password, next);
+            if (!hashedPassword) return;
 
             // Create user address
             await UserAddressController.create(req, res, next);
             const createdAddress = res.locals.address;
 
-            const isValidPswd = validatePasswordCreation(password);
-
-            if (!isValidPswd) {
+            console.log(res.headersSent);
+            // Обработаем создание пользователя с обработкой ошибок
+            let user;
+            try {
+                user = await User.create({
+                    firstName,
+                    lastName,
+                    email,
+                    password: hashedPassword,
+                    phone,
+                    role: role || "user",
+                    addressId: createdAddress.dataValues.id,
+                });
+            } catch (error) {
+                console.error("Error creating user:", error); // Логируем ошибку
                 return next(
-                    ApiError.badRequest(messages.error.requirements("Password"))
+                    ApiError.badRequest("Error creating user: " + error.message)
                 );
             }
 
-            // Hash the password
-            const hashedPassword = await bcrypt.hash(password, 5);
+            console.log(res.headersSent);
 
-            // Create a new user
-            const user = await User.create({
-                firstName,
-                lastName,
-                email,
-                password: hashedPassword,
-                phone,
-                role: role || "user",
-                addressId: createdAddress.dataValues.id,
-            });
-
+            if (!user) return next(ApiError.badRequest("User creation failed")); // Handle user creation failure
             // Generate JWT token and return it
             const token = generateJWT(user.id, user.email, user.role);
 
-            // console.log("\nTEST666666666 = ", res);
-            // console.log("\n");
-            return res.json({ token });
+            res.json({ token }); // Send response
         } catch (e) {
+            console.error("Error during registration:", e);
             return next(ApiError.badRequest(e.message));
         }
     }
