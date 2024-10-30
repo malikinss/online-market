@@ -1,24 +1,24 @@
 const Router = require("express");
 const router = new Router();
 const authMiddleware = require("../middleware/authMiddleware");
-const userController = require("../controllers/userController");
+const userController = require("../controllers/userController/userController");
 
-// Регистрация пользователя
+// User registration route
 router.post("/register", userController.registration);
 
-// Вход пользователя
+// User logging in route
 router.post("/login", userController.login);
 
-// Получение текущего пользователя по ID
+// Get user by specific id route
 router.get("/:id", authMiddleware, userController.getCurrentUser);
 
-// Изменение пароля
+// User password changing route
 router.put("/change-password", authMiddleware, userController.changePassword);
 
-// Обновление информации о пользователе
+// User information updating route
 router.put("/update", authMiddleware, userController.updateUserInfo);
 
-// Удаление пользователя
+// User deletion route
 router.delete("/delete", authMiddleware, userController.deleteUser);
 
 module.exports = router;
