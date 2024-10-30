@@ -63,9 +63,8 @@ class UserAddressController {
             });
 
             res.locals.address = newAddress;
-            next();
         } catch (e) {
-            next(ApiError.badRequest(e.message));
+            return next(ApiError.badRequest(e.message));
         }
     }
 

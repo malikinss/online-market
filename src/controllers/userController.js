@@ -30,66 +30,150 @@ class UserController {
      * @returns {Object} - JSON containing JWT token.
      */
     async registration(req, res, next) {
+        const findUserByField = async (
+            fieldValue,
+            fieldName,
+            Model,
+            userId = null
+        ) => {
+            const excludeSameUser = userId ? { id: { [Op.ne]: userId } } : {};
+            return await Model.findOne({
+                where: {
+                    [fieldName]: fieldValue,
+                    ...excludeSameUser,
+                },
+            });
+        };
         try {
             const userData = req.body;
             const { firstName, lastName, email, password, phone, role } =
                 userData;
 
             // Check for falsy values
-            const isFalsy = checkForFalsyValues(
-                [email, password, firstName, lastName, phone],
-                next
-            );
-            if (!isFalsy) return; // Early return if any values are falsy
+            const values = [email, password, firstName, lastName, phone];
+            const hasFalsy = values.some((field) => !field);
+            if (hasFalsy) {
+                throw ApiError.badRequest("Some data was not privided");
+            }
 
             // Check email and phone uniqueness
-            const isUnique = await checkUserUniqueness(
-                email,
-                phone,
-                User,
-                next
-            );
-            if (!isUnique) return;
+            const [existingEmail, existingPhone] = await Promise.all([
+                findUserByField(email, "email", User),
+                findUserByField(phone, "phone", User),
+            ]);
+            if (existingEmail || existingPhone) {
+                throw ApiError.badRequest(
+                    "User with such email or phone already exists"
+                );
+            }
 
-            const hashedPassword = await getValidHashedPassword(password, next);
-            if (!hashedPassword) return;
+            // Check if valid password
+            const regex =
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/;
+            const isValidPswd = regex.test(password);
+
+            if (!isValidPswd) {
+                throw ApiError.badRequest("Password is not valid");
+            }
+
+            const hashedPassword = await bcrypt.hash(password, 5);
 
             // Create user address
             await UserAddressController.create(req, res, next);
             const createdAddress = res.locals.address;
-
-            console.log(res.headersSent);
-            // Обработаем создание пользователя с обработкой ошибок
-            let user;
-            try {
-                user = await User.create({
-                    firstName,
-                    lastName,
-                    email,
-                    password: hashedPassword,
-                    phone,
-                    role: role || "user",
-                    addressId: createdAddress.dataValues.id,
-                });
-            } catch (error) {
-                console.error("Error creating user:", error); // Логируем ошибку
-                return next(
-                    ApiError.badRequest("Error creating user: " + error.message)
-                );
+            if (!createdAddress) {
+                throw ApiError.badRequest("Address wasnt created");
             }
 
-            console.log(res.headersSent);
+            // Create user
+            console.log("\nWAS HEADERS SENT = ", res.headersSent, "\n"); // FALSE
+            const user = await User.create({
+                firstName,
+                lastName,
+                email,
+                password: hashedPassword,
+                phone,
+                role: role || "user",
+                addressId: createdAddress.dataValues.id,
+            });
+            console.log("\nWAS HEADERS SENT = ", res.headersSent, "\n"); // TRUE WHYYYYYY??????
+            if (!user) {
+                throw ApiError.badRequest("User wasnt created");
+            }
 
-            if (!user) return next(ApiError.badRequest("User creation failed")); // Handle user creation failure
-            // Generate JWT token and return it
+            // Create JWT token
             const token = generateJWT(user.id, user.email, user.role);
+            if (!token) {
+                throw ApiError.badRequest("Token wasnt created");
+            }
 
-            res.json({ token }); // Send response
+            res.json({ token });
         } catch (e) {
             console.error("Error during registration:", e);
             return next(ApiError.badRequest(e.message));
         }
     }
+    // async registration(req, res, next) {
+    //     try {
+    //         const userData = req.body;
+    //         const { firstName, lastName, email, password, phone, role } =
+    //             userData;
+
+    //         // Check for falsy values
+    //         const isFalsy = checkForFalsyValues(
+    //             [email, password, firstName, lastName, phone],
+    //             next
+    //         );
+    //         if (!isFalsy) return; // Early return if any values are falsy
+
+    //         // Check email and phone uniqueness
+    //         const isUnique = await checkUserUniqueness(
+    //             email,
+    //             phone,
+    //             User,
+    //             next
+    //         );
+    //         if (!isUnique) return;
+
+    //         const hashedPassword = await getValidHashedPassword(password, next);
+    //         if (!hashedPassword) return;
+
+    //         // Create user address
+    //         await UserAddressController.create(req, res, next);
+    //         const createdAddress = res.locals.address;
+
+    //         console.log(res.headersSent);
+    //         // Обработаем создание пользователя с обработкой ошибок
+    //         let user;
+    //         try {
+    //             user = await User.create({
+    //                 firstName,
+    //                 lastName,
+    //                 email,
+    //                 password: hashedPassword,
+    //                 phone,
+    //                 role: role || "user",
+    //                 addressId: createdAddress.dataValues.id,
+    //             });
+    //         } catch (error) {
+    //             console.error("Error creating user:", error); // Логируем ошибку
+    //             return next(
+    //                 ApiError.badRequest("Error creating user: " + error.message)
+    //             );
+    //         }
+
+    //         console.log(res.headersSent);
+
+    //         if (!user) return next(ApiError.badRequest("User creation failed")); // Handle user creation failure
+    //         // Generate JWT token and return it
+    //         const token = generateJWT(user.id, user.email, user.role);
+
+    //         res.json({ token }); // Send response
+    //     } catch (e) {
+    //         console.error("Error during registration:", e);
+    //         return next(ApiError.badRequest(e.message));
+    //     }
+    // }
 
     /**
      * Logs in a user.
