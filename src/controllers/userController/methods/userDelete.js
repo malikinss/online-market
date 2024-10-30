@@ -28,13 +28,17 @@ const userDelete = async (req, res, next) => {
         const userId = req.user.id; // Get user ID from token
 
         // Find user by ID
-        const user = await findRecordByField(userId, User);
+        const user = await findRecordByField("id", userId, User);
         if (!user) {
             throw ApiError.badRequest(messages.error.find.user);
         }
 
         // Find userAddress by ID
-        const address = await findRecordByField(user.addressId, UserAddress);
+        const address = await findRecordByField(
+            "id",
+            user.addressId,
+            UserAddress
+        );
         if (!address) {
             throw ApiError.badRequest(messages.error.find.adress);
         }
