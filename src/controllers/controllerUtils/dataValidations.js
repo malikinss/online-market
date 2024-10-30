@@ -6,14 +6,12 @@ const ApiError = require("../../error/ApiError");
  * @throws {ApiError} - Throws an error if any required field is missing or empty.
  */
 const containsFalsyValues = (fields) => {
-    // Check for required fields
-    if (fields.some((value) => !value)) {
-        throw ApiError.badRequest(
-            "All fields are required: firstName, lastName, email, password, phone"
-        );
-    }
+  // Check for required fields
+  if (fields.some((value) => !value)) {
+    throw ApiError.badRequest("All fields are required");
+  }
 
-    return true; // Return true if all fields are valid
+  return true; // Return true if all fields are valid
 };
 
 module.exports = { containsFalsyValues };

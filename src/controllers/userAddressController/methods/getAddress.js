@@ -1,6 +1,6 @@
 const UserAddress = require("../../../models/UserAddresses");
 const { findRecordByField } = require("../../controllerUtils/findHandlers");
-const { messages } = require("./messages");
+const { addressMessages  } = require("./messages");
 const ApiError = require("../../../error/ApiError");
 
 /**
@@ -11,21 +11,22 @@ const ApiError = require("../../../error/ApiError");
  */
 const getAddress = async (req, res, next) => {
     try {
-        const addressId = req.params.id;
+        const addressId =  res.locals.addressId;
         if (!addressId) {
-            throw ApiError.badRequest(messages.show.errors.nullId);
+            throw ApiError.badRequest(addressMessages.show.errors.nullId);
         }
 
         const address = await findRecordByField("id", addressId, UserAddress);
+
         if (!address) {
-            throw ApiError.notFound(messages.show.errors.find);
+            throw ApiError.notFound(addressMessages.show.errors.find);
         }
 
-        console.log(messages.show.success);
+        console.log(addressMessages.show.success);
 
-        return res.json(address);
+        res.locals.address = address;
     } catch (e) {
-        return next(ApiError.internal(messages.show.errors.general(e.message)));
+        return next(ApiError.internal(addressMessages.show.errors.general(e.message)));
     }
 };
 

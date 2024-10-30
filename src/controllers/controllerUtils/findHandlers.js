@@ -42,12 +42,15 @@ const findModelExcludingId = async (value, field, Model, currentId = null) => {
  * @throws {Error} - If an error occurred during the search.
  */
 const findRecordByField = async (field, value, Model) => {
+
     if (!field || value === undefined) {
         throw ApiError.badRequest("Both 'field' and 'value' must be provided");
     }
 
     try {
-        return await Model.findOne({ where: { [field]: value } });
+        const result = await Model.findOne({ where: { [field]: value } });
+
+        return result;
     } catch (e) {
         throw ApiError.internal(
             `An error occurred while fetching the record: ${e.message}`

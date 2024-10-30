@@ -13,12 +13,12 @@ router.post("/login", userController.login);
 router.get("/:id", authMiddleware, userController.getCurrentUser);
 
 // User password changing route
-router.put("/change-password", authMiddleware, userController.changePassword);
+router.put("/change-password/:id", authMiddleware, userController.changePassword);
 
 // User information updating route
-router.put("/update", authMiddleware, userController.updateUserInfo);
+router.put("/update/:id", authMiddleware, userController.updateUserInfo);
 
 // User deletion route
-router.delete("/delete", authMiddleware, userController.deleteUser);
+router.delete("/delete/:id", authMiddleware, userController.deleteUser);
 
 module.exports = router;
