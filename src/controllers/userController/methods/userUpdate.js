@@ -1,9 +1,14 @@
 const User = require("../../../models/Users");
-const findByField = require("../../../utils/findByField");
+
+const { findRecordByField } = require("../../controllerUtils/findHandlers");
+
 const {
-    checkUserUniqueness,
-    checkForFalsyValues,
-} = require("../../../utils/validationHandling");
+    containsFalsyValues,
+} = require("../../controllerUtils/dataValidations");
+const {
+    checkEmailAndPhoneUniqueness,
+} = require("../../controllerUtils/checkUniqueness");
+
 const ApiError = require("../../../error/ApiError");
 
 /**
@@ -19,13 +24,16 @@ const userUpdate = async (req, res, next) => {
         const userId = req.user.id; // Get user ID from token
 
         // Check for required fields
-        checkForFalsyValues([email, phone], next);
+        containsFalsyValues([email, phone]);
 
         // Find user by ID
-        const user = await findByField(userId, User, next);
+        const user = await findRecordByField("id", userId, User);
+        if (!user) {
+            throw ApiError.badRequest("Failed to find user");
+        }
 
         // Check email and phone uniqueness
-        await checkUserUniqueness(email, phone, userId, next);
+        await checkEmailAndPhoneUniqueness(email, phone, User, userId);
 
         // Update email and phone fields
         user.email = email;
@@ -34,7 +42,7 @@ const userUpdate = async (req, res, next) => {
 
         return res.json(user);
     } catch (e) {
-        next(ApiError.badRequest(e.message));
+        return next(ApiError.badRequest(e.message));
     }
 };
 
