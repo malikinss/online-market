@@ -45,7 +45,7 @@ const passwordChanger = async (req, res, next) => {
 
         return res.json({ message: "Password successfully changed" });
     } catch (e) {
-        next(ApiError.badRequest(e.message));
+        return next(ApiError.badRequest(e.message));
     }
 };
 
