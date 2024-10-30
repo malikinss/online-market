@@ -69,7 +69,6 @@ const userRegistration = async (req, res, next) => {
         // Return the token in the response
         res.status(201).json({ token });
     } catch (e) {
-        console.error("Error during registration:", e);
         return next(ApiError.badRequest(e.message));
     }
 };
