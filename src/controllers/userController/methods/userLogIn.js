@@ -26,7 +26,7 @@ const userLogIn = async (req, res, next) => {
         containsFalsyValues([email, password]);
 
         // Find user by email
-        const user = await findRecordByField(email, User);
+        const user = await findRecordByField("email", email, User);
         if (!user) {
             throw ApiError.badRequest("Failed to find user");
         }
