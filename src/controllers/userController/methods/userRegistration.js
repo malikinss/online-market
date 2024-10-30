@@ -1,20 +1,21 @@
 const User = require("../../../models/Users");
 const UserAddressController = require("../../userAddressController");
 
+const {
+    containsFalsyValues,
+} = require("../../controllerUtils/dataValidations");
+
+const {
+    checkEmailAndPhoneUniqueness,
+} = require("../../controllerUtils/checkUniqueness");
+
+const { validateNewPassword } = require("./passwordValidations");
+
 const bcrypt = require("bcrypt");
 const generateJWT = require("../../../utils/generateJWT");
 
 const ApiError = require("../../../error/ApiError");
 
-const findUserByField = async (fieldValue, fieldName, Model, userId = null) => {
-    const excludeSameUser = userId ? { id: { [Op.ne]: userId } } : {};
-    return await Model.findOne({
-        where: {
-            [fieldName]: fieldValue,
-            ...excludeSameUser,
-        },
-    });
-};
 /**
  * Registers a new user.
  * @param {Object} req - Express request object.
@@ -27,44 +28,26 @@ const userRegistration = async (req, res, next) => {
         const userData = req.body;
         const { firstName, lastName, email, password, phone, role } = userData;
 
-        // Check for falsy values
-        const values = [email, password, firstName, lastName, phone];
-        const hasFalsy = values.some((field) => !field);
-        if (hasFalsy) {
-            throw ApiError.badRequest("Some data was not privided");
-        }
+        // Check for required fields
+        containsFalsyValues([email, password, firstName, lastName, phone]);
 
         // Check email and phone uniqueness
-        const [existingEmail, existingPhone] = await Promise.all([
-            findUserByField(email, "email", User),
-            findUserByField(phone, "phone", User),
-        ]);
-        if (existingEmail || existingPhone) {
-            throw ApiError.badRequest(
-                "User with such email or phone already exists"
-            );
-        }
+        await checkEmailAndPhoneUniqueness(email, phone, User);
 
-        // Check if valid password
-        const regex =
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/;
-        const isValidPswd = regex.test(password);
+        // Check password for compliance
+        validateNewPassword(password);
 
-        if (!isValidPswd) {
-            throw ApiError.badRequest("Password is not valid");
-        }
-
+        // Password hashing
         const hashedPassword = await bcrypt.hash(password, 5);
 
         // Create user address
         await UserAddressController.create(req, res, next);
         const createdAddress = res.locals.address;
         if (!createdAddress) {
-            throw ApiError.badRequest("Address wasnt created");
+            throw ApiError.badRequest("Failed to create user address");
         }
 
         // Create user
-        console.log("\nWAS HEADERS SENT = ", res.headersSent, "\n"); // FALSE
         const user = await User.create({
             firstName,
             lastName,
@@ -74,18 +57,18 @@ const userRegistration = async (req, res, next) => {
             role: role || "user",
             addressId: createdAddress.dataValues.id,
         });
-        console.log("\nWAS HEADERS SENT = ", res.headersSent, "\n"); // TRUE WHYYYYYY??????
         if (!user) {
-            throw ApiError.badRequest("User wasnt created");
+            throw ApiError.badRequest("Failed to create user");
         }
 
         // Create JWT token
         const token = generateJWT(user.id, user.email, user.role);
         if (!token) {
-            throw ApiError.badRequest("Token wasnt created");
+            throw ApiError.badRequest("Failed to create token");
         }
 
-        res.json({ token });
+        // Return the token in the response
+        res.status(201).json({ token });
     } catch (e) {
         console.error("Error during registration:", e);
         return next(ApiError.badRequest(e.message));
