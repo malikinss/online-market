@@ -1,15 +1,15 @@
-const User = require("../../../models/Users");
-
 const bcrypt = require("bcrypt");
-
-const findByField = require("../../../utils/findByField");
+const User = require("../../../models/Users");
+const ApiError = require("../../../error/ApiError");
 
 const {
-    checkForFalsyValues,
-    validatePassword,
-} = require("../../../utils/validationHandling");
-
-const ApiError = require("../../../error/ApiError");
+    containsFalsyValues,
+} = require("../../controllerUtils/dataValidations");
+const { findRecordByField } = require("../../controllerUtils/findHandlers");
+const {
+    validateNewPassword,
+    verifyPasswordMatch,
+} = require("./passwordValidations");
 
 /**
  * Changes the user's password.
@@ -24,16 +24,23 @@ const passwordChanger = async (req, res, next) => {
         const userId = req.user.id; // Get user ID from token
 
         // Check for required fields
-        checkForFalsyValues([oldPassword, newPassword], next);
+        containsFalsyValues([oldPassword, newPassword]);
+
+        // Check password for compliance
+        validateNewPassword(newPassword);
 
         // Find user by ID
-        const user = await findByField(userId, User, next);
+        const user = await findRecordByField("id", userId, User);
+        if (!user) {
+            throw ApiError.badRequest("Failed to find user");
+        }
 
         // Check old password
-        await validatePassword(oldPassword, user.password);
+        await verifyPasswordMatch(oldPassword, user.password);
 
         // Hash the new password and save it
-        user.password = await bcrypt.hash(newPassword, 5);
+        const hashedPassword = await bcrypt.hash(newPassword, 5);
+        user.password = hashedPassword;
         await user.save();
 
         return res.json({ message: "Password successfully changed" });
