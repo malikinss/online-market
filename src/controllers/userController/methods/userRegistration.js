@@ -1,5 +1,5 @@
 const User = require("../../../models/Users");
-const UserAddressController = require("../../userAddressController");
+const UserAddressController = require("../../userAddressController/userAdressController");
 
 const {
     containsFalsyValues,
@@ -40,7 +40,7 @@ const userRegistration = async (req, res, next) => {
         const hashedPassword = await bcrypt.hash(password, 5);
 
         // Create user address
-        await UserAddressController.create(req, res, next);
+        await UserAddressController.createRecord(req, res, next);
         const createdAddress = res.locals.address;
         if (!createdAddress) {
             throw ApiError.badRequest("Failed to create user address");
@@ -67,7 +67,7 @@ const userRegistration = async (req, res, next) => {
         }
 
         // Return the token in the response
-        res.status(201).json({ token });
+        res.json({ token });
     } catch (e) {
         return next(ApiError.badRequest(e.message));
     }

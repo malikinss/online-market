@@ -1,5 +1,5 @@
 const User = require("../../../models/Users");
-const UserAddressController = require("../../userAddressController");
+const UserAddressController = require("../../userAddressController/userAdressController");
 
 const { findRecordByField } = require("../../controllerUtils/findHandlers");
 
@@ -23,7 +23,7 @@ const getUser = async (req, res, next) => {
         }
 
         // Find userAddress by ID
-        const address = await UserAddressController.getAddress(req, res, next);
+        const address = await UserAddressController.getRecord(req, res, next);
         if (!adress) {
             throw ApiError.badRequest("Failed to find user address");
         }

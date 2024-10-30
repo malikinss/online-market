@@ -1,6 +1,6 @@
 const User = require("../../../models/Users");
 const UserAddress = require("../../../models/UserAddresses");
-const UserAddressController = require("../../userAddressController");
+const UserAddressController = require("../../userAddressController/userAdressController");
 
 const { findRecordByField } = require("../../controllerUtils/findHandlers");
 
@@ -44,7 +44,7 @@ const userDelete = async (req, res, next) => {
         }
 
         // Delete the address
-        await UserAddressController.deleteById(address.id);
+        await UserAddressController.deleteRecord(address.id);
 
         // Delete the user
         await user.destroy();

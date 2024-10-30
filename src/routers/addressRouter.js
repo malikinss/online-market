@@ -1,14 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const UserAddressController = require("../controllers/userAddressController");
+const UserAddressController = require("../controllers/userAddressController/userAdressController");
 
 // Маршрут для создания нового адреса
-router.post("/create", UserAddressController.create);
+router.post("/create", UserAddressController.createRecord);
 
 router
     .route("/:id")
-    .get(UserAddressController.getAddress)
-    .put(UserAddressController.updateById)
-    .delete(UserAddressController.deleteById);
+    .get(UserAddressController.getRecord)
+    .put(UserAddressController.updateRecord)
+    .delete(UserAddressController.deleteRecord);
 
 module.exports = router;
