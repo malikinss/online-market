@@ -83,74 +83,6 @@ const createValidationIsIn = (rule, fieldName) => ({
     },
 });
 
-/**
- * Checks the uniqueness of a user's email and phone number.
- *
- * @param {string} email - The user's email address.
- * @param {string} phone - The user's phone number.
- * @param {Model} Model - The database model to query.
- * @param {string|null} userId - The ID of the user to exclude (if updating).
- * @param {Function} next - The next middleware function for error handling.
- * @returns {Promise<boolean>} - Returns true if unique; otherwise, throws an error.
- */
-const checkUserUniqueness = async (
-    email,
-    phone,
-    Model,
-    userId = null,
-    next
-) => {
-    const findUserByField = async (fieldValue, fieldName) => {
-        const excludeSameUser = userId ? { id: { [Op.ne]: userId } } : {};
-        return await Model.findOne({
-            where: {
-                [fieldName]: fieldValue,
-                ...excludeSameUser,
-            },
-        });
-    };
-
-    try {
-        const [existingEmail, existingPhone] = await Promise.all([
-            findUserByField(email, "email"),
-            findUserByField(phone, "phone"),
-        ]);
-
-        if (existingEmail || existingPhone) {
-            throw ApiError.badRequest(
-                "User with such email or phone already exists"
-            );
-        }
-
-        return true;
-    } catch (error) {
-        if (error instanceof ApiError) {
-            throw error; // Обрабатываем специфические ошибки
-        }
-        return next(ApiError.internal("Ошибка запроса к базе данных"));
-    }
-};
-
-/**
- * Checks an array of values for any falsy (null, undefined, empty string, etc.) values.
- * If a falsy value is found, calls the `next` function with an error message.
- *
- * @param {Array} values - An array of values to check for falsy values.
- * @param {Function} next - The callback function to be called with an error if a falsy value is found.
- * @returns {boolean} Returns `true` if all values are truthy, otherwise calls `next` with an error.
- */
-const checkForFalsyValues = (values, next) => {
-    if (values.some((field) => !field)) {
-        return next(
-            ApiError.badRequest(
-                "Incorrect data for saving: One of the values is missing"
-            )
-        );
-    }
-
-    return true;
-};
-
 const validatePassword = async (password, curUserPassword, next) => {
     const isPasswordValid = await bcrypt.compare(password, curUserPassword);
     if (!isPasswordValid) {
@@ -162,7 +94,5 @@ module.exports = {
     validationRules,
     createValidation,
     createValidationIsIn,
-    checkUserUniqueness,
-    checkForFalsyValues,
     validatePassword,
 };

@@ -1,4 +1,4 @@
-const { findUserExcludingId } = require("./findHandlers");
+const { findModelExcludingId } = require("./findHandlers");
 const ApiError = require("../../error/ApiError");
 
 /**
@@ -15,7 +15,7 @@ const checkFieldUniqueness = async (
     Model,
     userId = null
 ) => {
-    const existingField = await findUserExcludingId(
+    const existingField = await findModelExcludingId(
         fieldValue,
         fieldName,
         Model,

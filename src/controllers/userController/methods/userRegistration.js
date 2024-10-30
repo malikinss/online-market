@@ -25,8 +25,7 @@ const ApiError = require("../../../error/ApiError");
  */
 const userRegistration = async (req, res, next) => {
     try {
-        const userData = req.body;
-        const { firstName, lastName, email, password, phone, role } = userData;
+        const { firstName, lastName, email, password, phone, role } = req.body;
 
         // Check for required fields
         containsFalsyValues([email, password, firstName, lastName, phone]);

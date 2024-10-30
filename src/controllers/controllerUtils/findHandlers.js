@@ -10,23 +10,49 @@ const ApiError = require("../../error/ApiError");
  * @returns {Promise<Object|null>} - The found user, or null if the user was not found.
  * @throws {Error} - If an error occurred while executing the request.
  */
-const findUserExcludingId = async (value, field, UserModel, userId = null) => {
+const findModelExcludingId = async (value, field, Model, currentId = null) => {
+    if (!value || !field) {
+        throw ApiError.badRequest("Both 'value' and 'field' must be provided");
+    }
+
     // Create a condition to exclude the user with the passed userId
-    const excludeCondition = userId ? { id: { [Op.ne]: userId } } : {};
+    const excludeCondition = currentId ? { id: { [Op.ne]: currentId } } : {};
 
     try {
         // Search for a user by the specified field, excluding the specified userId
-        return await UserModel.findOne({
+        return await Model.findOne({
             where: {
                 [field]: value, // Condition for searching by field
                 ...excludeCondition, // Condition for excluding a user
             },
         });
-    } catch (error) {
+    } catch (e) {
         throw ApiError.badRequest(
-            `Error searching user by field "${field}": ${error.message}`
+            `Error searching user by field "${field}": ${e.message}`
         );
     }
 };
 
-module.exports = { findUserExcludingId };
+/**
+ * Finds a record in the specified model by a given field and value.
+ * @param {string} field - The field name to search by.
+ * @param {any} value - The value to search for in the specified field.
+ * @param {Object} Model - The model in which to perform the search.
+ * @returns {Promise<Object|null>} - The found record or null if not found.
+ * @throws {Error} - If an error occurred during the search.
+ */
+const findRecordByField = async (field, value, Model) => {
+    if (!field || value === undefined) {
+        throw ApiError.badRequest("Both 'field' and 'value' must be provided");
+    }
+
+    try {
+        return await Model.findOne({ where: { [field]: value } });
+    } catch (e) {
+        throw ApiError.internal(
+            `An error occurred while fetching the record: ${e.message}`
+        );
+    }
+};
+
+module.exports = { findModelExcludingId, findRecordByField };

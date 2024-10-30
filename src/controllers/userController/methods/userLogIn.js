@@ -1,11 +1,13 @@
 const User = require("../../../models/Users");
 
-const findByField = require("../../../utils/findByField");
-const generateJWT = require("../../../utils/generateJWT");
 const {
-    checkForFalsyValues,
-    validatePassword,
-} = require("../../../utils/validationHandling");
+    containsFalsyValues,
+} = require("../../controllerUtils/dataValidations");
+
+const { findRecordByField } = require("../../controllerUtils/findHandlers");
+const { verifyPasswordMatch } = require("./passwordValidations");
+
+const generateJWT = require("../../../utils/generateJWT");
 
 const ApiError = require("../../../error/ApiError");
 
@@ -21,16 +23,23 @@ const userLogIn = async (req, res, next) => {
         const { email, password } = req.body;
 
         // Check for required fields
-        checkForFalsyValues([email, password], next);
+        containsFalsyValues([email, password]);
 
         // Find user by email
-        const user = await findByField(email, User, next);
+        const user = await findRecordByField(email, User);
+        if (!user) {
+            throw ApiError.badRequest("Failed to find user");
+        }
 
         // Compare passwords
-        await validatePassword(password, user.password);
+        await verifyPasswordMatch(password, user.password);
 
         // Generate JWT token and return it
         const token = generateJWT(user.id, user.email, user.role);
+        if (!token) {
+            throw ApiError.badRequest("Failed to create token");
+        }
+
         return res.json({ token });
     } catch (e) {
         next(ApiError.badRequest(e.message));
