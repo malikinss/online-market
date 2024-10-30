@@ -1,6 +1,8 @@
 const User = require("../../../models/Users");
 const UserAddressController = require("../../userAddressController");
 
+const { findRecordByField } = require("../../controllerUtils/findHandlers");
+
 const ApiError = require("../../../error/ApiError");
 
 /**
@@ -15,19 +17,20 @@ const getUser = async (req, res, next) => {
         const userId = req.user.id; // Get user ID from token
 
         // Find user by ID
-        const user = await findByField(userId, User, next);
+        const user = await findRecordByField("id", userId, User);
+        if (!user) {
+            throw ApiError.badRequest("Failed to find user");
+        }
 
         // Find userAddress by ID
-        const address = await UserAddressController.getAddress(
-            user.addressId,
-            req,
-            res,
-            next
-        );
+        const address = await UserAddressController.getAddress(req, res, next);
+        if (!adress) {
+            throw ApiError.badRequest("Failed to find user address");
+        }
 
         return res.json({ user, address });
     } catch (e) {
-        next(ApiError.badRequest(e.message));
+        return next(ApiError.badRequest(e.message));
     }
 };
 
