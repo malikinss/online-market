@@ -42,13 +42,15 @@ const findModelExcludingId = async (value, field, Model, currentId = null) => {
  * @throws {Error} - If an error occurred during the search.
  */
 const findRecordByField = async (field, value, Model) => {
-
     if (!field || value === undefined) {
         throw ApiError.badRequest("Both 'field' and 'value' must be provided");
     }
 
     try {
         const result = await Model.findOne({ where: { [field]: value } });
+        if (!result) {
+            next(ApiError.notFound(`Record not found`));
+        }
 
         return result;
     } catch (e) {
@@ -58,4 +60,19 @@ const findRecordByField = async (field, value, Model) => {
     }
 };
 
-module.exports = { findModelExcludingId, findRecordByField };
+const findAllRecords = async (Model) => {
+    if (!Model) {
+        throw ApiError.badRequest("Model must be provided");
+    }
+
+    try {
+        const records = await Model.findAll();
+        return records;
+    } catch (e) {
+        throw ApiError.internal(
+            `An error occurred while fetching the records: ${e.message}`
+        );
+    }
+};
+
+module.exports = { findModelExcludingId, findRecordByField, findAllRecords };

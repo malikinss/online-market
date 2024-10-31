@@ -1,10 +1,15 @@
 const Router = require("express");
 const router = new Router();
-const categoryController = require("../controllers/categoryController")
+const categoryController = require("../controllers/categoryController/categoryController");
 
-router.post('/', categoryController.create);
-router.get('/', categoryController.getAll);
-router.put('/:id', categoryController.updateById);
-router.delete('/:id', categoryController.deleteById);
+router
+    .route("/")
+    .post(categoryController.create)
+    .get(categoryController.getAll);
+
+router
+    .route("/:id")
+    .put(categoryController.update)
+    .delete(categoryController.delete);
 
 module.exports = router;
