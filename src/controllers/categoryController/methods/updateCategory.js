@@ -23,7 +23,9 @@ const updateCategory = async (req, res, next) => {
 
         const category = await findRecordByField("id", id, Category);
 
-        category.name = newName || category.name;
+        // Update the category name field, keeping existing value if not provided
+        Object.assign(category, { name: newName || category.name });
+
         await category.save();
 
         console.log(categoryMessages.update.success);
