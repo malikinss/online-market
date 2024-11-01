@@ -13,7 +13,11 @@ router.post("/login", userController.login);
 router.get("/:id", authMiddleware, userController.getCurrentUser);
 
 // User password changing route
-router.put("/change-password/:id", authMiddleware, userController.changePassword);
+router.put(
+  "/change-password/:id",
+  authMiddleware,
+  userController.changePassword
+);
 
 // User information updating route
 router.put("/update/:id", authMiddleware, userController.updateUserInfo);
