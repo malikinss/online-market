@@ -73,7 +73,9 @@ const registerUser = async (req, res, next) => {
         res.json({ token });
     } catch (e) {
         return next(
-            ApiError.internal(messages.general("creating", "User", e.message))
+            ApiError.internal(
+                messages.errors.general("creating", "User", e.message)
+            )
         );
     }
 };
