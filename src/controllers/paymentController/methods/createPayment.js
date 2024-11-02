@@ -23,7 +23,7 @@ const createPayment = async (req, res, next) => {
         // Create a new payment in the database
         const payment = await Payment.create({ orderID, status: false });
         if (!payment) {
-            throw new ApiError.notFound(
+            throw new ApiError.internal(
                 messages.errors.actionFailed("create", "Payment")
             );
         }
