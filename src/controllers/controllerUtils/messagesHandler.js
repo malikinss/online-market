@@ -2,7 +2,8 @@ const messages = {
     success: (entity, action) => `${entity} was ${action} successfully`,
     errors: {
         actionFailed: (action, entity) => `Failed to ${action} ${entity}`,
-        general: (action, entity, data) => `Error ${action} ${entity}: ${data}`,
+        general: (action, entity, data) =>
+            `An error occured while ${action} ${entity}: ${data}`,
         nullData: (entity, field) => `${entity} ${field} is required.`,
         notNumber: "Required fields must be valid numbers.",
     },
