@@ -1,5 +1,5 @@
 const createCategory = require("./methods/createCategory");
-const getCategories = require("./methods/showCategories");
+const getCategories = require("./methods/getCategories");
 const updateCategory = require("./methods/updateCategory");
 const deleteCategory = require("./methods/deleteCategory");
 

@@ -32,6 +32,7 @@ const deleteCategory = async (req, res, next) => {
             );
         }
 
+        // Destroy the category record from the database
         await categoryToDelete.destroy();
 
         // Log success message

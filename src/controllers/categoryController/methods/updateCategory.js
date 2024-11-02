@@ -36,6 +36,7 @@ const updateCategory = async (req, res, next) => {
         // Update the category name
         categoryToUpdate.name = newName;
 
+        // Save the updated caetgory to the database
         await categoryToUpdate.save();
 
         // Log success message
