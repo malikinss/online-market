@@ -37,7 +37,7 @@ const registerUser = async (req, res, next) => {
 
         // Hash the new password and save it
         const salt = await bcrypt.genSalt(10); // Recommended salt rounds
-        const hashedPassword = await bcrypt.hash(newPassword, salt);
+        const hashedPassword = await bcrypt.hash(password, salt);
 
         // Create user address
         await UserAddressController.createRecord(req, res, next);
