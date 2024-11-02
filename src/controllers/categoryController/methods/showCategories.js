@@ -2,7 +2,7 @@ const Category = require("../../../models/Categories");
 const ApiError = require("../../../error/ApiError");
 
 const { findAllRecords } = require("../../controllerUtils/findHandlers");
-const categoryMessages = require("./messages");
+const messages = require("./messages");
 
 /**
  * Retrieves all categories from the database and returns them as JSON.
@@ -11,17 +11,26 @@ const categoryMessages = require("./messages");
  * @param {Function} next - Express middleware function for error handling.
  * @returns {Promise<Object>} JSON array of categories.
  */
-const showCategories = async (req, res, next) => {
+const getCategories = async (req, res, next) => {
     try {
         const categories = await findAllRecords(Category);
-        console.log(categoryMessages.show.success);
+        if (!categories) {
+            throw new ApiError.notFound(
+                messages.errors.actionFailed("fetch", "Categories")
+            );
+        }
+
+        // Log success message
+        console.log(messages.success("Category", "fetched"));
 
         return res.json(categories);
     } catch (e) {
         next(
-            ApiError.badRequest(categoryMessages.show.generalError(e.message))
+            ApiError.badRequest(
+                messages.general("fetching", "category", e.message)
+            )
         );
     }
 };
 
-module.exports = showCategories;
+module.exports = getCategories;

@@ -5,7 +5,7 @@ const { findRecordByField } = require("../../controllerUtils/findHandlers");
 const {
     containsFalsyValues,
 } = require("../../controllerUtils/dataValidations");
-const categoryMessages = require("./messages");
+const messages = require("./messages");
 
 /**
  * Updates the name of a category by ID in the database.
@@ -16,24 +16,37 @@ const categoryMessages = require("./messages");
  */
 const updateCategory = async (req, res, next) => {
     try {
-        const id = req.params.id;
+        const categoryID = req.params.id;
         const { newName } = req.body;
 
-        containsFalsyValues([id, newName]);
+        // Validate input to ensure no falsy values
+        containsFalsyValues([categoryID, newName]);
 
-        const category = await findRecordByField("id", id, Category);
+        const categoryToUpdate = await findRecordByField(
+            "id",
+            categoryID,
+            Category
+        );
+        if (!categoryToUpdate) {
+            throw new ApiError.notFound(
+                messages.errors.actionFailed("update", "Category")
+            );
+        }
 
-        // Update the category name field, keeping existing value if not provided
-        Object.assign(category, { name: newName || category.name });
+        // Update the category name
+        categoryToUpdate.name = newName;
 
-        await category.save();
+        await categoryToUpdate.save();
 
-        console.log(categoryMessages.update.success);
+        // Log success message
+        console.log(messages.success("Category", "updated"));
 
         return res.json(category);
     } catch (e) {
         next(
-            ApiError.badRequest(categoryMessages.update.generalError(e.message))
+            ApiError.badRequest(
+                messages.errors.general("updating", "category", e.message)
+            )
         );
     }
 };

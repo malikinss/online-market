@@ -1,9 +1,9 @@
-const categoryMessages = {
-    success: (action) => `Category ${action} successfully`,
+const messages = {
+    success: (entity, action) => `${entity} was ${action} successfully`,
     errors: {
-        notFound: "Category record not found",
-        general: (action, data) => `Error ${action} category: ${data}`,
+        actionFailed: (action, entity) => `Failed to ${action} ${entity}`,
+        general: (action, entity, data) => `Error ${action} ${entity}: ${data}`,
     },
 };
 
-module.exports = categoryMessages;
+module.exports = { messages };

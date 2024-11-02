@@ -5,7 +5,7 @@ const { findRecordByField } = require("../../controllerUtils/findHandlers");
 const {
     containsFalsyValues,
 } = require("../../controllerUtils/dataValidations");
-const categoryMessages = require("./messages");
+const messages = require("./messages");
 
 /**
  * Deletes a category by ID from the database.
@@ -16,18 +16,33 @@ const categoryMessages = require("./messages");
  */
 const deleteCategory = async (req, res, next) => {
     try {
-        const { id } = req.params;
+        const categoryID = req.params.id;
 
-        containsFalsyValues([id]);
+        // Validate input to ensure no falsy values
+        containsFalsyValues([categoryID]);
 
-        const category = await findRecordByField("id", id, Category);
+        const categoryToDelete = await findRecordByField(
+            "id",
+            categoryID,
+            Category
+        );
+        if (!categoryToDelete) {
+            throw new ApiError.notFound(
+                messages.errors.actionFailed("delete", "Category")
+            );
+        }
 
-        await category.destroy();
+        await categoryToDelete.destroy();
 
-        return res.json({ message: categoryMessages.delete.success });
+        // Log success message
+        console.log(messages.success("Category", "deleted"));
+
+        return res.json({ message: messages.success("Category", "deleted") });
     } catch (e) {
         next(
-            ApiError.badRequest(categoryMessages.delete.generalError(e.message))
+            ApiError.badRequest(
+                messages.errors.general("deleting", "category", e.message)
+            )
         );
     }
 };
