@@ -1,12 +1,11 @@
 const UserAddress = require("../../../models/UserAddresses");
+const ApiError = require("../../../error/ApiError");
 
 const { findRecordByField } = require("../../controllerUtils/findHandlers");
 const {
-  containsFalsyValues,
+    containsFalsyValues,
 } = require("../../controllerUtils/dataValidations");
-const { addressMessages } = require("./messages");
-
-const ApiError = require("../../../error/ApiError");
+const { messages } = require("./messages");
 
 /**
  * Update a user address by ID.
@@ -15,45 +14,58 @@ const ApiError = require("../../../error/ApiError");
  * @param {Function} next - The next middleware function.
  */
 const updateAddress = async (req, res, next) => {
-  try {
-    const addressId = res.locals.addressId;
-    if (!addressId) {
-      throw ApiError.badRequest(addressMessages.update.errors.nullId);
+    try {
+        const addressId = res.locals.addressId;
+
+        // Validate input to ensure no falsy values
+        if (!addressId) {
+            throw ApiError.badRequest(
+                messages.errors.nullData("Address", "id")
+            );
+        }
+
+        const { country, city, street, building, apartment, postal } =
+            req.body.address;
+
+        // Check for required fields
+        containsFalsyValues([country, city, street, building, postal]);
+
+        // Find the existing address
+        const addressToUpdate = await findRecordByField(
+            "id",
+            addressId,
+            UserAddress
+        );
+        if (!addressToUpdate) {
+            throw new ApiError.notFound(
+                messages.errors.actionFailed("find", "Address")
+            );
+        }
+
+        // Update the address fields, keeping existing values if not provided
+        Object.assign(addressToUpdate, {
+            country: country || addressToUpdate.country,
+            city: city || addressToUpdate.city,
+            street: street || addressToUpdate.street,
+            building: building || addressToUpdate.building,
+            apartment: apartment || addressToUpdate.apartment,
+            postal: postal || addressToUpdate.postal,
+        });
+
+        // Save the updated address to the database
+        await addressToUpdate.save();
+
+        // Log success message
+        console.log(messages.success("Address", "updated"));
+
+        res.locals.address = addressToUpdate;
+    } catch (e) {
+        return next(
+            ApiError.badRequest(
+                messages.errors.general("updating", "Address", e.message)
+            )
+        );
     }
-
-    const { country, city, street, building, apartment, postal } =
-      req.body.address;
-
-    // Check for required fields
-    containsFalsyValues([country, city, street, building, postal]);
-    console.log("gfhgf!!!");
-    // Find the existing address
-    const address = await findRecordByField("id", addressId, UserAddress);
-    if (!address) {
-      throw ApiError.notFound(addressMessages.update.errors.find);
-    }
-
-    // Update the address fields, keeping existing values if not provided
-    Object.assign(address, {
-      country: country || address.country,
-      city: city || address.city,
-      street: street || address.street,
-      building: building || address.building,
-      apartment: apartment || address.apartment,
-      postal: postal || address.postal,
-    });
-
-    // Save the updated address to the database
-    await address.save();
-
-    console.log(addressMessages.update.success);
-
-    res.locals.address = address;
-  } catch (e) {
-    return next(
-      ApiError.internal(addressMessages.update.errors.general(e.message))
-    );
-  }
 };
 
 module.exports = updateAddress;

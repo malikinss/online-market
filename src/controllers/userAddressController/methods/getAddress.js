@@ -1,7 +1,8 @@
 const UserAddress = require("../../../models/UserAddresses");
-const { findRecordByField } = require("../../controllerUtils/findHandlers");
-const { addressMessages  } = require("./messages");
 const ApiError = require("../../../error/ApiError");
+
+const { findRecordByField } = require("../../controllerUtils/findHandlers");
+const { messages } = require("./messages");
 
 /**
  * Get a user address by ID.
@@ -11,22 +12,32 @@ const ApiError = require("../../../error/ApiError");
  */
 const getAddress = async (req, res, next) => {
     try {
-        const addressId =  res.locals.addressId;
+        const addressId = res.locals.addressId;
+
+        // Validate input to ensure no falsy values
         if (!addressId) {
-            throw ApiError.badRequest(addressMessages.show.errors.nullId);
+            throw ApiError.badRequest(
+                messages.errors.nullData("Address", "id")
+            );
         }
 
         const address = await findRecordByField("id", addressId, UserAddress);
-
         if (!address) {
-            throw ApiError.notFound(addressMessages.show.errors.find);
+            throw new ApiError.notFound(
+                messages.errors.actionFailed("find", "Address")
+            );
         }
 
-        console.log(addressMessages.show.success);
+        // Log success message
+        console.log(messages.success("Address", "fetched"));
 
         res.locals.address = address;
     } catch (e) {
-        return next(ApiError.internal(addressMessages.show.errors.general(e.message)));
+        return next(
+            ApiError.internal(
+                messages.general("fetching", "Address", e.message)
+            )
+        );
     }
 };
 
