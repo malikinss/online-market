@@ -32,7 +32,9 @@ const createPayment = async (req, res, next) => {
         return res.json(payment);
     } catch (e) {
         next(
-            ApiError.badRequest(messages.errors.general("creating", e.message))
+            ApiError.badRequest(
+                messages.errors.general("creating", "payment", e.message)
+            )
         );
     }
 };

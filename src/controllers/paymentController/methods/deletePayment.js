@@ -37,7 +37,9 @@ const deletePayment = async (req, res, next) => {
         return res.json({ message: messages.success("Payment", "deleted") });
     } catch (e) {
         next(
-            ApiError.badRequest(messages.errors.general("deleting", e.message))
+            ApiError.badRequest(
+                messages.errors.general("deleting", "payment", e.message)
+            )
         );
     }
 };

@@ -41,7 +41,9 @@ const updatePayment = async (req, res, next) => {
         return res.json(payment);
     } catch (e) {
         next(
-            ApiError.badRequest(messages.errors.general("updating", e.message))
+            ApiError.badRequest(
+                messages.errors.general("updating", "payment", e.message)
+            )
         );
     }
 };
