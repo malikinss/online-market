@@ -29,8 +29,10 @@ const getPayment = async (req, res, next) => {
             );
         }
 
+        // Log success message to the console
         console.log(messages.success("Payment", "founded"));
 
+        // Return the found payment as a JSON response
         return res.json(payment);
     } catch (e) {
         next(
