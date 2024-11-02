@@ -59,7 +59,7 @@ const registerUser = async (req, res, next) => {
             addressId: createdAddress.dataValues.id,
         });
         if (!user) {
-            throw ApiError.badRequest(
+            throw ApiError.internal(
                 messages.errors.actionFailed("create", "User")
             );
         }
