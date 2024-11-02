@@ -29,7 +29,7 @@ const updateCategory = async (req, res, next) => {
         );
         if (!categoryToUpdate) {
             throw new ApiError.notFound(
-                messages.errors.actionFailed("update", "Category")
+                messages.errors.actionFailed("find", "Category")
             );
         }
 

@@ -16,7 +16,7 @@ const getCategories = async (req, res, next) => {
         const categories = await findAllRecords(Category);
         if (!categories) {
             throw new ApiError.notFound(
-                messages.errors.actionFailed("fetch", "Categories")
+                messages.errors.actionFailed("find", "Categories")
             );
         }
 

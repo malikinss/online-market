@@ -28,7 +28,7 @@ const deleteCategory = async (req, res, next) => {
         );
         if (!categoryToDelete) {
             throw new ApiError.notFound(
-                messages.errors.actionFailed("delete", "Category")
+                messages.errors.actionFailed("find", "Category")
             );
         }
 
