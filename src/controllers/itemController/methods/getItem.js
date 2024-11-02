@@ -34,7 +34,7 @@ const getItem = async (req, res, next) => {
         }
 
         // Log success message to the console
-        console.log(messages.success("Item", "founded"));
+        console.log(messages.success("Item", "found"));
 
         // Return the found item as a JSON response
         return res.json(item);
