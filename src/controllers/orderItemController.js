@@ -5,7 +5,7 @@ const OrderItem = require("../models/OrderItems");
 const ApiError = require("../error/ApiError");
 
 const OrderController = require("./orderController");
-const PaymentController = require("./paymentController");
+const PaymentController = require("./paymentController/paymentController");
 
 const checkForFalsyValues = require("../utils/falsyChecker");
 const findByField = require("../utils/findByField");
