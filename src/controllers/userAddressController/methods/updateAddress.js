@@ -42,18 +42,15 @@ const updateAddress = async (req, res, next) => {
             );
         }
 
-        // Update the address fields, keeping existing values if not provided
-        Object.assign(addressToUpdate, {
-            country: country || addressToUpdate.country,
-            city: city || addressToUpdate.city,
-            street: street || addressToUpdate.street,
-            building: building || addressToUpdate.building,
-            apartment: apartment || addressToUpdate.apartment,
-            postal: postal || addressToUpdate.postal,
+        // Update the address in one step using Sequelize's update method
+        await addressToUpdate.update({
+            country,
+            city,
+            street,
+            building,
+            apartment,
+            postal,
         });
-
-        // Save the updated address to the database
-        await addressToUpdate.save();
 
         // Log success message
         console.log(messages.success("Address", "updated"));
