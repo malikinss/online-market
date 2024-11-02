@@ -43,7 +43,7 @@ const registerUser = async (req, res, next) => {
         await UserAddressController.createRecord(req, res, next);
         const createdAddress = res.locals.address;
         if (!createdAddress) {
-            throw ApiError.badRequest(
+            throw ApiError.internal(
                 messages.errors.actionFailed("create", "address")
             );
         }
