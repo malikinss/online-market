@@ -12,6 +12,9 @@ const { messages } = require("../../controllerUtils/messagesHandler");
  * @param {Object} res - Express response object.
  * @param {Function} next - Express next middleware function.
  * @returns {Object} - JSON containing a success message.
+ * @throws {ApiError} - Throws an ApiError with a `badRequest` message if the user ID is missing.
+ * @throws {ApiError} - Throws an ApiError with a `notFound` message if the user or address is not found.
+ * @throws {ApiError} - Throws an ApiError with an `internal` message if a general error occurs during deletion.
  */
 const deleteUser = async (req, res, next) => {
     try {
