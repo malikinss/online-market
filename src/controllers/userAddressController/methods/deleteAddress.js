@@ -41,7 +41,7 @@ const deleteAddress = async (req, res, next) => {
         // Log success message
         console.log(messages.success("Address", "deleted"));
 
-        return res.json({ message: messages.delete.success });
+        return res.json({ message: messages.success("Address", "deleted") });
     } catch (e) {
         return next(
             ApiError.internal(
