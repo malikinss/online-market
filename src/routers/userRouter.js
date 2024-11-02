@@ -1,28 +1,30 @@
 const Router = require("express");
 const router = new Router();
 const authMiddleware = require("../middleware/authMiddleware");
-const userController = require("../controllers/userController/userController");
+const UserController = require("../controllers/userController/userController");
 
+// Basic CRUD routes
 // User registration route
-router.post("/register", userController.registration);
-
-// User logging in route
-router.post("/login", userController.login);
+router.post("/register", UserController.createRecord);
 
 // Get user by specific id route
-router.get("/:id", authMiddleware, userController.getCurrentUser);
+router.get("/:id", authMiddleware, UserController.getRecord);
+
+// User information updating route
+router.put("/update/:id", authMiddleware, UserController.updateRecord);
+
+// User deletion route
+router.delete("/delete/:id", authMiddleware, UserController.deleteRecord);
+
+// Additional routes
+// User logging in route
+router.post("/login", UserController.logIn);
 
 // User password changing route
 router.put(
-  "/change-password/:id",
-  authMiddleware,
-  userController.changePassword
+    "/change-password/:id",
+    authMiddleware,
+    UserController.changePassword
 );
-
-// User information updating route
-router.put("/update/:id", authMiddleware, userController.updateUserInfo);
-
-// User deletion route
-router.delete("/delete/:id", authMiddleware, userController.deleteUser);
 
 module.exports = router;
