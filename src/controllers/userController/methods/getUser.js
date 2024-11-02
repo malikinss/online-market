@@ -21,10 +21,10 @@ const getUser = async (req, res, next) => {
         if (!user) {
             throw ApiError.badRequest("Failed to find user");
         }
-        res.locals.addressId = user.addressId
+        res.locals.addressId = user.addressId;
         // Find userAddress by ID
-        
-        await UserAddressController.getRecord(req, res, next)
+
+        await UserAddressController.getRecord(req, res, next);
         const address = res.locals.address;
 
         if (!address) {
