@@ -5,13 +5,17 @@ import { jwtDecode } from "jwt-decode";
 
 const Account = () => {
   const { auth } = useContext(AuthContext);
-
+  if (auth) console.log(auth);
   let userEmail = null;
   let userRole = null;
 
-  if (auth?.token) {
+  const curToken = auth.token;
+  console.log(curToken);
+
+  if (curToken) {
     try {
-      const decodedToken = jwtDecode(auth.token);
+      const decodedToken = jwtDecode(curToken);
+      console.log(decodedToken);
       userEmail = decodedToken.email || null;
       userRole = decodedToken.role || null;
     } catch (error) {
@@ -22,7 +26,7 @@ const Account = () => {
   return (
     <div>
       <h1>Personal Account</h1>
-      {userEmail && <p>Welcome, {userEmail}!</p>}
+      {<p>Welcome, {userEmail}!</p>}
 
       {userRole === "user" && (
         <>

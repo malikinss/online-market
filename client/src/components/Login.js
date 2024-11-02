@@ -7,7 +7,7 @@ import axios from "../api/axios";
 const LOGIN_URL = "/user/login";
 
 const Login = () => {
-  //   const { setAuth } = useAuth();
+  // const { setAuth } = useAuth();
   const { setAuth } = useContext(AuthContext);
 
   const navigate = useNavigate();
@@ -44,6 +44,7 @@ const Login = () => {
       console.log(JSON.stringify(response?.data));
       const accessToken = response?.data?.accessToken;
       const role = response?.data?.role;
+      console.log(role);
 
       setAuth({ email, password, role, accessToken });
       setEmail("");
