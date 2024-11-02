@@ -5,7 +5,7 @@ const { findRecordByField } = require("../../controllerUtils/findHandlers");
 const {
     containsFalsyValues,
 } = require("../../controllerUtils/dataValidations");
-const { messages } = require("../../paymentController/methods/messages");
+const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**
  * Update a payment by ID.

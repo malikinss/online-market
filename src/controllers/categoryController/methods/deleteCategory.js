@@ -5,7 +5,7 @@ const { findRecordByField } = require("../../controllerUtils/findHandlers");
 const {
     containsFalsyValues,
 } = require("../../controllerUtils/dataValidations");
-const messages = require("./messages");
+const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**
  * Deletes a category by ID from the database.

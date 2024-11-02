@@ -2,7 +2,7 @@ const Category = require("../../../models/Categories");
 const ApiError = require("../../../error/ApiError");
 
 const { findAllRecords } = require("../../controllerUtils/findHandlers");
-const { messages } = require("./messages");
+const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**
  * Retrieves all categories from the database and returns them as JSON.

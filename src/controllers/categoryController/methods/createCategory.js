@@ -4,7 +4,7 @@ const ApiError = require("../../../error/ApiError");
 const {
     containsFalsyValues,
 } = require("../../controllerUtils/dataValidations");
-const messages = require("./messages");
+const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**
  * Creates a new item category in the database.

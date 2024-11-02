@@ -5,7 +5,7 @@ const { findRecordByField } = require("../../controllerUtils/findHandlers");
 const {
     containsFalsyValues,
 } = require("../../controllerUtils/dataValidations");
-const messages = require("./messages");
+const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**
  * Updates the name of a category by ID in the database.

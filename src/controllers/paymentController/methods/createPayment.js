@@ -5,7 +5,7 @@ const {
     containsFalsyValues,
 } = require("../../controllerUtils/dataValidations");
 
-const { messages } = require("./messages");
+const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**
  * Create a new order payment.
