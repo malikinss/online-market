@@ -7,13 +7,8 @@ import axios from "../api/axios";
 const LOGIN_URL = "/user/login";
 
 const Login = () => {
-<<<<<<< Updated upstream
   // const { setAuth } = useAuth();
   const { setAuth } = useContext(AuthContext);
-=======
-    //   const { setAuth } = useAuth();
-    const { setAuth } = useContext(AuthContext);
->>>>>>> Stashed changes
 
     const navigate = useNavigate();
     const location = useLocation();
