@@ -64,7 +64,7 @@ const createAddress = async (req, res, next) => {
             postal: parsedPostal,
         });
         if (!newAddress) {
-            throw ApiError.badRequest(
+            throw ApiError.internal(
                 messages.errors.actionFailed("create", "Address")
             );
         }
