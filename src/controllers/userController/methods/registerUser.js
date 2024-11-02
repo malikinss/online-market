@@ -37,11 +37,6 @@ const registerUser = async (req, res, next) => {
 
         // Password hashing
         const hashedPassword = await bcrypt.hash(password, 5);
-        if (!hashedPassword) {
-            throw ApiError.badRequest(
-                messages.errors.actionFailed("hash", "password")
-            );
-        }
 
         // Create user address
         await UserAddressController.createRecord(req, res, next);
