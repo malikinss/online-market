@@ -12,7 +12,9 @@ const { messages } = require("../../controllerUtils/messagesHandler");
  * @param {Object} res - Express response object for sending the result.
  * @param {Function} next - Express middleware function for error handling.
  * @returns {Promise<Object>} JSON object of the created category.
+ * @throws {ApiError} Throws an ApiError if category creation fails or input validation fails.
  */
+
 const createCategory = async (req, res, next) => {
     try {
         const { name } = req.body;
@@ -22,7 +24,7 @@ const createCategory = async (req, res, next) => {
 
         const newCategory = await Category.create({ name });
         if (!newCategory) {
-            throw new ApiError.notFound(
+            throw new ApiError.internal(
                 messages.errors.actionFailed("create", "Category")
             );
         }
@@ -34,7 +36,7 @@ const createCategory = async (req, res, next) => {
     } catch (e) {
         next(
             ApiError.badRequest(
-                messages.errors.general("creating", "category", e.message)
+                messages.errors.general("creating", "Category", e.message)
             )
         );
     }
