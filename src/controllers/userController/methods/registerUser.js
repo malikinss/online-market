@@ -70,13 +70,9 @@ const registerUser = async (req, res, next) => {
 
         // Create JWT token
         const token = generateJWT(user.id, user.email, user.role);
-        if (!token) {
-            throw ApiError.badRequest(
-                messages.errors.actionFailed("create", "token")
-            );
-        }
 
         console.log(messages.success("User", "created"));
+
         // Return the token in the response
         res.json({ token });
     } catch (e) {
