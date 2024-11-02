@@ -36,7 +36,7 @@ const updateItem = async (req, res, next) => {
         const itemToUpdate = await findRecordByField("id", itemID, Item);
         if (!itemToUpdate) {
             throw new ApiError.notFound(
-                messages.errors.actionFailed("find", "Address")
+                messages.errors.actionFailed("find", "Item")
             );
         }
 
