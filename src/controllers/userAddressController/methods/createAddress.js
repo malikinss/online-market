@@ -65,7 +65,7 @@ const createAddress = async (req, res, next) => {
         });
         if (!newAddress) {
             throw ApiError.badRequest(
-                messages.errors.actionFailed("create", "address")
+                messages.errors.actionFailed("create", "Address")
             );
         }
 
