@@ -9,6 +9,7 @@ const colors = {
     white: "\x1b[37m",
     black: "\x1b[30m",
     gray: "\x1b[90m",
+    orangeRed: "\x1b[38;2;255;69;0m",
     brightRed: "\x1b[91m",
     brightGreen: "\x1b[92m",
     brightYellow: "\x1b[93m",
@@ -29,6 +30,11 @@ function coloredString(text, color) {
     // Return the text with the specified color
     return `${colors[color]}${text}${colors.reset}`;
 }
+
+messagesTypes = {
+    success: (text) => coloredString(text, "green"),
+    error: (text) => coloredString(text, "orangeRed"),
+};
 
 const messages = {
     success: (entity, action) =>
