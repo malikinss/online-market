@@ -1,7 +1,7 @@
 const User = require("../../../models/Users");
 const UserAddress = require("../../../models/UserAddresses");
 const ApiError = require("../../../error/ApiError");
-const UserAddressController = require("../../userAddressController/userAdressController");
+const UserAddressController = require("../../UserAddressController/UserAdressController");
 
 const { findRecordByField } = require("../../controllerUtils/findHandlers");
 const { messages } = require("../../controllerUtils/messagesHandler");

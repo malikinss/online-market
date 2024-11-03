@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const OrderController = require("../controllers/orderController/orderController");
+const OrderController = require("../controllers/OrderController/OrderController");
 
 router
     .route("/")

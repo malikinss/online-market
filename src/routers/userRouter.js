@@ -1,7 +1,7 @@
 const Router = require("express");
 const router = new Router();
 const authMiddleware = require("../middleware/authMiddleware");
-const UserController = require("../controllers/userController/userController");
+const UserController = require("../controllers/UserController/UserController");
 
 // Basic CRUD routes
 // User registration route

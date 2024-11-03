@@ -1,6 +1,6 @@
 const User = require("../../../models/Users");
 const ApiError = require("../../../error/ApiError");
-const UserAddressController = require("../../userAddressController/userAdressController");
+const UserAddressController = require("../../UserAddressController/UserAdressController");
 
 const {
     containsFalsyValues,
