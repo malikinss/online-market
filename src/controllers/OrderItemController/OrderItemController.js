@@ -1,14 +1,14 @@
-const Order = require("../models/Orders");
-const Item = require("../models/Items");
-const OrderItem = require("../models/OrderItems");
+const Order = require("../../models/Orders");
+const Item = require("../../models/Items");
+const OrderItem = require("../../models/OrderItems");
 
-const ApiError = require("../error/ApiError");
+const ApiError = require("../../error/ApiError");
 
-const OrderController = require("./orderController");
-const PaymentController = require("./paymentController/paymentController");
+const OrderController = require("../OrderController/OrderController");
+const PaymentController = require("../paymentController/paymentController");
 
-const checkForFalsyValues = require("../utils/falsyChecker");
-const findByField = require("../utils/findByField");
+const checkForFalsyValues = require("../../utils/falsyChecker");
+const findByField = require("../../utils/findByField");
 /**
  * Controller for managing order items.
  */
