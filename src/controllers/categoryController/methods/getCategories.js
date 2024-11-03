@@ -21,7 +21,7 @@ const getCategories = async (req, res, next) => {
         }
 
         // Log success message
-        console.log(messages.success("Categories", "fetched"));
+        console.log(messages.success("Categories", "found"));
 
         return res.json(categories);
     } catch (e) {
