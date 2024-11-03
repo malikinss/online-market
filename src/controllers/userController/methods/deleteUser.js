@@ -30,18 +30,6 @@ const deleteUser = async (req, res, next) => {
       throw ApiError.notFound(messages.errors.actionFailed("find", "User"));
     }
 
-    // Find userAddress by ID
-    // const addressToDelete = await findRecordByField(
-    //     "id",
-    //     userToDelete.addressId,
-    //     UserAddress
-    // );
-    // if (!addressToDelete) {
-    //     throw ApiError.notFound(
-    //         messages.errors.actionFailed("find", "Address")
-    //     );
-    // }
-
     // Delete the address
     res.locals.addressId = userToDelete.addressId;
     await UserAddressController.deleteRecord(req, res, next); // TODO: FIX THIS

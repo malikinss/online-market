@@ -116,7 +116,7 @@ const Register = () => {
         <section>
           <h1>Success!</h1>
           <p>
-            <Link to="/">Sign In</Link>
+            <Link to="/user/login">Sign In</Link>
           </p>
         </section>
       ) : (

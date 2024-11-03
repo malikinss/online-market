@@ -1,8 +1,7 @@
 const Item = require("../../../models/Items");
 const ApiError = require("../../../error/ApiError");
-
 const {
-    containsFalsyValues,
+  containsFalsyValues,
 } = require("../../controllerUtils/dataValidations");
 const { messages } = require("../../controllerUtils/messagesHandler");
 
@@ -25,54 +24,52 @@ const path = require("path");
  */
 
 const createItem = async (req, res, next) => {
-    try {
-        // Destructure item details and image file from request
-        const { name, description, price, stock, categoryId } = req.body;
-        const { imageFile } = req.files;
+  try {
+    // Destructure item details and image file from request
+    const { name, description, price, stock, categoryId } = req.body;
+    const { img } = req.files;
 
-        // Validate input to ensure no falsy values
-        containsFalsyValues([name, description, price, stock, categoryId]);
-        if (!imageFile) {
-            throw ApiError.badRequest(
-                messages.errors.nullData("Item", "image")
-            );
-        }
-
-        // Generate a unique filename for the image using UUID
-        const fileName = `${uuid.v4()}.jpg`;
-
-        // Move the uploaded image to the static folder
-        imageFile.mv(path.resolve(__dirname, "..", "static", fileName));
-
-        // Create a new item in the database
-        const newItem = await Item.create({
-            name,
-            description,
-            price,
-            stock,
-            categoryId,
-            img: fileName,
-        });
-
-        // Check if item creation was successful
-        if (!newItem) {
-            throw new ApiError.internal(
-                messages.errors.actionFailed("create", "Item")
-            );
-        }
-
-        // Log a success message to the console
-        console.log(messages.success("Item", "created"));
-
-        // Send the newly created item as a response
-        return res.json(newItem);
-    } catch (e) {
-        next(
-            ApiError.badRequest(
-                messages.errors.general("creating", "Item", e.message)
-            )
-        );
+    // Validate input to ensure no falsy values
+    containsFalsyValues([name, description, price, stock, categoryId]);
+    if (!img) {
+      throw ApiError.badRequest(messages.errors.nullData("Item", "image"));
     }
+
+    // Generate a unique filename for the image using UUID
+    const fileName = `${uuid.v4()}.jpg`;
+
+    // Move the uploaded image to the static folder
+    img.mv(path.resolve(__dirname, "../../..", "static", fileName));
+
+    // Create a new item in the database
+    const newItem = await Item.create({
+      name,
+      description,
+      price,
+      stock,
+      categoryId,
+      img: fileName,
+    });
+
+    // Check if item creation was successful
+    if (!newItem) {
+      throw new ApiError.internal(
+        messages.errors.actionFailed("create", "Item")
+      );
+    }
+
+    // Log a success message to the console
+    console.log(messages.success("Item", "created"));
+
+    // Send the newly created item as a response
+    return res.json(newItem);
+  } catch (e) {
+    next(
+      ApiError.badRequest(
+        messages.errors.general("creating", "Item", e.message)
+      )
+    );
+  }
 };
 
 module.exports = createItem;
