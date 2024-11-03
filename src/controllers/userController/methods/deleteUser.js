@@ -17,36 +17,42 @@ const { messages } = require("../../controllerUtils/messagesHandler");
  * @throws {ApiError} - Throws an ApiError with an `internal` message if a general error occurs during deletion.
  */
 const deleteUser = async (req, res, next) => {
-  try {
-    const userId = req.user.id; // Get user ID from token
+    try {
+        const userId = req.user.id; // Get user ID from token
 
-    if (!userId) {
-      throw ApiError.badRequest(messages.errors.nullData("User", "id"));
+        if (!userId) {
+            throw ApiError.badRequest(messages.errors.nullData("User", "id"));
+        }
+
+        // Find user by ID
+        const userToDelete = await findRecordByField("id", userId, User);
+        if (!userToDelete) {
+            throw ApiError.notFound(
+                messages.errors.actionFailed("find", "User")
+            );
+        }
+
+        // Save the addressId to delete it later
+        res.locals.addressId = userToDelete.addressId;
+
+        // Delete the user
+        await userToDelete.destroy();
+
+        // Log success message
+        console.log(messages.success("User", "deleted"));
+
+        // Delete the address
+        await UserAddressController.deleteRecord(req, res, next); // TODO: FIX THIS
+        //const messageAddress = res.locals.messageAddress;
+
+        return res.json({ message: messages.success("User", "deleted") });
+    } catch (e) {
+        return next(
+            ApiError.internal(
+                messages.errors.general("deleting", "User", e.message)
+            )
+        );
     }
-
-    // Find user by ID
-    const userToDelete = await findRecordByField("id", userId, User);
-    if (!userToDelete) {
-      throw ApiError.notFound(messages.errors.actionFailed("find", "User"));
-    }
-
-    // Delete the address
-    res.locals.addressId = userToDelete.addressId;
-    await UserAddressController.deleteRecord(req, res, next); // TODO: FIX THIS
-    const messageAddress = res.locals.messageAddress;
-
-    // Delete the user
-    await userToDelete.destroy();
-
-    // Log success message
-    console.log(messages.success("User", "deleted"));
-
-    return res.json({ message: messages.success("User", "deleted") });
-  } catch (e) {
-    return next(
-      ApiError.internal(messages.errors.general("deleting", "User", e.message))
-    );
-  }
 };
 
 module.exports = deleteUser;

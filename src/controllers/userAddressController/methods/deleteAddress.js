@@ -15,36 +15,40 @@ const { messages } = require("../../controllerUtils/messagesHandler");
  * @throws {ApiError} - Throws an `ApiError` if the ID is invalid, the address is not found, or an internal error occurs.
  */
 const deleteAddress = async (req, res, next) => {
-  try {
-    const addressId = res.locals.addressId;
-    if (!addressId) {
-      throw ApiError.badRequest(messages.errors.nullData("Address", "id"));
+    try {
+        const addressId = res.locals.addressId;
+        if (!addressId) {
+            throw ApiError.badRequest(
+                messages.errors.nullData("Address", "id")
+            );
+        }
+
+        const addressToDelete = await findRecordByField(
+            "id",
+            addressId,
+            UserAddress
+        );
+
+        if (!addressToDelete) {
+            throw ApiError.notFound(
+                messages.errors.actionFailed("find", "Address")
+            );
+        }
+
+        // Destroy the address record from the database
+        await addressToDelete.destroy();
+
+        // Log success message
+        console.log(messages.success("Address", "deleted"));
+
+        //res.locals.messageAddress = messages.success("Address", "deleted");
+    } catch (e) {
+        return next(
+            ApiError.internal(
+                messages.errors.general("deleting", "Address", e.message)
+            )
+        );
     }
-
-    const addressToDelete = await findRecordByField(
-      "id",
-      addressId,
-      UserAddress
-    );
-
-    if (!addressToDelete) {
-      throw ApiError.notFound(messages.errors.actionFailed("find", "Address"));
-    }
-
-    // Destroy the address record from the database
-    await addressToDelete.destroy();
-
-    // Log success message
-    console.log(messages.success("Address", "deleted"));
-
-    res.locals.messageAddress = messages.success("Address", "deleted");
-  } catch (e) {
-    return next(
-      ApiError.internal(
-        messages.errors.general("deleting", "Address", e.message)
-      )
-    );
-  }
 };
 
 module.exports = deleteAddress;
