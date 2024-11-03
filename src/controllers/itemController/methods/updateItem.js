@@ -27,7 +27,8 @@ const updateItem = async (req, res, next) => {
             throw ApiError.badRequest(messages.errors.nullData("Item", "id"));
         }
 
-        const { name, description, price, stock, categoryId } = req.body;
+        const { name, description } = req.body;
+        let { price, stock, categoryId } = req.body;
 
         // Check for required fields
         containsFalsyValues([name, description, price, stock, categoryId]);
@@ -38,6 +39,15 @@ const updateItem = async (req, res, next) => {
             throw new ApiError.notFound(
                 messages.errors.actionFailed("find", "Item")
             );
+        }
+
+        price = parseInt(price);
+        stock = parseInt(stock);
+        categoryId = parseInt(categoryId);
+
+        const notValid = isNaN(price) || isNaN(stock) || isNaN(categoryId);
+        if (notValid) {
+            throw ApiError.badRequest(messages.errors.notNumber);
         }
 
         // Update the item
