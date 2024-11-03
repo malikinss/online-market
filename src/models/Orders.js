@@ -31,6 +31,7 @@ const Order = sequelize.define(
         totalPrice: {
             type: DataTypes.DECIMAL(10, 2),
             allowNull: false,
+            defaultValue: 0,
             validate: createValidation(
                 validationRules.order.price,
                 "total price"
@@ -40,7 +41,7 @@ const Order = sequelize.define(
         status: {
             type: DataTypes.STRING,
             allowNull: false,
-            defaultValue: "Created",
+            defaultValue: "Unpaid",
             validate: createValidationIsIn(
                 validationRules.order.status,
                 "order status"

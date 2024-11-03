@@ -1,10 +1,5 @@
 const Payment = require("../../../models/Payments");
 const ApiError = require("../../../error/ApiError");
-
-const {
-    containsFalsyValues,
-} = require("../../controllerUtils/dataValidations");
-
 const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**
@@ -15,10 +10,12 @@ const { messages } = require("../../controllerUtils/messagesHandler");
  */
 const createPayment = async (req, res, next) => {
     try {
-        const orderID = req.body.id;
-
-        // Check for falsy values in the payment fields
-        containsFalsyValues([orderID]);
+        const orderID = req.body.id || res.locals.orderId;
+        if (!orderID) {
+            throw new ApiError.badRequest(
+                messages.errors.nullData("Order", "id")
+            );
+        }
 
         // Create a new payment in the database
         const payment = await Payment.create({ orderID, status: false });
@@ -28,8 +25,10 @@ const createPayment = async (req, res, next) => {
             );
         }
 
+        res.locals.payment = payment;
+
+        // Log success message
         console.log(messages.success("Payment", "created"));
-        return res.json(payment);
     } catch (e) {
         next(
             ApiError.badRequest(
