@@ -22,7 +22,7 @@ class OrderController {
     }
 
     async getRecordsPerUser(req, res, next) {
-        //return getOrdersPerUser(req, res, next);
+        return getOrdersPerUser(req, res, next);
     }
 
     async updateRecord(req, res, next) {
