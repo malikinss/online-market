@@ -40,8 +40,6 @@ const deleteAddress = async (req, res, next) => {
 
         // Log success message
         console.log(messages.success("Address", "deleted"));
-
-        //res.locals.messageAddress = messages.success("Address", "deleted");
     } catch (e) {
         return next(
             ApiError.internal(

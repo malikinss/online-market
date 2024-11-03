@@ -42,8 +42,7 @@ const deleteUser = async (req, res, next) => {
         console.log(messages.success("User", "deleted"));
 
         // Delete the address
-        await UserAddressController.deleteRecord(req, res, next); // TODO: FIX THIS
-        //const messageAddress = res.locals.messageAddress;
+        await UserAddressController.deleteRecord(req, res, next);
 
         return res.json({ message: messages.success("User", "deleted") });
     } catch (e) {
