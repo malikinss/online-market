@@ -14,7 +14,6 @@ const { messages } = require("../../controllerUtils/messagesHandler");
  * @returns {Promise<Object>} JSON object of the created category.
  * @throws {ApiError} Throws an ApiError if category creation fails or input validation fails.
  */
-
 const createCategory = async (req, res, next) => {
     try {
         const { name } = req.body;
