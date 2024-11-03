@@ -1,10 +1,10 @@
 /**
-     * Update an order by ID.
-     * @param {Object} req - The request object.
-     * @param {Object} res - The response object.
-     * @param {Function} next - The next middleware function.
-     */
-async updateById(req, res, next) {
+ * Update an order by ID.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @param {Function} next - The next middleware function.
+ */
+const updateOrder = async (req, res, next) => {
     try {
         const id = req.params.id;
         const { status, totalPrice } = req.body;
@@ -27,4 +27,6 @@ async updateById(req, res, next) {
     } catch (e) {
         next(ApiError.badRequest(e.message));
     }
-}
+};
+
+module.exports = updateOrder;

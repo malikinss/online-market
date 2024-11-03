@@ -14,23 +14,23 @@ class OrderController {
     }
 
     async getRecord(req, res, next) {
-        return getOrder(req, res, next);
+        //return getOrder(req, res, next);
     }
 
     async getRecords(req, res, next) {
-        return getOrders(req, res, next);
+        //return getOrders(req, res, next);
     }
 
     async getRecordsPerUser(req, res, next) {
-        return getOrdersPerUser(req, res, next);
+        //return getOrdersPerUser(req, res, next);
     }
 
     async updateRecord(req, res, next) {
-        return updateOrder(req, res, next);
+        //return updateOrder(req, res, next);
     }
 
     async deleteRecord(req, res, next) {
-        return deleteOrder(req, res, next);
+        //return deleteOrder(req, res, next);
     }
 }
 

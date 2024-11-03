@@ -1,10 +1,10 @@
 /**
-     * Get all orders per specific User.
-     * @param {Object} req - The request object.
-     * @param {Object} res - The response object.
-     * @param {Function} next - The next middleware function.
-     */
-async getAllUserOrders(req, res, next) {
+ * Get all orders per specific User.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @param {Function} next - The next middleware function.
+ */
+const getOrders = async (req, res, next) => {
     try {
         const { userId } = req.query;
 
@@ -16,4 +16,6 @@ async getAllUserOrders(req, res, next) {
     } catch (e) {
         next(ApiError.badRequest(e.message));
     }
-}
+};
+
+module.exports = getOrders;
