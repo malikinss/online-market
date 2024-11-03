@@ -26,12 +26,13 @@ const path = require("path");
 const createItem = async (req, res, next) => {
   try {
     // Destructure item details and image file from request
-    const { name, description, price, stock, categoryId } = req.body;
-    const { img } = req.files;
+    const { name, description } = req.body;
+    let { price, stock, categoryId } = req.body;
+    const { imgFile } = req.files;
 
     // Validate input to ensure no falsy values
     containsFalsyValues([name, description, price, stock, categoryId]);
-    if (!img) {
+    if (!imgFile) {
       throw ApiError.badRequest(messages.errors.nullData("Item", "image"));
     }
 
@@ -39,7 +40,16 @@ const createItem = async (req, res, next) => {
     const fileName = `${uuid.v4()}.jpg`;
 
     // Move the uploaded image to the static folder
-    img.mv(path.resolve(__dirname, "../../..", "static", fileName));
+    imgFile.mv(path.resolve(__dirname, "../../..", "static", fileName));
+
+    price = parseInt(price);
+    stock = parseInt(stock);
+    categoryId = parseInt(categoryId);
+
+    const notValid = isNaN(price) || isNaN(stock) || isNaN(categoryId);
+    if (notValid) {
+      throw ApiError.badRequest(messages.errors.notNumber);
+    }
 
     // Create a new item in the database
     const newItem = await Item.create({
@@ -47,8 +57,8 @@ const createItem = async (req, res, next) => {
       description,
       price,
       stock,
-      categoryId,
       img: fileName,
+      categoryId,
     });
 
     // Check if item creation was successful
