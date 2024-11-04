@@ -12,36 +12,34 @@ const { messages } = require("./messagesHandler");
  * @throws {Error} - If an error occurred while executing the request.
  */
 const findModelExcludingId = async (value, field, Model, currentId = null) => {
-    try {
-        if (!field) {
-            throw ApiError.badRequest(messages.errors.nullData("Field", ""));
-        }
-
-        if (!value) {
-            throw ApiError.badRequest(messages.errors.nullData("Value", ""));
-        }
-
-        if (!Model) {
-            throw ApiError.badRequest(messages.errors.nullData("Model", ""));
-        }
-
-        // Create a condition to exclude the user with the passed userId
-        const excludeCondition = currentId
-            ? { id: { [Op.ne]: currentId } }
-            : {};
-
-        // Search for a user by the specified field, excluding the specified userId
-        return await Model.findOne({
-            where: {
-                [field]: value, // Condition for searching by field
-                ...excludeCondition, // Condition for excluding a user
-            },
-        });
-    } catch (e) {
-        throw ApiError.internal(
-            messages.errors.general("fetching", "record", e.message)
-        );
+  try {
+    if (!field) {
+      throw ApiError.badRequest(messages.errors.nullData("Field", ""));
     }
+
+    if (!value) {
+      throw ApiError.badRequest(messages.errors.nullData("Value", ""));
+    }
+
+    if (!Model) {
+      throw ApiError.badRequest(messages.errors.nullData("Model", ""));
+    }
+
+    // Create a condition to exclude the user with the passed userId
+    const excludeCondition = currentId ? { id: { [Op.ne]: currentId } } : {};
+
+    // Search for a user by the specified field, excluding the specified userId
+    return await Model.findOne({
+      where: {
+        [field]: value, // Condition for searching by field
+        ...excludeCondition, // Condition for excluding a user
+      },
+    });
+  } catch (e) {
+    throw ApiError.internal(
+      messages.errors.general("fetching", "record", e.message)
+    );
+  }
 };
 
 /**
@@ -51,26 +49,24 @@ const findModelExcludingId = async (value, field, Model, currentId = null) => {
  * @returns {Promise<Array>} Returns a promise that resolves to an array of records.
  */
 const findAllRecords = async (Model) => {
-    try {
-        if (!Model) {
-            throw ApiError.badRequest(messages.errors.nullData("Model", ""));
-        }
-
-        const records = await Model.findAll();
-
-        // If the records are not found, throw a not found error
-        if (!records) {
-            throw ApiError.notFound(
-                messages.errors.actionFailed("find", "records")
-            );
-        }
-
-        return records;
-    } catch (e) {
-        throw ApiError.internal(
-            messages.errors.general("fetching", "records", e.message)
-        );
+  try {
+    if (!Model) {
+      throw ApiError.badRequest(messages.errors.nullData("Model", ""));
     }
+
+    const records = await Model.findAll();
+
+    // If the records are not found, throw a not found error
+    if (!records) {
+      throw ApiError.notFound(messages.errors.actionFailed("find", "records"));
+    }
+
+    return records;
+  } catch (e) {
+    throw ApiError.internal(
+      messages.errors.general("fetching", "records", e.message)
+    );
+  }
 };
 
 /**
@@ -82,34 +78,32 @@ const findAllRecords = async (Model) => {
  * @throws {Error} - If an error occurred during the search.
  */
 const findRecordByField = async (field, value, Model) => {
-    try {
-        if (!field) {
-            throw ApiError.badRequest(messages.errors.nullData("Field", ""));
-        }
-
-        if (!value) {
-            throw ApiError.badRequest(messages.errors.nullData("Value", ""));
-        }
-
-        if (!Model) {
-            throw ApiError.badRequest(messages.errors.nullData("Model", ""));
-        }
-
-        const record = await Model.findOne({ where: { [field]: value } });
-
-        // If the record is not found, throw a not found error
-        if (!record) {
-            throw ApiError.notFound(
-                messages.errors.actionFailed("find", "record")
-            );
-        }
-
-        return record;
-    } catch (e) {
-        throw ApiError.internal(
-            messages.errors.general("fetching", "record", e.message)
-        );
+  try {
+    if (!field) {
+      throw ApiError.badRequest(messages.errors.nullData("Field", ""));
     }
+
+    if (!value) {
+      throw ApiError.badRequest(messages.errors.nullData("Value", ""));
+    }
+
+    if (!Model) {
+      throw ApiError.badRequest(messages.errors.nullData("Model", ""));
+    }
+
+    const record = await Model.findOne({ where: { [field]: value } });
+
+    // If the record is not found, throw a not found error
+    if (!record) {
+      throw ApiError.notFound(messages.errors.actionFailed("find", "record"));
+    }
+
+    return record;
+  } catch (e) {
+    throw ApiError.internal(
+      messages.errors.general("fetching", "record", e.message)
+    );
+  }
 };
 
 /**
@@ -121,39 +115,37 @@ const findRecordByField = async (field, value, Model) => {
  * @returns {Promise<Array>} Returns a promise that resolves to an array of records.
  */
 const findRecordsByField = async (field, value, Model) => {
-    try {
-        if (!field) {
-            throw ApiError.badRequest(messages.errors.nullData("Field", ""));
-        }
-
-        if (!value) {
-            throw ApiError.badRequest(messages.errors.nullData("Value", ""));
-        }
-
-        if (!Model) {
-            throw ApiError.badRequest(messages.errors.nullData("Model", ""));
-        }
-
-        const records = await Model.findAll({ where: { [field]: value } });
-
-        // If the records are not found, throw a not found error
-        if (!records) {
-            throw ApiError.notFound(
-                messages.errors.actionFailed("find", "records")
-            );
-        }
-
-        return records;
-    } catch (e) {
-        throw ApiError.internal(
-            messages.errors.general("fetching", "records", e.message)
-        );
+  try {
+    if (!field) {
+      throw ApiError.badRequest(messages.errors.nullData("Field", ""));
     }
+
+    if (!value) {
+      throw ApiError.badRequest(messages.errors.nullData("Value", ""));
+    }
+
+    if (!Model) {
+      throw ApiError.badRequest(messages.errors.nullData("Model", ""));
+    }
+
+    const records = await Model.findAll({ where: { [field]: value } });
+
+    // If the records are not found, throw a not found error
+    if (!records) {
+      throw ApiError.notFound(messages.errors.actionFailed("find", "records"));
+    }
+
+    return records;
+  } catch (e) {
+    throw ApiError.internal(
+      messages.errors.general("fetching", "records", e.message)
+    );
+  }
 };
 
 module.exports = {
-    findModelExcludingId,
-    findRecordByField,
-    findAllRecords,
-    findRecordsByField,
+  findModelExcludingId,
+  findRecordByField,
+  findAllRecords,
+  findRecordsByField,
 };

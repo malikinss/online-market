@@ -15,35 +15,35 @@ const { messages } = require("../../controllerUtils/messagesHandler");
  * @throws {ApiError} If no order items are found for the given orderID, a not found error is thrown indicating that the requested order items do not exist in the database.
  */
 const getOrderItems = async (req, res, next) => {
-    try {
-        // Retrieve the orderID from query parameters and validate it
-        const orderID = req.query.orderID;
-        if (!orderID) {
-            throw ApiError.badRequest(
-                messages.errors.actionFailed("pass", "orderID")
-            );
-        }
-
-        // Find all OrderItems by orderID
-        const orderItems = await findRecordsByField("id", orderID, OrderItem);
-        if (!orderItems) {
-            throw ApiError.notFound(
-                messages.errors.actionFailed("find", "OrderItems")
-            );
-        }
-
-        // Log success message to the console
-        console.log(messages.success("OrderItems", "found"));
-
-        // Return the found OrderItems as a JSON response
-        return res.json(orderItems);
-    } catch (e) {
-        next(
-            ApiError.badRequest(
-                messages.errors.general("finding", "OrderItems", e.message)
-            )
-        );
+  try {
+    // Retrieve the orderID from query parameters and validate it
+    const orderID = req.body.orderID;
+    if (!orderID) {
+      throw ApiError.badRequest(
+        messages.errors.actionFailed("pass", "orderID")
+      );
     }
+
+    // Find all OrderItems by orderID
+    const orderItems = await findRecordsByField("orderId", orderID, OrderItem);
+    if (!orderItems) {
+      throw ApiError.notFound(
+        messages.errors.actionFailed("find", "OrderItems")
+      );
+    }
+
+    // Log success message to the console
+    console.log(messages.success("OrderItems", "found"));
+
+    // Return the found OrderItems as a JSON response
+    return res.json(orderItems);
+  } catch (e) {
+    next(
+      ApiError.badRequest(
+        messages.errors.general("finding", "OrderItems", e.message)
+      )
+    );
+  }
 };
 
 module.exports = getOrderItems;
