@@ -70,6 +70,14 @@ const App = () => {
     );
   };
 
+  const updateOrder = (id, newCounter) => {
+    setOrders((prevOrders) =>
+      prevOrders.map((item) =>
+        item.id === id ? { ...item, counter: newCounter } : item
+      )
+    );
+  };
+
   const chooseCategory = (category) => {
     console.log(category);
     setCurrentItems(
@@ -128,10 +136,15 @@ const App = () => {
           <Route
             path="/account/basket"
             element={
-              auth?.role === "user" ? (
-                <Basket orders={orders} />
+              auth ? (
+                <Basket
+                  orders={orders}
+                  totalPrice={totalPrice}
+                  onDelete={deleteOrder}
+                  onUpdate={updateOrder}
+                />
               ) : (
-                <Navigate to="/account" replace />
+                <Navigate to="/login" replace />
               )
             }
           />

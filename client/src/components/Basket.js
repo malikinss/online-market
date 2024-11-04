@@ -1,84 +1,91 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "../api/axios";
+import React from "react";
+import Order from "./Order";
+import axios from "axios"; // Import axios for making HTTP requests
+import "../index.css";
 
-const Basket = ({ products }) => {
-  const [cart, setCart] = useState(products);
-  const navigate = useNavigate();
+const Basket = (props) => {
+  const { orders, totalPrice, onDelete, onUpdate } = props;
 
-  const handleQuantityChange = (id, delta) => {
-    setCart((prevCart) =>
-      prevCart.map((item) => {
-        if (item.id === id) {
-          const newQuantity = item.quantity + delta;
-          return {
-            ...item,
-            quantity: newQuantity >= 0 ? newQuantity : 0,
-          };
-        }
-        return item;
-      })
-    );
-  };
-
-  const calculateTotal = () => {
-    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
-  };
-
-  const handlePayment = async () => {
-    const totalAmount = calculateTotal();
-    const orderItems = cart.map(({ id, quantity }) => ({
-      id,
-      quantity,
-    }));
-
-    try {
-      const response = await axios.post(
-        "/payment",
-        JSON.stringify({ items: orderItems, total: totalAmount }),
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      console.log("Payment processed successfully:", response.data);
-      // Здесь можно перенаправить пользователя или уведомить об успешной оплате
-    } catch (error) {
-      console.error("Payment failed:", error);
+  const handleIncrease = (id) => {
+    const order = orders.find((item) => item.id === id);
+    if (order) {
+      onUpdate(id, order.counter + 1); // Increasing the quantity
     }
   };
 
-  const goToHistory = () => {
-    navigate("/account/basket/history");
+  const handleDecrease = (id) => {
+    const order = orders.find((item) => item.id === id);
+    if (order.counter > 1) {
+      onUpdate(id, order.counter - 1); // Reduce quantity if more than 1
+    } else {
+      onDelete(id); // Remove element if quantity is 1
+    }
   };
 
-  const goBack = () => {
-    navigate("/account");
+  const handlePayOrder = () => {
+    const userId = 10; // Here you can take the user ID from props or context
+    const orderItems = orders.map((order) => ({
+      itemId: order.id,
+      quantity: order.counter,
+    }));
+
+    const orderData = {
+      userId,
+      orderItems,
+    };
+
+    // Sending data to the server
+    axios
+      .post("http://127.0.0.1:5000/api/order", orderData)
+      .then((response) => {
+        console.log(response.data); // Handle the server response
+        // Remove items from basket after successful order submission
+        orders.forEach((order) => onDelete(order.id));
+      })
+      .catch((error) => console.error("Error:", error));
   };
+
+  const showOrders = () => {
+    return (
+      <div className="basket-container">
+        {orders.map((el) => (
+          <div key={el.id} className="order-item">
+            <Order item={el} onDelete={onDelete} />
+            <div>
+              <button
+                className="button-decrease"
+                onClick={() => handleDecrease(el.id)}
+              >
+                -
+              </button>
+              <span>{el.counter}</span>
+              <button
+                className="button-increase"
+                onClick={() => handleIncrease(el.id)}
+              >
+                +
+              </button>
+            </div>
+          </div>
+        ))}
+        <p className="summa">Total price: {totalPrice.toFixed(2)} ₪</p>
+        <button className="pay-order" onClick={handlePayOrder}>
+          Pay Order
+        </button>
+      </div>
+    );
+  };
+
+  const showNothing = () => (
+    <div className="empty">
+      <h2>Basket is empty</h2>
+    </div>
+  );
 
   return (
     <div>
       <h1>Your Basket</h1>
-      <ul>
-        {cart.map((item) => (
-          <li key={item.id}>
-            <h2>{item.name}</h2>
-            <p>Price: ${item.price.toFixed(2)}</p>
-            <div>
-              <button onClick={() => handleQuantityChange(item.id, -1)}>
-                -
-              </button>
-              <span>{item.quantity}</span>
-              <button onClick={() => handleQuantityChange(item.id, 1)}>
-                +
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
-      <h2>Total: ${calculateTotal().toFixed(2)}</h2>
-      <button onClick={handlePayment}>Pay</button>
-      <button onClick={goToHistory}>History</button>
-      <button onClick={goBack}>Back</button>
+      {orders.length > 0 ? showOrders() : showNothing()}
     </div>
   );
 };

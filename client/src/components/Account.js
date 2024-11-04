@@ -32,18 +32,30 @@ const Account = () => {
 
       {userRole === "user" && (
         <>
-          <Link to="/account/basket">
-            <button>Go to Basket</button>
-          </Link>
-          <Link to="/account/update_user">
-            <button>Update User</button>
-          </Link>
-          <Link to="/account/change_password">
-            <button>Change Password</button>
-          </Link>
-          <Link to="/account/delete_account">
-            <button>Delete Account</button>
-          </Link>
+          <div>
+            <ul>
+              <li>
+                <Link to="/account/basket">
+                  <button>Basket</button>
+                </Link>
+              </li>
+              <li>
+                <Link to="/account/update_user">
+                  <button>Update User</button>
+                </Link>
+              </li>
+              <li>
+                <Link to="/account/change_password">
+                  <button>Change Password</button>
+                </Link>
+              </li>
+              <li>
+                <Link to="/account/delete_account">
+                  <button>Delete Account</button>
+                </Link>
+              </li>
+            </ul>
+          </div>
         </>
       )}
 

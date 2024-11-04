@@ -343,3 +343,76 @@ button {
   justify-content: flex-start;
   align-items: flex-end;
 }
+
+/* Basket */
+
+.basket-container {
+  padding: 20px;
+}
+
+.order-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.order-item img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.order-details h2 {
+  font-size: 10px;
+  margin: 5px;
+}
+
+.button-increase {
+  background-color: #3cb371;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 3px;
+  margin-left: 10px;
+}
+
+.button-decrease {
+  background-color: #dc3d3d;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 3px;
+  margin-right: 10px;
+}
+
+.delete-icon {
+  font-weight: bold;
+  color: #dc3d3d; /* Цвет значка удаления */
+  margin-left: 20px; /* Расстояние между текстом и значком */
+}
+
+.summa {
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.pay-order {
+  background-color: #4caf50; /* Зеленый цвет */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.pay-order:hover {
+  background-color: #45a049; /* Цвет при наведении */
+}
