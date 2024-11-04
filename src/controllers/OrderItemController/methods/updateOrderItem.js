@@ -9,14 +9,16 @@ const { findRecordByField } = require("../../controllerUtils/findHandlers");
 const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**
- * Update an order item by ID.
- * @param {Object} req - The request object.
- * @param {string} req.params.id - The ID of the order item to update.
- * @param {Object} req.body - The body of the request.
- * @param {number} req.body.quantity - The new quantity for the order item.
- * @param {Object} res - The response object.
- * @param {Function} next - The next middleware function.
+ * Updates an order item identified by its unique identifier.
+ * This operation involves extracting the ID and update data from the request, validating the input, performing a database lookup to ensure the item exists, applying the update, and sending a response.
+ * In case of errors, the process is interrupted and an appropriate error is forwarded.
+ * @param {Object} req - The incoming request object carrying parameters and update data.
+ * @param {Object} res - The response object used to return the outcome of the update operation.
+ * @param {Function} next - A function to transfer control to the next middleware or error handler.
+ * @returns {Object} - A JSON object with a message confirming the successful update.
+ * @throws {ApiError} - Throws an error if the ID is invalid, the order item does not exist, or an issue occurs during the update process.
  */
+
 const updateOrderItem = async (req, res, next) => {
     try {
         const orderItemId = req.params.id;
@@ -64,7 +66,7 @@ const updateOrderItem = async (req, res, next) => {
         return res.json(orderItem);
     } catch (e) {
         next(
-            ApiError.badRequest(
+            ApiError.internal(
                 messages.errors.general("updating", "OrderItem", e.message)
             )
         );
