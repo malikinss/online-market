@@ -14,6 +14,7 @@ import Registration from "./components/Register";
 import Login from "./components/Login";
 import Account from "./components/Account";
 import Basket from "./components/Basket";
+import ChangePassword from "./ChangePassword";
 import AdminPanel from "./components/AdminPanel";
 import UpdateUser from "./components/UpdateUser";
 import AuthContext from "./context/AuthProvider";
@@ -133,6 +134,7 @@ const App = () => {
             path="/account"
             element={auth ? <Account /> : <Navigate to="/login" replace />}
           />
+          {/* <Route path="/account/change_password"element={<ChangePassword userId={userId} />}/> TO DO!!! */}
           <Route
             path="/account/basket"
             element={
