@@ -5,29 +5,33 @@ const { findRecordByField } = require("../../controllerUtils/findHandlers");
 const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**
- * Get an orderItem by ID.
- * @param {Object} req - The request object.
- * @param {Object} res - The response object.
- * @param {Function} next - The next middleware function.
+ * Retrieves an order item by its unique identifier.
+ * This function handles the request to find an order item
+ * based on the ID provided in the request parameters.
+ * If the ID is missing or the order item is not found,
+ * appropriate error responses are sent.
+ *
+ * @param {Object} req - The request object, containing request parameters and any relevant data.
+ * @param {Object} res - The response object, used to send data or error messages back to the client.
+ * @param {Function} next - The next middleware function to handle errors.
+ *
+ * @throws {ApiError.badRequest} If the orderItemID is not provided.
+ * @throws {ApiError.notFound} If the order item with the specified ID is not found.
  */
 const getOrderItem = async (req, res, next) => {
     try {
         // Get OrderItemID and check if it exists
-        const orederItemID = req.params.id;
-        if (!orederItemID) {
-            throw new ApiError.notFound(
+        const orderItemID = req.params.id;
+        if (!orderItemID) {
+            throw ApiError.badRequest(
                 messages.errors.actionFailed("pass", "orderItemID")
             );
         }
 
         // Find OrderItem by its ID and check if it found
-        const orderItem = await findRecordByField(
-            "id",
-            orederItemID,
-            OrderItem
-        );
-        if (!orederItemID) {
-            throw new ApiError.notFound(
+        const orderItem = await findRecordByField("id", orderItemID, OrderItem);
+        if (!orderItem) {
+            throw ApiError.notFound(
                 messages.errors.actionFailed("find", "OrderItem")
             );
         }
@@ -40,7 +44,7 @@ const getOrderItem = async (req, res, next) => {
     } catch (e) {
         next(
             ApiError.badRequest(
-                messages.errors.general("fetching", "OrderItem", e.message)
+                messages.errors.general("finding", "OrderItem", e.message)
             )
         );
     }
