@@ -5,27 +5,27 @@ const { findRecordByField } = require("../../controllerUtils/findHandlers");
 const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**
- * Get a payment by ID.
- * @param {Object} req - The request object containing payment ID in params.
- * @param {Object} res - The response object for sending back the payment data.
- * @param {Function} next - The next middleware function for error handling.
- * @throws {ApiError.notFound} - If the payment is not found.
- * @throws {ApiError.badRequest} - If the request contains invalid data.
+ * Retrieves a payment by its ID from the request parameters.
+ * @param {Object} req - The request object, which includes the payment ID in the parameters.
+ * @param {Object} res - The response object used to send back the payment data in JSON format.
+ * @param {Function} next - The next middleware function for handling errors.
+ * @throws {ApiError.notFound} - Thrown when a payment with the specified ID cannot be found.
+ * @throws {ApiError.badRequest} - Thrown when the request is missing the payment ID or contains invalid data.
  */
 const getPayment = async (req, res, next) => {
     try {
         // Get paymentID and check if it exists
         const paymentID = req.params.id;
         if (!paymentID) {
-            throw new ApiError.notFound(
+            throw ApiError.badRequest(
                 messages.errors.actionFailed("pass", "paymentID")
             );
         }
 
         // Find payment by its ID and check if it found
-        const payment = await findRecordByField("id", id, Payment);
+        const payment = await findRecordByField("id", paymentID, Payment);
         if (!payment) {
-            throw new ApiError.notFound(
+            throw ApiError.notFound(
                 messages.errors.actionFailed("find", "Payment")
             );
         }
@@ -38,7 +38,7 @@ const getPayment = async (req, res, next) => {
     } catch (e) {
         next(
             ApiError.badRequest(
-                messages.errors.general("fetching", "Payment", e.message)
+                messages.errors.general("finding", "Payment", e.message)
             )
         );
     }
