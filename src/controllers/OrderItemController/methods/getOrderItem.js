@@ -6,11 +6,8 @@ const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**
  * Retrieves an order item by its unique identifier.
- * This function handles the request to find an order item
- * based on the ID provided in the request parameters.
- * If the ID is missing or the order item is not found,
- * appropriate error responses are sent.
- *
+ * This function handles the request to find an order item based on the ID provided in the request parameters.
+ * If the ID is missing or the order item is not found, appropriate error responses are sent.
  * @param {Object} req - The request object, containing request parameters and any relevant data.
  * @param {Object} res - The response object, used to send data or error messages back to the client.
  * @param {Function} next - The next middleware function to handle errors.
