@@ -2,9 +2,6 @@ const Payment = require("../../../models/Payments");
 const ApiError = require("../../../error/ApiError");
 
 const { findRecordByField } = require("../../controllerUtils/findHandlers");
-const {
-    containsFalsyValues,
-} = require("../../controllerUtils/dataValidations");
 const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**
@@ -17,11 +14,15 @@ const { messages } = require("../../controllerUtils/messagesHandler");
  */
 const getPayment = async (req, res, next) => {
     try {
+        // Get paymentID and check if it exists
         const paymentID = req.params.id;
+        if (!paymentID) {
+            throw new ApiError.notFound(
+                messages.errors.actionFailed("pass", "paymentID")
+            );
+        }
 
-        // Check for falsy value in the payment ID
-        containsFalsyValues([paymentID]);
-
+        // Find payment by its ID and check if it found
         const payment = await findRecordByField("id", id, Payment);
         if (!payment) {
             throw new ApiError.notFound(
@@ -30,14 +31,14 @@ const getPayment = async (req, res, next) => {
         }
 
         // Log success message to the console
-        console.log(messages.success("Payment", "founded"));
+        console.log(messages.success("Payment", "found"));
 
         // Return the found payment as a JSON response
         return res.json(payment);
     } catch (e) {
         next(
             ApiError.badRequest(
-                messages.errors.general("fetching", "payment", e.message)
+                messages.errors.general("fetching", "Payment", e.message)
             )
         );
     }
