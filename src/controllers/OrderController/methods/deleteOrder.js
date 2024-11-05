@@ -1,3 +1,16 @@
+const Order = require("../../../models/Orders");
+const OrderItem = require("../../../models/OrderItems");
+const ApiError = require("../../../error/ApiError");
+
+const OrderItemController = require("../../OrderItemController/OrderItemController");
+const PaymentController = require("../../PaymentController/PaymentController");
+
+const {
+    findRecordByField,
+    findRecordsByField,
+} = require("../../controllerUtils/findHandlers");
+const { messages } = require("../../controllerUtils/messagesHandler");
+
 /**
  * Delete an order by ID.
  * @param {Object} req - The request object.
@@ -6,15 +19,58 @@
  */
 const deleteOrder = async (req, res, next) => {
     try {
-        const id = req.params.id;
+        // Extract order ID from request parameters
+        const orderId = req.params.id;
 
-        const order = await findByField(id, Order, next);
+        // Validate if the order ID is provided
+        if (!categoryId) {
+            throw ApiError.badRequest(messages.errors.nullData("Order", "Id"));
+        }
 
-        await order.destroy();
+        // Find the Order record by ID
+        const orderToDelete = await findRecordByField("id", orderId, Order);
 
-        return res.json({ message: "Order deleted successfully" });
+        // Validate if the Order record is found
+        if (!orderToDelete) {
+            throw new ApiError.notFound(
+                messages.errors.actionFailed("find", "Order")
+            );
+        }
+
+        // Put payment ID from order record to res object for deleting
+        res.locals.paymentId = orderToDelete.paymentId;
+
+        // Find the OrderItem records by order ID
+        const orderItemsToDelete = await findRecordsByField(
+            "orderId",
+            orderId,
+            OrderItem
+        );
+
+        // Go through each OrderItem for this Order and delete it
+        for (let orderItem of orderItemsToDelete) {
+            res.locals.orderItemId = orderItem.id;
+
+            // Delete orderItem record for this order
+            await OrderItemController.deleteRecord(req, res, next);
+        }
+
+        // Delete payment record for this order
+        await PaymentController.deleteRecord(req, res, next);
+
+        // Delete Order record
+        await orderToDelete.destroy();
+
+        // Log success message to console
+        console.log(messages.success("Order", "deleted"));
+
+        return res.json({ message: messages.success("Order", "deleted") });
     } catch (e) {
-        next(ApiError.badRequest(e.message));
+        next(
+            ApiError.internal(
+                messages.errors.general("deleting", "Order", e.message)
+            )
+        );
     }
 };
 
