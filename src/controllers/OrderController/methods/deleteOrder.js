@@ -59,11 +59,11 @@ const deleteOrder = async (req, res, next) => {
             await OrderItemController.deleteRecord(req, res, next);
         }
 
-        // Delete payment record for this order
-        await PaymentController.deleteRecord(req, res, next);
-
         // Delete Order record
         await orderToDelete.destroy();
+
+        // Delete payment record for this order
+        await PaymentController.deleteRecord(req, res, next);
 
         // Log success message to console
         console.log(messages.success("Order", "deleted"));
