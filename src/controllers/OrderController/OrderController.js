@@ -14,7 +14,7 @@ class OrderController {
     }
 
     async getRecord(req, res, next) {
-        //return getOrder(req, res, next);
+        return getOrder(req, res, next);
     }
 
     async getRecords(req, res, next) {
