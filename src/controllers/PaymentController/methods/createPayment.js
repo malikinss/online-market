@@ -25,7 +25,7 @@ const createPayment = async (req, res, next) => {
         return newPayment.id;
     } catch (e) {
         next(
-            ApiError.badRequest(
+            ApiError.internal(
                 messages.errors.general("creating", "payment", e.message)
             )
         );
