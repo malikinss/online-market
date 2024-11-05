@@ -17,31 +17,38 @@ const { messages } = require("../../controllerUtils/messagesHandler");
  */
 const updatePayment = async (req, res, next) => {
     try {
-        const paymentID = req.params.id;
-        const newStatus = req.body.status;
+        const paymentId = req.params.id;
+        if (!paymentId) {
+            throw ApiError.internal(messages.errors.nullData("Payment", "ID"));
+        }
 
-        // Check for falsy values in the payment fields
-        containsFalsyValues([paymentID, newStatus]);
-
-        const payment = await findRecordByField("id", paymentID, Payment);
+        const payment = await findRecordByField("id", paymentId, Payment);
         if (!payment) {
-            throw new ApiError.notFound(
-                messages.errors.actionFailed("update", "Payment")
+            throw ApiError.notFound(
+                messages.errors.actionFailed("find", "Payment")
             );
         }
 
-        // Update the payment status field, keeping existing value if not provided
-        Object.assign(payment, { status: newStatus || payment.status });
+        // Update the payment status field
+        await payment.update({ status: true });
 
-        // Save the updated payment to the database
-        await payment.save();
+        const order = await findRecordByField("paymentId", paymentId, Order);
+        if (!order) {
+            throw ApiError.notFound(
+                messages.errors.actionFailed("find", "Order")
+            );
+        }
 
+        // Update the Order status field
+        await order.update({ status: "Paied" });
+
+        // Log success message
         console.log(messages.success("Payment", "updated"));
 
         return res.json(payment);
     } catch (e) {
         next(
-            ApiError.badRequest(
+            ApiError.internal(
                 messages.errors.general("updating", "payment", e.message)
             )
         );
