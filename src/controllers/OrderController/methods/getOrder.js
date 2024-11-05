@@ -1,38 +1,70 @@
 const Order = require("../../../models/Orders");
+const OrderItem = require("../../../models/OrderItems");
+const Payment = require("../../../models/Payments");
 const ApiError = require("../../../error/ApiError");
 
-const { findRecordByField } = require("../../controllerUtils/findHandlers");
+const {
+    findRecordByField,
+    findRecordsByField,
+} = require("../../controllerUtils/findHandlers");
 const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**
- * Get an order by ID.
- * @param {Object} req - The request object.
- * @param {Object} res - The response object.
- * @param {Function} next - The next middleware function.
+ * Retrieves an order along with its associated items and payment details.
+ * @param {Object} req - The HTTP request object containing parameters for the order retrieval.
+ * @param {Object} res - The HTTP response object to send the result.
+ * @param {Function} next - Middleware function to pass control to the next handler in the stack.
+ * @throws {ApiError} Throws an error if the order ID is missing, or if any associated records cannot be found.
+ * @returns {Object} Returns a response containing the order, order items, and payment details.
  */
 const getOrder = async (req, res, next) => {
     try {
-        const orderID = req.params.id;
-        if (!orderID) {
-            throw new ApiError.badRequest(
-                messages.errors.nullData("Order", "id")
+        // Extract order ID from request parameters
+        const orderId = req.params.id;
+
+        // Validate if the order ID is provided
+        if (!orderId) {
+            throw ApiError.badRequest(messages.errors.nullData("Order", "id"));
+        }
+
+        // Find the Order record by ID
+        const order = await findRecordByField("id", orderId, Order);
+
+        // Validate if the Order record is found
+        if (!order) {
+            throw ApiError.notFound(
+                messages.errors.actionFailed("find", "Order")
             );
         }
 
-        // Log success message
-        console.log(messages.success("Order", "found"));
+        // Find the Order record by ID
+        const orderItems = await findRecordsByField(
+            "orderId",
+            orderId,
+            OrderItem
+        );
 
-        const order = await findRecordByField("id", orderID, Order);
-        if (!order) {
-            throw new ApiError.notFound(
-                messages.errors.actionFailed("find", "Order")
+        // Validate if the Order record is found
+        if (!orderItems) {
+            throw ApiError.notFound(
+                messages.errors.actionFailed("find", "orderItems")
+            );
+        }
+
+        // Find the Order record by ID
+        const payment = await findRecordByField("id", order.paymentId, Payment);
+
+        // Validate if the Order record is found
+        if (!payment) {
+            throw ApiError.notFound(
+                messages.errors.actionFailed("find", "payment")
             );
         }
 
         // Log success message to the console
         console.log(messages.success("Order", "found"));
 
-        return res.json(order);
+        return res.json({ order, orderItems, payment });
     } catch (e) {
         return next(
             ApiError.internal(messages.general("finding", "Order", e.message))
