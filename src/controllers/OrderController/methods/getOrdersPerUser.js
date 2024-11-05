@@ -5,6 +5,7 @@ const ApiError = require("../../../error/ApiError");
 const OrderItemController = require("../../OrderItemController/OrderItemController");
 const PaymentController = require("../../PaymentController/PaymentController");
 
+const getOrder = require("./getOrder");
 const {
     findRecordByField,
     findRecordsByField,
@@ -17,7 +18,7 @@ const { messages } = require("../../controllerUtils/messagesHandler");
  * @param {Object} res - The response object.
  * @param {Function} next - The next middleware function.
  */
-const getOrdersPerUser = (req, res, next) => {
+const getOrdersPerUser = async (req, res, next) => {
     try {
         // Extract User ID from request parameters
         const userId = req.params.id;
@@ -35,6 +36,10 @@ const getOrdersPerUser = (req, res, next) => {
             throw new ApiError.notFound(
                 messages.errors.actionFailed("find", "User Orders")
             );
+        }
+
+        for (let orderData of userOrders) {
+            const orderFullData = await getOrder(req, res, next);
         }
 
         return res.json(userOrders);
