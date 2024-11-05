@@ -2,9 +2,6 @@ const Category = require("../../../models/Categories");
 const ApiError = require("../../../error/ApiError");
 
 const { findRecordByField } = require("../../controllerUtils/findHandlers");
-const {
-    containsFalsyValues,
-} = require("../../controllerUtils/dataValidations");
 const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**
@@ -16,18 +13,26 @@ const { messages } = require("../../controllerUtils/messagesHandler");
  */
 const deleteCategory = async (req, res, next) => {
     try {
-        const categoryID = req.params.id;
+        // Extract category ID from request parameters
+        const categoryId = req.params.id;
 
-        // Validate input to ensure no falsy values
-        containsFalsyValues([categoryID]);
+        // Validate if the category ID is provided
+        if (!categoryId) {
+            throw ApiError.badRequest(
+                messages.errors.nullData("Category", "Id")
+            );
+        }
 
+        // Find the category record by ID
         const categoryToDelete = await findRecordByField(
             "id",
-            categoryID,
+            categoryId,
             Category
         );
+
+        // Validate if the Category record is found
         if (!categoryToDelete) {
-            throw new ApiError.notFound(
+            throw ApiError.notFound(
                 messages.errors.actionFailed("find", "Category")
             );
         }
@@ -35,13 +40,14 @@ const deleteCategory = async (req, res, next) => {
         // Destroy the category record from the database
         await categoryToDelete.destroy();
 
-        // Log success message
+        // Log success message to console
         console.log(messages.success("Category", "deleted"));
 
+        // Return success response
         return res.json({ message: messages.success("Category", "deleted") });
     } catch (e) {
         next(
-            ApiError.badRequest(
+            ApiError.internal(
                 messages.errors.general("deleting", "category", e.message)
             )
         );
