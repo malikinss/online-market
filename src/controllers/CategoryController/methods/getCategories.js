@@ -16,8 +16,10 @@ const { messages } = require("../../controllerUtils/messagesHandler");
  */
 const getCategories = async (req, res, next) => {
     try {
-        // Find all categories from the database
+        // Find all Category records from the database
         const categories = await findAllRecords(Category);
+
+        // Validate if the Category records are found
         if (!categories) {
             throw ApiError.notFound(
                 messages.errors.actionFailed("find", "Categories")
@@ -32,7 +34,7 @@ const getCategories = async (req, res, next) => {
     } catch (e) {
         return next(
             ApiError.internal(
-                messages.general("fetching", "Categories", e.message)
+                messages.general("finding", "Categories", e.message)
             )
         );
     }
