@@ -1,31 +1,41 @@
 const Order = require("../../../models/Orders");
-const OrderItem = require("../../../models/OrderItems");
-const Payment = require("../../../models/Payments");
 const ApiError = require("../../../error/ApiError");
 
-const {
-    findRecordByField,
-    findRecordsByField,
-} = require("../../controllerUtils/findHandlers");
+const { findAllRecords } = require("../../controllerUtils/findHandlers");
 const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**
- * Get all orders per specific User.
- * @param {Object} req - The request object.
- * @param {Object} res - The response object.
- * @param {Function} next - The next middleware function.
+ * Retrieves all order records from the database and sends them as a JSON response.
+ * If no records are found, an error is thrown indicating that the requested resource is not available.
+ * In case of any unexpected issues during the retrieval process, an internal server error is propagated.
+ * @param {Object} req - The HTTP request object, containing any necessary query parameters and headers.
+ * @param {Object} res - The HTTP response object, used to send the JSON response with the order records.
+ * @param {Function} next - The middleware function to be called in case of an error, allowing for centralized error handling.
+ * @returns {void} - Does not return a value explicitly but sends a JSON response if successful.
+ * @throws {ApiError} - Throws an ApiError with a 'notFound' status if no order records are found.
+ * @throws {ApiError} - Throws an ApiError with an 'internal' status if there is an error during the retrieval process.
  */
 const getOrders = async (req, res, next) => {
     try {
-        const { userId } = req.query;
+        // Find all order records from the database
+        const orders = await findAllRecords(Order);
 
-        const query = userId ? { where: { userId } } : {};
+        // Validate if the Order records are found
+        if (!orders) {
+            throw ApiError.notFound(
+                messages.errors.actionFailed("find", "Orders")
+            );
+        }
 
-        const userOrders = await Order.findAll(query);
+        // Log success message
+        console.log(messages.success("Orders", "found"));
 
-        return res.json(userOrders);
+        // Return the categories as a JSON response
+        return res.json(categories);
     } catch (e) {
-        next(ApiError.badRequest(e.message));
+        return next(
+            ApiError.internal(messages.general("finding", "Orders", e.message))
+        );
     }
 };
 
