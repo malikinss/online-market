@@ -10,23 +10,19 @@ const { messages } = require("../../controllerUtils/messagesHandler");
  */
 const createPayment = async (req, res, next) => {
     try {
-        const orderID = res.locals.orderId;
-        if (!orderID) {
-            throw ApiError.badRequest(messages.errors.nullData("Order", "id"));
-        }
-
         // Create a new payment in the database
-        const newPayment = await Payment.create({ orderID, status: false });
+        const newPayment = await Payment.create({ status: false });
         if (!newPayment) {
             throw ApiError.internal(
                 messages.errors.actionFailed("create", "Payment")
             );
         }
 
-        //res.locals.paymentId = payment.dataValues.id;
         // Log success message
         console.log(messages.success("Payment", "created"));
-        return newPayment;
+
+        // Return paymnetId
+        return newPayment.id;
     } catch (e) {
         next(
             ApiError.badRequest(
