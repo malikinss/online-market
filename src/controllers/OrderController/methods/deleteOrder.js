@@ -12,10 +12,14 @@ const {
 const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**
- * Delete an order by ID.
- * @param {Object} req - The request object.
- * @param {Object} res - The response object.
- * @param {Function} next - The next middleware function.
+ * Removes an existing order from the system using its unique identifier.
+ * @param {Object} req - Represents the request encapsulating client-provided details.
+ * @param {Object} res - Facilitates the delivery of responses back to the client.
+ * @param {Function} next - Transfers control to the subsequent middleware function.
+ * @returns {Object} - Returns a structured JSON response confirming the deletion.
+ * @throws {ApiError} - Throws an error if input data validation fails or if the order cannot be found.
+ * @throws {ApiError} - Throws an error if there are issues while attempting to remove related order items.
+ * @throws {ApiError} - Throws an error for failures encountered during the deletion of the order or related payment.
  */
 const deleteOrder = async (req, res, next) => {
     try {
@@ -23,7 +27,7 @@ const deleteOrder = async (req, res, next) => {
         const orderId = req.params.id;
 
         // Validate if the order ID is provided
-        if (!categoryId) {
+        if (!orderId) {
             throw ApiError.badRequest(messages.errors.nullData("Order", "Id"));
         }
 
