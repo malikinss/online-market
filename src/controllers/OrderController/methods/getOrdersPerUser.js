@@ -24,22 +24,26 @@ const getOrdersPerUser = (req, res, next) => {
 
         // Validate if the User ID is provided
         if (!userId) {
-            throw ApiError.badRequest(messages.errors.nullData("Order", "Id"));
+            throw ApiError.badRequest(messages.errors.nullData("User", "Id"));
         }
 
         // Find the User Order records by userID
         const userOrders = findRecordsByField("userId", userId, Order);
 
         // Validate if the User Order records are found
-        if (!orderToDelete) {
+        if (!userOrders) {
             throw new ApiError.notFound(
-                messages.errors.actionFailed("find", "Order")
+                messages.errors.actionFailed("find", "User Orders")
             );
         }
 
         return res.json(userOrders);
     } catch (e) {
-        next(ApiError.badRequest(e.message));
+        next(
+            ApiError.internal(
+                messages.errors.general("finding", "User Orders", e.message)
+            )
+        );
     }
 };
 
