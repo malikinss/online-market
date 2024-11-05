@@ -33,7 +33,7 @@ const getOrders = async (req, res, next) => {
         // Return the categories as a JSON response
         return res.json(categories);
     } catch (e) {
-        return next(
+        next(
             ApiError.internal(messages.general("finding", "Orders", e.message))
         );
     }
