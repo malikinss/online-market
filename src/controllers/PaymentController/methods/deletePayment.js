@@ -2,10 +2,6 @@ const Payment = require("../../../models/Payments");
 const ApiError = require("../../../error/ApiError");
 
 const { findRecordByField } = require("../../controllerUtils/findHandlers");
-const {
-    containsFalsyValues,
-} = require("../../controllerUtils/dataValidations");
-
 const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**
@@ -17,28 +13,38 @@ const { messages } = require("../../controllerUtils/messagesHandler");
  */
 const deletePayment = async (req, res, next) => {
     try {
-        const paymentID = req.params.id;
+        // Extract payment ID from request parameters or res object
+        const paymentId = req.params.id || res.locals.paymentId;
 
-        // Validate the ID
-        containsFalsyValues([paymentID]);
+        // Validate if the paymnent ID is provided
+        if (!paymentId) {
+            throw ApiError.badRequest(
+                messages.errors.nullData("Payment", "Id")
+            );
+        }
 
         // Find the payment record by ID
-        const payment = await findRecordByField("id", paymentID, Payment);
+        const payment = await findRecordByField("id", paymentId, Payment);
+
+        // Validate if the Payment record is found
         if (!payment) {
             throw new ApiError.notFound(
                 messages.errors.actionFailed("delete", "Payment")
             );
         }
 
+        // Delete Payment record
         await payment.destroy();
 
+        // Log success message to console
         console.log(messages.success("Payment", "deleted"));
 
+        // Return success response
         return res.json({ message: messages.success("Payment", "deleted") });
     } catch (e) {
         next(
-            ApiError.badRequest(
-                messages.errors.general("deleting", "payment", e.message)
+            ApiError.internal(
+                messages.errors.general("deleting", "Payment", e.message)
             )
         );
     }
