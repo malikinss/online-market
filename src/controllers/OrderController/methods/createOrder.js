@@ -21,11 +21,24 @@ const createOrder = async (req, res, next) => {
         // Check for falsy values in the order fields
         containsFalsyValues([userId, orderItems]);
 
+        // create Payment record and get its ID
+        const newPaymentId = await PaymentController.createRecord(
+            req,
+            res,
+            next
+        );
+
+        // Validate if paymentId was created
+        if (!newPaymentId) {
+            throw ApiError.internal(messages.errors.nullData("Paymnet", "ID"));
+        }
+
         // Create a new Order in the database
         const newOrder = await Order.create({
             userId,
             totalPrice: 0,
             status: "Unpaid",
+            paymentId: newPaymentId,
         });
         if (!newOrder) {
             throw ApiError.internal(
@@ -51,14 +64,6 @@ const createOrder = async (req, res, next) => {
 
             createdOrderItems.push(newOrderItem);
         }
-
-        // Create a new Payment in the database
-        const newPayment = await PaymentController.createRecord(req, res, next);
-        // if (!newPayment) {
-        //   throw ApiError.internal(
-        //     messages.errors.actionFailed("create", "Payment")
-        //   );
-        // }
 
         // Log success message
         console.log(messages.success("Order", "created"));
