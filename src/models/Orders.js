@@ -28,10 +28,22 @@ const Order = sequelize.define(
             },
         },
 
+        paymentId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: "payments",
+                key: "id",
+            },
+            validate: {
+                isInt: true,
+            },
+        },
+
         totalPrice: {
             type: DataTypes.DECIMAL(10, 2),
             allowNull: false,
-            defaultValue: 0,
+            defaultValue: "Unpaid",
             validate: createValidation(
                 validationRules.order.price,
                 "total price"
