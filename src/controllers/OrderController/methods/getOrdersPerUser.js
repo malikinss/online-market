@@ -1,5 +1,6 @@
 const Order = require("../../../models/Orders");
 const OrderItem = require("../../../models/OrderItems");
+const Payment = require("../../../models/Payments");
 const ApiError = require("../../../error/ApiError");
 
 const OrderItemController = require("../../OrderItemController/OrderItemController");
@@ -38,8 +39,8 @@ const getOrdersPerUser = async (req, res, next) => {
             );
         }
 
-        for (let orderData of userOrders) {
-            const orderFullData = await getOrder(req, res, next);
+        for (let userOrder of userOrders) {
+            const fullOrderData = { userOrder };
         }
 
         return res.json(userOrders);
