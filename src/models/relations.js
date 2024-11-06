@@ -9,23 +9,23 @@ const Item = require("./Items");
 const Category = require("./Categories");
 
 const initRelations = (sequelize) => {
-    User.hasOne(UserAddress);
-    UserAddress.belongsTo(User);
+  User.hasOne(UserAddress);
+  UserAddress.belongsTo(User);
 
-    User.hasMany(Order);
-    Order.belongsTo(User);
+  User.hasMany(Order);
+  Order.belongsTo(User);
 
-    Order.hasOne(Payment);
-    Payment.belongsTo(Order);
+  Order.hasOne(Payment);
+  Payment.belongsTo(Order);
 
-    Order.hasMany(OrderItem);
-    OrderItem.belongsTo(Order);
+  Order.hasMany(OrderItem);
+  OrderItem.belongsTo(Order);
 
-    Item.hasMany(OrderItem);
-    OrderItem.belongsTo(Item);
+  Item.hasMany(OrderItem);
+  OrderItem.belongsTo(Item);
 
-    Category.hasMany(Item);
-    Item.belongsTo(Category);
+  Category.hasMany(Item);
+  Item.belongsTo(Category);
 };
 
 module.exports = initRelations;
