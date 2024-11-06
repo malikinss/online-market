@@ -4,14 +4,14 @@ const router = express.Router();
 const OrderItemController = require("../controllers/OrderItemController/OrderItemController");
 
 router
-    .route("/:id")
-    .post(OrderItemController.createRecord)
-    .get(OrderItemController.getRecords);
+  .route("/")
+  .post(OrderItemController.createRecord)
+  .get(OrderItemController.getRecords);
 
 router
-    .route("/:id")
-    .get(OrderItemController.getRecord)
-    .put(OrderItemController.updateRecord)
-    .delete(OrderItemController.deleteRecord);
+  .route("/:id")
+  .get(OrderItemController.getRecord)
+  .put(OrderItemController.updateRecord)
+  .delete(OrderItemController.deleteRecord);
 
 module.exports = router;
