@@ -39,11 +39,47 @@ const getOrdersPerUser = async (req, res, next) => {
             );
         }
 
-        for (let userOrder of userOrders) {
-            const fullOrderData = { userOrder };
+        const userOrdersFull = [];
+
+        for (let order of userOrders) {
+            const fullOrderData = {};
+
+            // Find the Order record by ID
+            const orderItems = await findRecordsByField(
+                "orderId",
+                order.id,
+                OrderItem
+            );
+
+            // Validate if the Order record is found
+            if (!orderItems) {
+                throw ApiError.notFound(
+                    messages.errors.actionFailed("find", "orderItems")
+                );
+            }
+
+            // Find the Order record by ID
+            const payment = await findRecordByField(
+                "id",
+                order.paymentId,
+                Payment
+            );
+
+            // Validate if the Order record is found
+            if (!payment) {
+                throw ApiError.notFound(
+                    messages.errors.actionFailed("find", "payment")
+                );
+            }
+
+            fullOrderData.order = order;
+            fullOrderData.orderItems = orderItems;
+            fullOrderData.payment = payment;
+
+            userOrdersFull.push(fullOrderData);
         }
 
-        return res.json(userOrders);
+        return res.json(userOrdersFull);
     } catch (e) {
         next(
             ApiError.internal(
