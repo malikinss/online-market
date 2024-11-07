@@ -25,7 +25,7 @@ const getOrdersPerUser = async (req, res, next) => {
         }
 
         // Find the User Order records by userID
-        const userOrders = findRecordsByField("userId", userId, Order);
+        const userOrders = await findRecordsByField("userId", userId, Order);
 
         // Validate if the User Order records are found
         if (!userOrders) {
