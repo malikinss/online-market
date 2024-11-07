@@ -1,3 +1,8 @@
+const Order = require("../../../models/Orders");
+const ApiError = require("../../../error/ApiError");
+const { findRecordByField } = require("../../controllerUtils/findHandlers");
+const { messages } = require("../../controllerUtils/messagesHandler");
+
 /**
  * Update an order by ID.
  * @param {Object} req - The request object.
@@ -6,26 +11,40 @@
  */
 const updateOrder = async (req, res, next) => {
     try {
-        const id = req.params.id;
-        const { status, totalPrice } = req.body;
+        const orderId = req.params.id;
+        // Validate if the order ID is provided
+        if (!orderId) {
+            throw new ApiError.badRequest(
+                messages.errors.nullData("Order", "Id")
+            );
+        }
 
-        // Check for falsy values in the payment fields
-        checkForFalsyValues([status, totalPrice], next);
+        const newStatus = req.body.status;
+        // Validate if the new Order status is provided
+        if (!newStatus) {
+            throw new ApiError.badRequest(
+                messages.errors.nullData("Order", "status")
+            );
+        }
 
-        const order = await findByField(id, Order, next);
+        const order = await findRecordByField("id", orderId, Order);
 
-        // Update the order fields, keeping existing values if not provided
-        Object.assign(order, {
-            status: status || order.status,
-            totalPrice: totalPrice || order.totalPrice,
-        });
+        // Validate if the Order record are found
+        if (!order) {
+            throw new ApiError.notFound(
+                messages.errors.actionFailed("find", "Order")
+            );
+        }
 
-        // Save the updated order to the database
-        await order.save();
+        order.update({ status: newStatus });
 
         return res.json(order);
     } catch (e) {
-        next(ApiError.badRequest(e.message));
+        next(
+            ApiError.internal(
+                messages.errors.general("finding", "Order", e.message)
+            )
+        );
     }
 };
 
