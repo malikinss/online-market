@@ -21,7 +21,9 @@ const getOrdersPerUser = async (req, res, next) => {
 
         // Validate if the User ID is provided
         if (!userId) {
-            throw ApiError.badRequest(messages.errors.nullData("User", "Id"));
+            throw new ApiError.badRequest(
+                messages.errors.nullData("User", "Id")
+            );
         }
 
         // Find the User Order records by userID
@@ -34,45 +36,36 @@ const getOrdersPerUser = async (req, res, next) => {
             );
         }
 
-        const userOrdersFull = [];
+        // Create array for storing detailed order data
+        const userOrdersFull = await Promise.all(
+            userOrders.map(async (order) => {
+                // Retrieve order items and payment for each order in parallel
+                const [orderItems, payment] = await Promise.all([
+                    findRecordsByField("orderId", order.id, OrderItem),
+                    findRecordByField("id", order.paymentId, Payment),
+                ]);
 
-        for (let order of userOrders) {
-            const fullOrderData = {};
+                // Validate if order items and payment exist
+                if (!orderItems) {
+                    throw ApiError.notFound(
+                        messages.errors.actionFailed("find", "orderItems")
+                    );
+                }
 
-            // Find the Order record by ID
-            const orderItems = await findRecordsByField(
-                "orderId",
-                order.id,
-                OrderItem
-            );
+                if (!payment) {
+                    throw ApiError.notFound(
+                        messages.errors.actionFailed("find", "payment")
+                    );
+                }
 
-            // Validate if the Order record is found
-            if (!orderItems) {
-                throw ApiError.notFound(
-                    messages.errors.actionFailed("find", "orderItems")
-                );
-            }
-
-            // Find the Order record by ID
-            const payment = await findRecordByField(
-                "id",
-                order.paymentId,
-                Payment
-            );
-
-            // Validate if the Order record is found
-            if (!payment) {
-                throw ApiError.notFound(
-                    messages.errors.actionFailed("find", "payment")
-                );
-            }
-
-            fullOrderData.order = order;
-            fullOrderData.orderItems = orderItems;
-            fullOrderData.payment = payment;
-
-            userOrdersFull.push(fullOrderData);
-        }
+                // Return structured data for each order
+                return {
+                    order,
+                    orderItems,
+                    payment,
+                };
+            })
+        );
 
         // Log success message to the console
         console.log(messages.success("User orders", "found"));
