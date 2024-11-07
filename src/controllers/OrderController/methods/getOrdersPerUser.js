@@ -2,11 +2,6 @@ const Order = require("../../../models/Orders");
 const OrderItem = require("../../../models/OrderItems");
 const Payment = require("../../../models/Payments");
 const ApiError = require("../../../error/ApiError");
-
-const OrderItemController = require("../../OrderItemController/OrderItemController");
-const PaymentController = require("../../PaymentController/PaymentController");
-
-const getOrder = require("./getOrder");
 const {
     findRecordByField,
     findRecordsByField,
@@ -78,6 +73,9 @@ const getOrdersPerUser = async (req, res, next) => {
 
             userOrdersFull.push(fullOrderData);
         }
+
+        // Log success message to the console
+        console.log(messages.success("User orders", "found"));
 
         return res.json(userOrdersFull);
     } catch (e) {
