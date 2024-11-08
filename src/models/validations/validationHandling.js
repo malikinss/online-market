@@ -1,4 +1,3 @@
-const ApiError = require("../../error/ApiError");
 const { messages } = require("../../views/messageHandling");
 
 const popularRegExps = {
@@ -82,16 +81,8 @@ const createValidationIsIn = (rule, fieldName) => ({
     },
 });
 
-const validatePassword = async (password, curUserPassword, next) => {
-    const isPasswordValid = await bcrypt.compare(password, curUserPassword);
-    if (!isPasswordValid) {
-        return next(ApiError.internal("Wrong Password"));
-    }
-};
-
 module.exports = {
     validationRules,
     createValidation,
     createValidationIsIn,
-    validatePassword,
 };

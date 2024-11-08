@@ -3,7 +3,7 @@ const { DataTypes } = require("sequelize");
 const {
     validationRules,
     createValidation,
-} = require("../utils/validationHandling");
+} = require("../validations/validationHandling");
 
 const Item = sequelize.define(
     "item",
