@@ -1,4 +1,4 @@
-const sequelize = require("../config/dbConnect");
+const sequelize = require("../../config/dbConnect");
 const { DataTypes } = require("sequelize");
 const {
     validationRules,
@@ -70,7 +70,7 @@ const OrderItem = sequelize.define(
         timestamps: true,
         hooks: {
             beforeSave: (orderItem) => {
-                // Автоматическое вычисление `totalPrice` перед сохранением
+                // Automatically calculate `totalPrice` before saving
                 orderItem.totalPrice = orderItem.unitPrice * orderItem.quantity;
             },
         },
