@@ -1,6 +1,5 @@
-const ApiError = require("../error/ApiError");
-const { Op } = require("sequelize");
-const { messages } = require("../views/messageHandling");
+const ApiError = require("../../error/ApiError");
+const { messages } = require("../../views/messageHandling");
 
 const popularRegExps = {
     geographicName: /^[A-Za-z\s\-’'é]{2,100}$/, // Geographic names (countries and cities)

@@ -1,4 +1,4 @@
-const UserAddress = require("../../../models/UserAddresses");
+const UserAddress = require("../../../models/UserAddresses/UserAddresses");
 const ApiError = require("../../../error/ApiError");
 
 const { findRecordByField } = require("../../controllerUtils/findHandlers");
