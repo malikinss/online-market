@@ -1,4 +1,4 @@
-const sequelize = require("../config/dbConnect");
+const sequelize = require("../../config/dbConnect");
 const { DataTypes } = require("sequelize");
 const {
     validationRules,
