@@ -13,6 +13,6 @@ router
   .put(OrderController.updateRecord)
   .delete(OrderController.deleteRecord);
 
-router.route("user/:id").get(OrderController.getRecordsPerUser);
+router.route("/user/:id").get(OrderController.getRecordsPerUser);
 
 module.exports = router;

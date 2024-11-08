@@ -14,7 +14,13 @@ import Registration from "./components/Register";
 import Login from "./components/Login";
 import Account from "./components/Account";
 import Basket from "./components/Basket";
-import ChangePassword from "./ChangePassword";
+// import ChangePassword from "./ChangePassword";
+import CreateCategory from "./components/CreateCategory";
+import UpdateCategory from "./components/UpdateCategory";
+import DeleteCategory from "./components/DeleteCategory";
+import CreateItem from "./components/CreateItem";
+import UpdateItem from "./components/UpdateItem";
+import DeleteItem from "./components/DeleteItem";
 import AdminPanel from "./components/AdminPanel";
 import UpdateUser from "./components/UpdateUser";
 import AuthContext from "./context/AuthProvider";
@@ -38,7 +44,7 @@ const App = () => {
         return response.json();
       })
       .then((data) => {
-        console.log("Fetched data:", data);
+        // console.log("Fetched data:", data);
         setItems(data);
         setCurrentItems(data);
       })
@@ -163,6 +169,36 @@ const App = () => {
           <Route
             path="/account/update_user"
             element={auth ? <UpdateUser /> : <Navigate to="/login" replace />}
+          />
+          <Route
+            path="/account/create_category"
+            element={
+              auth ? <CreateCategory /> : <Navigate to="/login" replace />
+            }
+          />
+          <Route
+            path="/account/update_category"
+            element={
+              auth ? <UpdateCategory /> : <Navigate to="/login" replace />
+            }
+          />
+          <Route
+            path="/account/delete_category"
+            element={
+              auth ? <DeleteCategory /> : <Navigate to="/login" replace />
+            }
+          />
+          <Route
+            path="/account/create_item"
+            element={auth ? <CreateItem /> : <Navigate to="/login" replace />}
+          />
+          <Route
+            path="/account/update_item"
+            element={auth ? <UpdateItem /> : <Navigate to="/login" replace />}
+          />
+          <Route
+            path="/account/delete_item"
+            element={auth ? <DeleteItem /> : <Navigate to="/login" replace />}
           />
         </Routes>
         <Footer />

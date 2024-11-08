@@ -36,7 +36,7 @@ const Account = () => {
             <ul>
               <li>
                 <Link to="/account/basket">
-                  <button>Basket</button>
+                  <button>Cart</button>
                 </Link>
               </li>
               <li>
@@ -64,21 +64,6 @@ const Account = () => {
           <h2>Admin Actions</h2>
           <ul>
             <li>
-              <Link to="/account/create_item">
-                <button>Create Item</button>
-              </Link>
-            </li>
-            <li>
-              <Link to="/account/update_item">
-                <button>Update Item</button>
-              </Link>
-            </li>
-            <li>
-              <Link to="/account/delete_item">
-                <button>Delete Item</button>
-              </Link>
-            </li>
-            <li>
               <Link to="/account/create_category">
                 <button>Create Category</button>
               </Link>
@@ -91,6 +76,21 @@ const Account = () => {
             <li>
               <Link to="/account/delete_category">
                 <button>Delete Category</button>
+              </Link>
+            </li>
+            <li>
+              <Link to="/account/create_item">
+                <button>Create Item</button>
+              </Link>
+            </li>
+            <li>
+              <Link to="/account/update_item">
+                <button>Update Item</button>
+              </Link>
+            </li>
+            <li>
+              <Link to="/account/delete_item">
+                <button>Delete Item</button>
               </Link>
             </li>
             <li>
