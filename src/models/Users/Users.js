@@ -4,7 +4,7 @@ const {
     validationRules,
     createValidation,
     createValidationIsIn,
-} = require("../validations/validationHandling");
+} = require("../modelsUtils/validations/validations");
 const { messages } = require("../../views/messageHandling");
 
 const User = sequelize.define(

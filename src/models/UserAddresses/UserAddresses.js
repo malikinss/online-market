@@ -3,7 +3,7 @@ const { DataTypes } = require("sequelize");
 const {
     validationRules,
     createValidation,
-} = require("../validations/validationHandling");
+} = require("../modelsUtils/validations/validations");
 
 const UserAddress = sequelize.define(
     "address",

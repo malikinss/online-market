@@ -1,4 +1,4 @@
-const { messages } = require("../../views/messageHandling");
+const { messages } = require("../../../views/messageHandling");
 
 const popularRegExps = {
     geographicName: /^[A-Za-z\s\-’'é]{2,100}$/, // Geographic names (countries and cities)

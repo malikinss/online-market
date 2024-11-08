@@ -1,13 +1,13 @@
 // Import models
-const User = require("../Users/Users");
-const UserAddress = require("../UserAddresses/UserAddresses");
+const User = require("../../Users/Users");
+const UserAddress = require("../../UserAddresses/UserAddresses");
 
-const Order = require("../Orders/Orders");
-const Payment = require("../Payments/Payments");
-const OrderItem = require("../OrderItems/OrderItems");
+const Order = require("../../Orders/Orders");
+const Payment = require("../../Payments/Payments");
+const OrderItem = require("../../OrderItems/OrderItems");
 
-const Item = require("../Items/Items");
-const Category = require("../Categories/Categories");
+const Item = require("../../Items/Items");
+const Category = require("../../Categories/Categories");
 
 /**
  * Defines associations between Sequelize models.
