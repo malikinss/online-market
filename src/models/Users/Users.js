@@ -1,11 +1,11 @@
-const sequelize = require("../config/dbConnect");
+const sequelize = require("../../config/dbConnect");
 const { DataTypes } = require("sequelize");
 const {
     validationRules,
     createValidation,
     createValidationIsIn,
 } = require("../utils/validationHandling");
-const { messages } = require("../views/messageHandling");
+const { messages } = require("../../views/messageHandling");
 
 const User = sequelize.define(
     "user",
@@ -15,6 +15,15 @@ const User = sequelize.define(
             allowNull: false,
             primaryKey: true,
             autoIncrement: true,
+        },
+
+        addressId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: "addresses",
+                key: "id",
+            },
         },
 
         firstName: {
@@ -63,15 +72,6 @@ const User = sequelize.define(
             allowNull: false,
             defaultValue: "user",
             validate: createValidationIsIn(validationRules.user.roles, "role"),
-        },
-
-        addressId: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: "addresses",
-                key: "id",
-            },
         },
     },
     {
