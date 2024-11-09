@@ -1,18 +1,20 @@
-const Router = require("express");
-const router = new Router();
+const express = require("express");
+const router = express.Router();
+
 const ItemController = require("../controllers/ItemController/ItemController");
 const checkRole = require("../middleware/checkRoleMiddleware");
 
-// http://127.0.0.1:5000/api/item
+// Route for creating and retrieving items
 router
     .route("/")
-    .post(checkRole("admin"), ItemController.createRecord) // POST Create item
-    .get(ItemController.getAllRecords); // GET all items
+    .post(checkRole("admin"), ItemController.createRecord) // POST: Create item (admin only)
+    .get(ItemController.getAllRecords); // GET: Get all items
 
+// Route for handling individual items by ID
 router
     .route("/:id")
-    .get(ItemController.getRecord) // GET item by id
-    .put(checkRole("admin"), ItemController.updateRecord) // PUT item by id
-    .delete(checkRole("admin"), ItemController.deleteRecord); // DELETE item by id
+    .get(ItemController.getRecord) // GET: Get item by ID
+    .put(checkRole("admin"), ItemController.updateRecord) // PUT: Update item by ID (admin only)
+    .delete(checkRole("admin"), ItemController.deleteRecord); // DELETE: Delete item by ID (admin only)
 
 module.exports = router;
