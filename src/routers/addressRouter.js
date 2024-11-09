@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+
 const UserAddressController = require("../controllers/UserAddressController/UserAddressController");
 
 // Create a new address
