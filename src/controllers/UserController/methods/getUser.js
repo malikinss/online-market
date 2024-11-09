@@ -1,4 +1,4 @@
-const User = require("../../../models/Users");
+const User = require("../../../models/Users/Users");
 const ApiError = require("../../../error/ApiError");
 const UserAddressController = require("../../UserAddressController/UserAddressController");
 
@@ -15,37 +15,41 @@ const { messages } = require("../../controllerUtils/messagesHandler");
  */
 
 const getUser = async (req, res, next) => {
-  try {
-    const userId = req.user.id; // Get user ID from token
-    if (!userId) {
-      throw ApiError.badRequest(messages.errors.nullData("User", "id"));
+    try {
+        const userId = req.user.id; // Get user ID from token
+        if (!userId) {
+            throw ApiError.badRequest(messages.errors.nullData("User", "id"));
+        }
+
+        // Find user by ID
+        const user = await findRecordByField("id", userId, User);
+        if (!user) {
+            throw new ApiError.notFound(
+                messages.errors.actionFailed("find", "User")
+            );
+        }
+
+        // Find userAddress by ID
+        res.locals.addressId = user.addressId;
+        await UserAddressController.getRecord(req, res, next);
+        const address = res.locals.address;
+        if (!address) {
+            throw new ApiError.notFound(
+                messages.errors.actionFailed("find", "Address")
+            );
+        }
+
+        // Log success message
+        console.log(messages.success("User", "founded"));
+
+        return res.json({ user, address });
+    } catch (e) {
+        return next(
+            ApiError.internal(
+                messages.errors.general("fetching", "User", e.message)
+            )
+        );
     }
-
-    // Find user by ID
-    const user = await findRecordByField("id", userId, User);
-    if (!user) {
-      throw new ApiError.notFound(messages.errors.actionFailed("find", "User"));
-    }
-
-    // Find userAddress by ID
-    res.locals.addressId = user.addressId;
-    await UserAddressController.getRecord(req, res, next);
-    const address = res.locals.address;
-    if (!address) {
-      throw new ApiError.notFound(
-        messages.errors.actionFailed("find", "Address")
-      );
-    }
-
-    // Log success message
-    console.log(messages.success("User", "founded"));
-
-    return res.json({ user, address });
-  } catch (e) {
-    return next(
-      ApiError.internal(messages.errors.general("fetching", "User", e.message))
-    );
-  }
 };
 
 module.exports = getUser;
