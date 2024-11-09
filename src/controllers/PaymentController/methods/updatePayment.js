@@ -1,10 +1,7 @@
-const Payment = require("../../../models/Payments");
+const Payment = require("../../../models/Payments/Payments");
 const ApiError = require("../../../error/ApiError");
 
 const { findRecordByField } = require("../../controllerUtils/findHandlers");
-const {
-    containsFalsyValues,
-} = require("../../controllerUtils/dataValidations");
 const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**
