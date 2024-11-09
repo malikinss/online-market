@@ -1,4 +1,4 @@
-const Item = require("../../../models/Items");
+const Item = require("../../../models/Items/Items");
 const ApiError = require("../../../error/ApiError");
 
 const { findRecordByField } = require("../../controllerUtils/findHandlers");
@@ -14,33 +14,35 @@ const { messages } = require("../../controllerUtils/messagesHandler");
  * @throws {ApiError.notFound} - Throws an `ApiError` if the item is not found.
  */
 const deleteItem = async (req, res, next) => {
-  try {
-    const itemID = req.params.id;
+    try {
+        const itemID = req.params.id;
 
-    // Validate input to ensure no falsy values
-    if (!itemID) {
-      throw ApiError.badRequest(messages.errors.nullData("Item", "id"));
+        // Validate input to ensure no falsy values
+        if (!itemID) {
+            throw ApiError.badRequest(messages.errors.nullData("Item", "id"));
+        }
+
+        // Find the existing item
+        const itemToDelete = await findRecordByField("id", itemID, Item);
+        if (!itemToDelete) {
+            throw new ApiError.notFound(
+                messages.errors.actionFailed("find", "Item")
+            );
+        }
+
+        await itemToDelete.destroy();
+
+        // Log success message
+        console.log(messages.success("Item", "deleted"));
+
+        return res.json({ message: messages.success("Item", "deleted") });
+    } catch (e) {
+        return next(
+            ApiError.badRequest(
+                messages.errors.general("deleting", "Item", e.message)
+            )
+        );
     }
-
-    // Find the existing item
-    const itemToDelete = await findRecordByField("id", itemID, Item);
-    if (!itemToDelete) {
-      throw new ApiError.notFound(messages.errors.actionFailed("find", "Item"));
-    }
-
-    await itemToDelete.destroy();
-
-    // Log success message
-    console.log(messages.success("Item", "deleted"));
-
-    return res.json({ message: messages.success("Item", "deleted") });
-  } catch (e) {
-    return next(
-      ApiError.badRequest(
-        messages.errors.general("deleting", "Item", e.message)
-      )
-    );
-  }
 };
 
 module.exports = deleteItem;
