@@ -1,16 +1,17 @@
 require("dotenv").config();
+const path = require("path");
 const express = require("express");
 const cors = require("cors");
-const models = require("./models/relations");
+const fileUpload = require("express-fileupload");
+
+const models = require("./models/modelsUtils/relations/relations");
 const sequelize = require("./config/dbConnect");
 const router = require("./routers/index");
-const fileUpload = require("express-fileupload");
 const errorHandler = require("./middleware/ErrorHandlingMiddleware");
-const path = require("path");
 
 const corsOptions = {
-  origin: "http://localhost:3000",
-  credentials: true,
+    origin: "http://localhost:3000",
+    credentials: true,
 };
 
 const PORT = process.env.PORT || 3030;
@@ -26,13 +27,13 @@ app.use("/api", router);
 app.use(errorHandler);
 
 const start = async () => {
-  try {
-    await sequelize.authenticate();
-    await sequelize.sync();
-    app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
-  } catch (e) {
-    console.log(e);
-  }
+    try {
+        await sequelize.authenticate();
+        await sequelize.sync();
+        app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+    } catch (e) {
+        console.log(e);
+    }
 };
 
 start();
