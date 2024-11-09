@@ -33,9 +33,9 @@ app.use(errorHandler);
 const start = async () => {
     try {
         // Validate required environment variables
-        if (!process.env.DATABASE_URL) {
-            throw new Error("DATABASE_URL is missing in environment variables");
-        }
+        // if (!process.env.DATABASE_URL) {
+        //     throw new Error("DATABASE_URL is missing in environment variables");
+        // }
 
         // Establish a connection to the database
         await sequelize.authenticate();
