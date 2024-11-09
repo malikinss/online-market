@@ -6,7 +6,7 @@ const {
 } = require("../../controllerUtils/dataValidations");
 const { findRecordByField } = require("../../controllerUtils/findHandlers");
 const { verifyPasswordMatch } = require("./passwordValidations");
-const generateJWT = require("../../../utils/generateJWT");
+const generateJWT = require("../../controllerUtils/generateJWT");
 const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**
