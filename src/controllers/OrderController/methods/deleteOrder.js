@@ -1,5 +1,5 @@
-const Order = require("../../../models/Orders");
-const OrderItem = require("../../../models/OrderItems");
+const Order = require("../../../models/Orders/Orders");
+const OrderItem = require("../../../models/OrderItems/OrderItems");
 const ApiError = require("../../../error/ApiError");
 
 const OrderItemController = require("../../OrderItemController/OrderItemController");

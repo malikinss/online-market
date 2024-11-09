@@ -1,4 +1,4 @@
-const Order = require("../../../models/Orders");
+const Order = require("../../../models/Orders/Orders");
 const ApiError = require("../../../error/ApiError");
 const { findRecordByField } = require("../../controllerUtils/findHandlers");
 const { messages } = require("../../controllerUtils/messagesHandler");

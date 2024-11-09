@@ -1,4 +1,4 @@
-const Order = require("../../../models/Orders");
+const Order = require("../../../models/Orders/Orders");
 const ApiError = require("../../../error/ApiError");
 
 const { findAllRecords } = require("../../controllerUtils/findHandlers");
@@ -16,25 +16,29 @@ const { messages } = require("../../controllerUtils/messagesHandler");
  * @throws {ApiError} - Throws an ApiError with an 'internal' status if there is an error during the retrieval process.
  */
 const getOrders = async (req, res, next) => {
-  try {
-    // Find all order records from the database
-    const orders = await findAllRecords(Order);
+    try {
+        // Find all order records from the database
+        const orders = await findAllRecords(Order);
 
-    // Validate if the Order records are found
-    if (!orders) {
-      throw ApiError.notFound(messages.errors.actionFailed("find", "Orders"));
+        // Validate if the Order records are found
+        if (!orders) {
+            throw ApiError.notFound(
+                messages.errors.actionFailed("find", "Orders")
+            );
+        }
+
+        // Log success message
+        console.log(messages.success("Orders", "found"));
+
+        // Return the categories as a JSON response
+        return res.json(orders);
+    } catch (e) {
+        next(
+            ApiError.internal(
+                messages.errors.general("finding", "Orders", e.message)
+            )
+        );
     }
-
-    // Log success message
-    console.log(messages.success("Orders", "found"));
-
-    // Return the categories as a JSON response
-    return res.json(orders);
-  } catch (e) {
-    next(
-      ApiError.internal(messages.errors.general("finding", "Orders", e.message))
-    );
-  }
 };
 
 module.exports = getOrders;
