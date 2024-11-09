@@ -5,7 +5,10 @@ const {
     createValidation,
     createValidationIsIn,
 } = require("../modelsUtils/validations/validations");
-const { messages } = require("../../views/messageHandling");
+
+const requirements = (fieldName) => {
+    return `The ${fieldName} does not meet the requirements`;
+};
 
 const User = sequelize.define(
     "user",
@@ -50,7 +53,7 @@ const User = sequelize.define(
             unique: true,
             validate: {
                 isEmail: {
-                    msg: messages.error.requirements("email"),
+                    msg: requirements("email"),
                 },
             },
         },

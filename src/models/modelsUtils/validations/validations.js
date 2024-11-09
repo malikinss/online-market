@@ -1,5 +1,3 @@
-const { messages } = require("../../../views/messageHandling");
-
 const popularRegExps = {
     geographicName: /^[A-Za-z\s\-’'é]{2,100}$/, // Geographic names (countries and cities)
     personalName: /^[a-zA-Z]{2,20}$/, // User names
@@ -53,6 +51,10 @@ const validationRules = {
     },
 };
 
+const requirements = (fieldName) => {
+    return `The ${fieldName} does not meet the requirements`;
+};
+
 /**
  * Creates a validation object for the specified rule and field name.
  *
@@ -63,7 +65,7 @@ const validationRules = {
 const createValidation = (rule, fieldName) => ({
     is: {
         args: rule,
-        msg: messages.error.requirements(fieldName),
+        msg: requirements(fieldName),
     },
 });
 
@@ -77,7 +79,7 @@ const createValidation = (rule, fieldName) => ({
 const createValidationIsIn = (rule, fieldName) => ({
     isIn: {
         args: [rule], // Adding statuses for validation
-        msg: messages.error.requirements(fieldName),
+        msg: requirements(fieldName),
     },
 });
 
