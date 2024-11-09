@@ -3,7 +3,7 @@ const router = express.Router();
 
 // Import routes for users and addresses
 const addressRouter = require("./addressRouter/addressRouter");
-const userRouter = require("./userRouter");
+const userRouter = require("./userRouter/userRouter");
 
 // Import routes for orders and payments
 const orderRouter = require("./orderRouter/orderRouter");
