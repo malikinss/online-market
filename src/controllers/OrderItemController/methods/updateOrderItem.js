@@ -1,5 +1,5 @@
-const OrderItem = require("../../../models/OrderItems");
-const Order = require("../../../models/Orders");
+const OrderItem = require("../../../models/OrderItems/OrderItems");
+const Order = require("../../../models/Orders/Orders");
 const ApiError = require("../../../error/ApiError");
 
 const {
