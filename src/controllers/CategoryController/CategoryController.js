@@ -3,22 +3,49 @@ const getCategories = require("./methods/getCategories");
 const updateCategory = require("./methods/updateCategory");
 const deleteCategory = require("./methods/deleteCategory");
 
+/**
+ * Controller for handling category-related operations.
+ */
 class CategoryController {
-    async createRecord(req, res, next) {
-        return createCategory(req, res, next);
-    }
+    /**
+     * Creates a new category record.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of createCategory function.
+     */
+    createRecord = createCategory;
 
-    async getRecords(req, res, next) {
-        return getCategories(req, res, next);
-    }
+    /**
+     * Retrieves all category records.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of getCategories function.
+     */
+    getRecords = getCategories;
 
-    async updateRecord(req, res, next) {
-        return updateCategory(req, res, next);
-    }
+    /**
+     * Updates an existing category record.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of updateCategory function.
+     */
+    updateRecord = updateCategory;
 
-    async deleteRecord(req, res, next) {
-        return deleteCategory(req, res, next);
-    }
+    /**
+     * Deletes a category record.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of deleteCategory function.
+     */
+    deleteRecord = deleteCategory;
 }
 
 module.exports = new CategoryController();
