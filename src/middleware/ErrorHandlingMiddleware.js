@@ -1,8 +1,25 @@
 const ApiError = require("../error/ApiError");
 
-module.exports = function(err, req, res, next) {
-    if (err instanceof ApiError) {
-        return res.status(err.status).json({message: err.message});
+/**
+ * Middleware for error handling.
+ * @param {Error} error - The error that called the middleware.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @param {Function} next - The next middleware function.
+ * @returns {Object} The response with the error and status.
+ */
+module.exports = function (error, req, res, next) {
+    if (error instanceof ApiError) {
+        console.error(`API Error: ${error.message}`); // Logging API errors
+        return res.status(error.status).json({
+            status: "error",
+            message: error.message,
+        });
     }
-    return res.status(500).json({message: "Unexpected error!"});
-}
+
+    console.error(`Unexpected Error: ${error}`); // Logging unexpected errors
+    return res.status(500).json({
+        status: "error",
+        message: "Unexpected error!",
+    });
+};
