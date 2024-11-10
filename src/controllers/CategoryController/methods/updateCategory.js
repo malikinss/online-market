@@ -47,7 +47,7 @@ const updateCategory = async (req, res, next) => {
         // Log success message
         console.log(messages.success("Category", "updated"));
 
-        return res.json(category);
+        return res.json(categoryToUpdate);
     } catch (e) {
         next(
             ApiError.badRequest(
