@@ -2,9 +2,6 @@ const Category = require("../../../models/Categories/Categories");
 const ApiError = require("../../../error/ApiError");
 
 const { findRecordByField } = require("../../controllerUtils/findHandlers");
-const {
-    containsFalsyValues,
-} = require("../../controllerUtils/dataValidations");
 const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**
