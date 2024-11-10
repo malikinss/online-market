@@ -48,9 +48,9 @@ Each method is encapsulated in a separate file within the `methods` directory fo
 1. **Importing the CategoryController**
    To use the `CategoryController`, import it into the desired route file in your Express application:
 
-```javascript
-const CategoryController = require("path/to/CategoryController");
-```
+    ```javascript
+    const CategoryController = require("path/to/CategoryController");
+    ```
 
 2. **Sample Routes**
    Here’s a basic example of how you might set up routes to use `CategoryController` methods:
