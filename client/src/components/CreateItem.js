@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
@@ -14,6 +14,7 @@ const CreateItem = () => {
     categoryId: "",
     imgFile: null,
   });
+  const [categories, setCategories] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
@@ -21,6 +22,19 @@ const CreateItem = () => {
   // Decode token to get role
   const decodedToken = jwtDecode(auth.token);
   const role = decodedToken.role;
+
+  useEffect(() => {
+    // Fetch categories on component mount
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:5000/api/category");
+        setCategories(response.data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -126,14 +140,20 @@ const CreateItem = () => {
           />
         </div>
         <div>
-          <label>Category ID:</label>
-          <input
-            type="number"
+          <label>Category:</label>
+          <select
             name="categoryId"
             value={formData.categoryId}
             onChange={handleChange}
             required
-          />
+          >
+            <option value="">Select a category</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
         </div>
         <div>
           <label>Image File:</label>

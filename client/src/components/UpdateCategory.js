@@ -89,7 +89,7 @@ const UpdateCategory = () => {
   };
 
   return (
-    <div>
+    <div className="update-category-container">
       <h2>Update Category</h2>
 
       {/* Category selection */}

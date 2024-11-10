@@ -88,7 +88,7 @@ const DeleteCategory = () => {
   };
 
   return (
-    <div>
+    <div className="delete-category-container">
       <h2>Delete Category</h2>
 
       {/* Category selection */}

@@ -1,15 +1,29 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import useAuth from "../hooks/useAuth";
+import "../index.css";
 
-const ChangePassword = ({ userId }) => {
+const ChangePassword = () => {
+  const { auth } = useAuth();
+  const navigate = useNavigate();
+
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState(null);
 
-  const navigate = useNavigate(); // Хук для перехода на другую страницу
+  // Decode the token to get userId and role
+  const decodedToken = jwtDecode(auth.token);
+  const userId = decodedToken.id;
+  const userRole = decodedToken.role;
+
+  // Verify the user role is "user"
+  if (userRole !== "user") {
+    return <p>Access denied. Only users can change their passwords.</p>;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,10 +37,11 @@ const ChangePassword = ({ userId }) => {
     try {
       await axios.put(
         `http://127.0.0.1:5000/api/user/change-password/${userId}`,
-        { oldPassword, newPassword }
+        { oldPassword, newPassword },
+        { headers: { Authorization: `Bearer ${auth.token}` } }
       );
 
-      setShowModal(true); // Показать модальное окно при успешном изменении пароля
+      setShowModal(true);
       setOldPassword("");
       setNewPassword("");
       setConfirmPassword("");
@@ -36,44 +51,53 @@ const ChangePassword = ({ userId }) => {
   };
 
   return (
-    <div>
-      <button onClick={() => navigate(-1)}>Back</button> {/* Кнопка "Назад" */}
+    <div className="form-container">
+      <button onClick={() => navigate(-1)} className="button">
+        Back
+      </button>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Old Password:</label>
+        <div className="form-group">
+          <label className="label">Old Password:</label>
           <input
             type="password"
             value={oldPassword}
             onChange={(e) => setOldPassword(e.target.value)}
+            className="input"
             required
           />
         </div>
-        <div>
-          <label>New Password:</label>
+        <div className="form-group">
+          <label className="label">New Password:</label>
           <input
             type="password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
+            className="input"
             required
           />
         </div>
-        <div>
-          <label>Confirm New Password:</label>
+        <div className="form-group">
+          <label className="label">Confirm New Password:</label>
           <input
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            className="input"
             required
           />
         </div>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <button type="submit">Change Password</button>
+        {error && <p className="message error-message">{error}</p>}
+        <button type="submit" className="button">
+          Change Password
+        </button>
       </form>
-      {/* Модальное окно */}
+
       {showModal && (
         <div className="modal">
           <p>Password changed successfully!</p>
-          <button onClick={() => setShowModal(false)}>Close</button>
+          <button onClick={() => setShowModal(false)} className="button">
+            Close
+          </button>
         </div>
       )}
     </div>

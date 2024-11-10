@@ -372,24 +372,31 @@ button {
   margin: 5px;
 }
 
-.button-increase {
+.button-increase,
+.button-decrease {
   background-color: #3cb371;
   color: white;
   border: none;
-  padding: 5px 10px;
+  padding: 5px 10px; /* Увеличены отступы для кнопок */
   cursor: pointer;
-  border-radius: 3px;
-  margin-left: 10px;
+  border-radius: 5px;
+  margin: 5px 10px; /* одинаковое расстояние между кнопками */
 }
 
 .button-decrease {
   background-color: #dc3d3d;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-  border-radius: 3px;
-  margin-right: 10px;
+}
+
+.button-increase {
+  margin-right: 0; /* Увеличен отступ от правого края */
+}
+
+.button-decrease:hover {
+  background-color: #d02d2d; /* Цвет при наведении - чуть темнее */
+}
+
+.button-increase:hover {
+  background-color: #32a852; /* Цвет при наведении - чуть темнее */
 }
 
 .delete-icon {
@@ -404,7 +411,7 @@ button {
 }
 
 .pay-order {
-  background-color: #4caf50; /* Зеленый цвет */
+  background-color: #4caf50;
   color: white;
   border: none;
   padding: 10px 15px;
@@ -414,5 +421,468 @@ button {
 }
 
 .pay-order:hover {
-  background-color: #45a049; /* Цвет при наведении */
+  background-color: #45a049;
+}
+
+/* UpdateUser */
+
+/* Center form and set max width */
+.form-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 20px; /* Spacing between fields */
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px; /* Space between label and input */
+  font-weight: bold;
+  color: #333;
+}
+
+.input {
+  width: 100%; /* Full width */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box; /* Include padding and border in width */
+}
+
+.button {
+  width: 100%; /* Full width for button */
+  padding: 10px;
+  background-color: #3cb371;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #30935c;
+}
+
+.message {
+  margin: 10px 0;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* General container styling */
+.form-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.button {
+  width: 100%;
+  padding: 10px;
+  background-color: #3cb371;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #30935c;
+}
+
+.message {
+  margin: 10px 0;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.error-message {
+  color: red;
+}
+
+/* Modal styling */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  width: 300px;
+  text-align: center;
+  z-index: 1000;
+}
+
+.modal p {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.modal .button {
+  background-color: #30935c;
+  width: 100%;
+}
+
+/* index.css */
+
+/* Container for the Delete Account component */
+.delete-account-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.delete-account-container h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.button {
+  padding: 10px 20px;
+  background-color: #3cb371;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #30935c;
+}
+
+/* Modal styling for confirmation */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  width: 300px;
+  text-align: center;
+  z-index: 1000;
+}
+
+.modal p {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.modal .button {
+  background-color: #3cb371;
+  width: 100px;
+  margin: 0 10px;
+}
+
+.modal .button:hover {
+  background-color: #cc0000;
+}
+
+/* Main container for the Account component */
+.account-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.account-container h1 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.account-container h2 {
+  font-size: 20px;
+  color: #555;
+  margin: 20px 0 10px;
+}
+
+.account-container p {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Styling for unordered lists */
+.account-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.account-container ul li {
+  margin: 10px 0;
+}
+
+/* Button styling */
+.button {
+  padding: 10px 20px;
+  background-color: #3cb371;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #30935c;
+}
+
+/* Link styling for buttons */
+.account-container a {
+  text-decoration: none;
+}
+
+.account-container a .button {
+  display: inline-block;
+  width: 100%;
+}
+
+/* Стили для формы создания категории */
+.create-category-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Category name */
+.create-category-container input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+}
+
+.create-category-container input:focus {
+  border-color: #3cb371;
+}
+
+/* Ceate Category Button */
+.create-category-container button {
+  padding: 10px 20px;
+  background-color: #3cb371;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.create-category-container button:hover {
+  background-color: #30935c;
+}
+
+/* Error message */
+.error {
+  color: #e74c3c;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+/* Стили для контейнера компонента */
+.update-category-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Стили для заголовка */
+.update-category-container h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+/* Стили для селектора категорий */
+.update-category-container select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+}
+
+.update-category-container select:focus {
+  border-color: #3cb371;
+}
+
+/* Стили для формы ввода имени категории */
+.update-category-container input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+}
+
+.update-category-container input:focus {
+  border-color: #3cb371;
+}
+
+/* Стили для кнопки обновления категории */
+.update-category-container button {
+  padding: 10px 20px;
+  background-color: #3cb371;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.update-category-container button:hover {
+  background-color: #30935c;
+}
+
+/* Сообщение об ошибке */
+.error {
+  color: #e74c3c;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+/* Стили для модального окна (оно уже задано в компоненте) */
+/* .modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+} */
+
+/* Style for Delete Category Page */
+.delete-category-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+select {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #3cb371;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #30935c;
+}
+
+.error {
+  color: #ff0000;
+  font-size: 16px;
+  text-align: center;
+  margin-top: 10px;
 }

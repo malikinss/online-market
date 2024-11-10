@@ -49,7 +49,7 @@ const CreateCategory = () => {
   };
 
   return (
-    <div>
+    <div className="create-category-container">
       <input
         type="text"
         value={name}

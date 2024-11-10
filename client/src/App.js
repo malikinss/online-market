@@ -13,8 +13,9 @@ import ShowFullItem from "./components/ShowFullItem";
 import Registration from "./components/Register";
 import Login from "./components/Login";
 import Account from "./components/Account";
+import DeleteAccount from "./components/DeleteAccount";
 import Basket from "./components/Basket";
-// import ChangePassword from "./ChangePassword";
+import ChangePassword from "./components/ChangePassword";
 import CreateCategory from "./components/CreateCategory";
 import UpdateCategory from "./components/UpdateCategory";
 import DeleteCategory from "./components/DeleteCategory";
@@ -23,6 +24,7 @@ import UpdateItem from "./components/UpdateItem";
 import DeleteItem from "./components/DeleteItem";
 import AdminPanel from "./components/AdminPanel";
 import UpdateUser from "./components/UpdateUser";
+import DeleteUser from "./components/DeleteUser";
 import AuthContext from "./context/AuthProvider";
 
 const App = () => {
@@ -171,6 +173,12 @@ const App = () => {
             element={auth ? <UpdateUser /> : <Navigate to="/login" replace />}
           />
           <Route
+            path="/account/change_password"
+            element={
+              auth ? <ChangePassword /> : <Navigate to="/login" replace />
+            }
+          />
+          <Route
             path="/account/create_category"
             element={
               auth ? <CreateCategory /> : <Navigate to="/login" replace />
@@ -199,6 +207,16 @@ const App = () => {
           <Route
             path="/account/delete_item"
             element={auth ? <DeleteItem /> : <Navigate to="/login" replace />}
+          />
+          <Route
+            path="/account/delete_user"
+            element={auth ? <DeleteUser /> : <Navigate to="/login" replace />}
+          />
+          <Route
+            path="/account/delete_account"
+            element={
+              auth ? <DeleteAccount /> : <Navigate to="/login" replace />
+            }
           />
         </Routes>
         <Footer />

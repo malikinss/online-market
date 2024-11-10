@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from "react";
-import axios from "../api/axios";
-import useAuth from "../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import useAuth from "../hooks/useAuth";
+import "../index.css";
 
 const UpdateUser = () => {
   const { auth } = useAuth();
-  const userId = jwtDecode(auth.token).id; // Extracting ID from token
-  const navigate = useNavigate();
+  const decodedToken = jwtDecode(auth.token);
+  const userId = decodedToken.id;
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState({
+  const [userData, setUserData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+  });
+  const [addressData, setAddressData] = useState({
     country: "",
     city: "",
     street: "",
@@ -22,166 +24,198 @@ const UpdateUser = () => {
     postal: "",
   });
 
-  useEffect(() => {
-    const loadUserData = async () => {
-      try {
-        const response = await axios.get(`/user/${userId}`, {
-          headers: { Authorization: `Bearer ${auth.token}` },
-        });
-        const userData = response.data;
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
 
-        // Fill in the fields with the received data
-        setFirstName(userData.firstName || "");
-        setLastName(userData.lastName || "");
-        setEmail(userData.email || "");
-        setPhone(userData.phone || "");
-        setAddress({
-          country: userData.address?.country || "",
-          city: userData.address?.city || "",
-          street: userData.address?.street || "",
-          building: userData.address?.building || "",
-          apartment: userData.address?.apartment || "",
-          postal: userData.address?.postal || "",
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(
+          `http://127.0.0.1:5000/api/user/${userId}`,
+          { headers: { Authorization: `Bearer ${auth.token}` } }
+        );
+
+        const { user, address } = response.data;
+
+        setUserData({
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          phone: user.phone,
+        });
+
+        setAddressData({
+          country: address.country,
+          city: address.city,
+          street: address.street,
+          building: address.building,
+          apartment: address.apartment,
+          postal: address.postal,
         });
       } catch (error) {
-        console.error("Failed to load user data:", error);
+        setError("Failed to load user data.");
       }
     };
 
-    loadUserData();
-  }, [auth.token, userId]);
+    fetchUserData();
+  }, [userId, auth.token]);
 
-  const handleUpdate = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
+    setSuccess(false);
 
     try {
-      const response = await axios.put(
-        `/user/update/${userId}`,
-        JSON.stringify({
-          firstName,
-          lastName,
-          email,
-          phone,
-          address: {
-            country: address.country,
-            city: address.city,
-            street: address.street,
-            building: parseInt(address.building),
-            apartment: address.apartment ? parseInt(address.apartment) : null,
-            postal: parseInt(address.postal),
-          },
-        }),
+      await axios.put(
+        `http://127.0.0.1:5000/api/user/${userId}`,
         {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${auth.token}`,
-          },
-          withCredentials: true,
-        }
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          email: userData.email,
+          phone: userData.phone,
+          address: addressData,
+        },
+        { headers: { Authorization: `Bearer ${auth.token}` } }
       );
-      console.log("User updated successfully:", response.data);
-      navigate("/account"); // Redirect to account page after update
+
+      setSuccess(true);
     } catch (error) {
-      console.error("Failed to update user:", error);
+      setError("Failed to update user data.");
     }
   };
 
-  // Function to go back
-  const goBack = () => navigate("/account"); // Go to the account page
+  const handleUserChange = (e) => {
+    const { name, value } = e.target;
+    setUserData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleAddressChange = (e) => {
+    const { name, value } = e.target;
+    setAddressData((prevData) => ({ ...prevData, [name]: value }));
+  };
 
   return (
-    <form onSubmit={handleUpdate}>
-      <h1>Update User</h1>
+    <div className="form-container">
+      <h2>Update User Information</h2>
+      {error && <p className="message error-message">{error}</p>}
+      {success && (
+        <p className="message success-message">
+          User information updated successfully!
+        </p>
+      )}
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label className="label">First Name:</label>
+          <input
+            type="text"
+            name="firstName"
+            value={userData.firstName}
+            onChange={handleUserChange}
+            className="input"
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label className="label">Last Name:</label>
+          <input
+            type="text"
+            name="lastName"
+            value={userData.lastName}
+            onChange={handleUserChange}
+            className="input"
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label className="label">Email:</label>
+          <input
+            type="email"
+            name="email"
+            value={userData.email}
+            onChange={handleUserChange}
+            className="input"
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label className="label">Phone:</label>
+          <input
+            type="text"
+            name="phone"
+            value={userData.phone}
+            onChange={handleUserChange}
+            className="input"
+            required
+          />
+        </div>
 
-      <label>First Name:</label>
-      <input
-        type="text"
-        value={firstName}
-        onChange={(e) => setFirstName(e.target.value)}
-      />
+        <h3>Address Information</h3>
+        <div className="form-group">
+          <label className="label">Country:</label>
+          <input
+            type="text"
+            name="country"
+            value={addressData.country}
+            onChange={handleAddressChange}
+            className="input"
+          />
+        </div>
+        <div className="form-group">
+          <label className="label">City:</label>
+          <input
+            type="text"
+            name="city"
+            value={addressData.city}
+            onChange={handleAddressChange}
+            className="input"
+          />
+        </div>
+        <div className="form-group">
+          <label className="label">Street:</label>
+          <input
+            type="text"
+            name="street"
+            value={addressData.street}
+            onChange={handleAddressChange}
+            className="input"
+          />
+        </div>
+        <div className="form-group">
+          <label className="label">Building:</label>
+          <input
+            type="number"
+            name="building"
+            value={addressData.building}
+            onChange={handleAddressChange}
+            className="input"
+          />
+        </div>
+        <div className="form-group">
+          <label className="label">Apartment:</label>
+          <input
+            type="number"
+            name="apartment"
+            value={addressData.apartment}
+            onChange={handleAddressChange}
+            className="input"
+          />
+        </div>
+        <div className="form-group">
+          <label className="label">Postal Code:</label>
+          <input
+            type="text"
+            name="postal"
+            value={addressData.postal}
+            onChange={handleAddressChange}
+            className="input"
+          />
+        </div>
 
-      <label>Last Name:</label>
-      <input
-        type="text"
-        value={lastName}
-        onChange={(e) => setLastName(e.target.value)}
-      />
-
-      <label>Email:</label>
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-
-      <label>Phone:</label>
-      <input
-        type="text"
-        value={phone}
-        onChange={(e) => setPhone(e.target.value)}
-      />
-
-      <h2>Address</h2>
-
-      <label>Country:</label>
-      <input
-        type="text"
-        value={address.country}
-        onChange={(e) =>
-          setAddress((prev) => ({ ...prev, country: e.target.value }))
-        }
-      />
-
-      <label>City:</label>
-      <input
-        type="text"
-        value={address.city}
-        onChange={(e) =>
-          setAddress((prev) => ({ ...prev, city: e.target.value }))
-        }
-      />
-
-      <label>Street:</label>
-      <input
-        type="text"
-        value={address.street}
-        onChange={(e) =>
-          setAddress((prev) => ({ ...prev, street: e.target.value }))
-        }
-      />
-
-      <label>Building:</label>
-      <input
-        type="number"
-        value={address.building}
-        onChange={(e) =>
-          setAddress((prev) => ({ ...prev, building: e.target.value }))
-        }
-      />
-
-      <label>Apartment:</label>
-      <input
-        type="number"
-        value={address.apartment}
-        onChange={(e) =>
-          setAddress((prev) => ({ ...prev, apartment: e.target.value }))
-        }
-      />
-
-      <label>Postal:</label>
-      <input
-        type="number"
-        value={address.postal}
-        onChange={(e) =>
-          setAddress((prev) => ({ ...prev, postal: e.target.value }))
-        }
-      />
-
-      <button type="submit">Update</button>
-      <button type="button" onClick={goBack}>
-        Back
-      </button>
-    </form>
+        <button type="submit" className="button">
+          Update Information
+        </button>
+      </form>
+    </div>
   );
 };
 
