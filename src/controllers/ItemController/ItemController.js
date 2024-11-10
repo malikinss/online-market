@@ -4,26 +4,59 @@ const getItems = require("./methods/getItems");
 const updateItem = require("./methods/updateItem");
 const deleteItem = require("./methods/deleteItem");
 
+/**
+ * Controller for handling item-related operations.
+ */
 class ItemController {
-    async createRecord(req, res, next) {
-        return createItem(req, res, next);
-    }
+    /**
+     * Creates a new item record.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of createItem function.
+     */
+    createRecord = createItem;
 
-    async getAllRecords(req, res, next) {
-        return getItems(req, res, next);
-    }
+    /**
+     * Retrieves all item records.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of getItems function.
+     */
+    getRecords = getItems;
 
-    async getRecord(req, res, next) {
-        return getItem(req, res, next);
-    }
+    /**
+     * Retrieves a specific item record.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of getItem function.
+     */
+    getRecord = getItem;
 
-    async updateRecord(req, res, next) {
-        return updateItem(req, res, next);
-    }
+    /**
+     * Updates an existing item record.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of updateItem function.
+     */
+    updateRecord = updateItem;
 
-    async deleteRecord(req, res, next) {
-        return deleteItem(req, res, next);
-    }
+    /**
+     * Deletes an item record.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of deleteItem function.
+     */
+    deleteRecord = deleteItem;
 }
 
 module.exports = new ItemController();
