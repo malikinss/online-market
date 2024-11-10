@@ -8,7 +8,7 @@ const checkRole = require("../../middleware/checkRoleMiddleware");
 router
     .route("/")
     .post(checkRole("admin"), ItemController.createRecord) // POST: Create item (admin only)
-    .get(ItemController.getAllRecords); // GET: Get all items
+    .get(ItemController.getRecords); // GET: Get all items
 
 // Route for handling individual items by ID
 router
