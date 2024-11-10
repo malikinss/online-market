@@ -16,15 +16,23 @@ const { messages } = require("../../controllerUtils/messagesHandler");
  */
 const updateCategory = async (req, res, next) => {
     try {
-        const categoryID = req.params.id;
-        const { newName } = req.body;
+        const categoryId = req.params.id;
+        // Validate if the Category records are found
+        if (!categoryId) {
+            throw ApiError.notFound(messages.errors.nullData("Category", "id"));
+        }
 
-        // Validate input to ensure no falsy values
-        containsFalsyValues([categoryID, newName]);
+        const newName = req.body.name;
+        // Validate if the Category records are found
+        if (!newName) {
+            throw ApiError.notFound(
+                messages.errors.nullData("Category", "new name")
+            );
+        }
 
         const categoryToUpdate = await findRecordByField(
             "id",
-            categoryID,
+            categoryId,
             Category
         );
         if (!categoryToUpdate) {
@@ -33,11 +41,8 @@ const updateCategory = async (req, res, next) => {
             );
         }
 
-        // Update the category name
-        categoryToUpdate.name = newName;
-
         // Save the updated caetgory to the database
-        await categoryToUpdate.save();
+        await categoryToUpdate.update({ name: newName });
 
         // Log success message
         console.log(messages.success("Category", "updated"));
