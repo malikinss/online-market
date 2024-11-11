@@ -28,7 +28,7 @@ const deletePayment = async (req, res, next) => {
 
         // Validate if the Payment record is found
         if (!payment) {
-            throw new ApiError.notFound(
+            throw ApiError.notFound(
                 messages.errors.actionFailed("delete", "Payment")
             );
         }
@@ -38,9 +38,6 @@ const deletePayment = async (req, res, next) => {
 
         // Log success message to console
         console.log(messages.success("Payment", "deleted"));
-
-        // Return success response
-        // return res.json({ message: messages.success("Payment", "deleted") });
     } catch (e) {
         next(
             ApiError.internal(

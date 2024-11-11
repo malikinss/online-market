@@ -15,15 +15,15 @@ const { messages } = require("../../controllerUtils/messagesHandler");
 const getPayment = async (req, res, next) => {
     try {
         // Get paymentID and check if it exists
-        const paymentID = req.params.id;
-        if (!paymentID) {
+        const paymentId = req.params.id;
+        if (!paymentId) {
             throw ApiError.badRequest(
                 messages.errors.actionFailed("pass", "paymentID")
             );
         }
 
         // Find payment by its ID and check if it found
-        const payment = await findRecordByField("id", paymentID, Payment);
+        const payment = await findRecordByField("id", paymentId, Payment);
         if (!payment) {
             throw ApiError.notFound(
                 messages.errors.actionFailed("find", "Payment")
