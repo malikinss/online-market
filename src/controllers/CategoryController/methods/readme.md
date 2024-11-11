@@ -3,26 +3,13 @@
 ## Description 📝
 
 This directory contains various methods to manage Category records in the database.
-These methods enable CRUD operations (Create, Read, Update, Delete) on categories, providing an efficient way to interact with category data through a RESTful API in an Express.js application.
+These methods enable CRUD operations (Create, Read, Update, Delete) on categories, providing an efficient way to interact with category data through a API in an Express.js application.
 
 ## Purpose 🎯
 
 The purpose of these methods is to facilitate operations on Category data.
-These include:
 
--   Creating a new category
--   Retrieving all categories
--   Updating an existing category's name
--   Deleting a category by ID
-
-## Methods Overview 🔍
-
-`createCategory.js` - Creates a new category record in the database.
-`deleteCategory.js` - Deletes a category record by its ID.
-`getCategories.js` - Retrieves all category records from the database.
-`updateCategory.js` - Updates the name of an existing category by ID.
-
-## Method Details
+## Method 🔍
 
 1. `createCategory.js`
 

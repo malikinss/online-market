@@ -17,9 +17,6 @@ const { messages } = require("../../controllerUtils/messagesHandler");
  */
 const createOrderItem = async (req, res, next) => {
     try {
-        //const { itemId, quantity } = req.body;
-        //const orderId = res.locals.orderId;
-
         const { itemId, quantity } = res.locals.orderItemReq;
         const orderId = res.locals.orderId;
 

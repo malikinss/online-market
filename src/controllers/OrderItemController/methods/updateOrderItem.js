@@ -22,10 +22,18 @@ const { messages } = require("../../controllerUtils/messagesHandler");
 const updateOrderItem = async (req, res, next) => {
     try {
         const orderItemId = req.params.id;
-        const newQuantity = req.body.quantity;
+        if (!orderItemId) {
+            throw ApiError.notFound(
+                messages.errors.nullData("OrderItem", "ID")
+            );
+        }
 
-        // Validate input to ensure no falsy values
-        containsFalsyValues([orderItemId, newQuantity]);
+        const newQuantity = req.body.quantity;
+        if (!newQuantity) {
+            throw ApiError.notFound(
+                messages.errors.nullData("OrderItem", "new quantity")
+            );
+        }
 
         // Find the OrderItem by ID
         const orderItem = await findRecordByField("id", orderItemId, OrderItem);
