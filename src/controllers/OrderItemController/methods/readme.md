@@ -1,90 +1,95 @@
-# OrderItemController Methods 📂
+# OrderItemController Methods 📦
 
 ## Description 📝
 
-This directory contains various methods to manage OrderItem records in the database.
-These methods enable CRUD operations (Create, Read, Update, Delete) on order items, providing an efficient way to interact with order items data through a API in an Express.js application.
+This directory contains methods for managing `OrderItem` records in the database.
+The methods implement CRUD operations (Create, Read, Update, Delete) for order items, enabling efficient interaction with order data in an Express.js application.
 
 ## Purpose 🎯
 
-The purpose of these methods is to facilitate operations on OrderItem data.
+The main purpose of these methods is to manage `OrderItem` records associated with orders and products, ensuring up-to-date information on the price and quantity of each order item.
 
-## Methods
+## Methods 🔍
 
-1. `createOrderItem.js`
+1. **`createOrderItem.js`**
 
--   Functionality: Creates a new order item.
--   Parameters:
-    -   `req`: Express request object.
-    -   `res`: Express response object to send the response; expects `itemId`, `quantity` in `res.locals.orderItemReq` and `orderId` in `res.locals.orderId`.
-    -   `next`: Express middleware function for error handling.
--   Returns: JSON object of the newly created category.
--   Exceptions: Throws an `ApiError` if the creation fails or if input validation fails.
+-   **Functionality**: Creates a new order item.
+-   **Parameters**:
+    -   `req`: Express request object; expects `itemId` and `quantity` in `res.locals.orderItemReq` and `orderId` in `res.locals`.
+    -   `res`: Express response object to send the result.
+    -   `next`: Middleware function for error handling.
+-   **Returns**: JSON object with the created order item's information.
+-   **Exceptions**: Throws an `ApiError` if the order or product record is not found or if creating the order item fails.
 
-2. `deleteOrderItem.js`
+2. **`deleteOrderItem.js`**
 
--   Functionality: Deletes an order item by its ID.
--   Parameters:
-    -   `req`: Express request object.
-    -   `res`: Express response object to send the success message; expects `orderItemId` in `res.locals.orderItemId`
-    -   `next`: Express middleware function for error handling.
--   Returns: JSON object with a success message.
--   Exceptions: Throws `ApiError` if the ID is not provided or if the order item is not found.
+-   **Functionality**: Deletes an order item by its ID.
+-   **Parameters**:
+    -   `req`: Express request object; expects `orderItemId` in `res.locals`.
+    -   `res`: Express response object to send a success message.
+    -   `next`: Middleware function for error handling.
+-   **Returns**: JSON object with a success message.
+-   **Exceptions**: Throws an `ApiError` if `orderItemId` is missing, the order item is not found, or an error occurs during deletion.
 
-3. `getOrderItem.js`
+3. **`getOrderItem.js`**
 
--   Functionality: Retrieves order item record by its ID.
--   Parameters:
-    -   req: Express request object; expects `orderItemId` in `req.params.id`
-    -   res: Express response object to send retrieved record.
-    -   next: Express middleware function for error handling.
--   Returns: JSON array of all categories.
--   Exceptions: Throws `ApiError` if order item isn't found or if there is an error in fetching data.
+-   **Functionality**: Retrieves an order item by its unique ID.
+-   **Parameters**:
+    -   `req`: Express request object; expects `orderItemId` in `res.locals`.
+    -   `res`: Express response object to send the found order item.
+    -   `next`: Middleware function for error handling.
+-   **Returns**: JSON object with the found order item's information.
+-   **Exceptions**: Throws an `ApiError` if the order item is not found or an error occurs during retrieval.
 
-4. `getOrderItems.js`
+4. **`updateOrderItem.js`**
 
--   Functionality: Retrieves all order items records for specified order.
--   Parameters:
-    -   req: Express request objectexpects `orderId` in `req.body`.
-    -   res: Express response object to send the array of order items.
-    -   next: Express middleware function for error handling.
--   Returns: JSON array of all categories.
--   Exceptions: Throws `ApiError` if no order items are found or if there is an error in fetching data.
+-   **Functionality**: Updates the quantity of an order item by its ID.
+-   **Parameters**:
+    -   `req`: Express request object; expects `orderItemId` of the order item in `req.params` and `newQuantity` in `req.body`.
+    -   `res`: Express response object to send the updated order item.
+    -   `next`: Middleware function for error handling.
+-   **Returns**: JSON object with the updated order item's information.
+-   **Exceptions**: Throws an `ApiError` if `orderItemId` or `newQuantity` is missing, the order item is not found, or an error occurs during updating.
 
-5. `updateOrderItem.js`
+5. **`getOrderItems.js`**
 
--   Functionality: Updates the quantity of an existing order item by its ID.
--   Parameters:
-    -   req: Express request object; expects `orderItemId` in `req.params.id` and `newQuantity` in `req.body.quantity`.
-    -   res: Express response object to send the updated orderItem.
-    -   next: Express middleware function for error handling.
--   Returns: JSON object of the updated category.
--   Exceptions: Throws `ApiError` if the ID or new name is not provided, if the orderItem is not found, or if the update fails.
+-   **Functionality**: Retrieves all order items for a specified `orderId`.
+-   **Parameters**:
+    -   `req`: Express request object; expects `orderId` in `res.locals`.
+    -   `res`: Express response object to send an array of order items.
+    -   `next`: Middleware function for error handling.
+-   **Returns**: JSON array of all order items for the specified order.
+-   **Exceptions**: Throws an `ApiError` if order items are not found or an error occurs during retrieval.
 
 ## Usage 📦
 
-1. **Create a New Category**:
+1. **Create a new order item**:
 
-    - Endpoint: `POST /categories`
-    - Body: `{ "name": "New Category" }`
+    - Endpoint: `POST /order-items`
+    - Body parameters: `{ "itemId": "Product ID", "quantity": "Quantity" }`
 
-2. **Delete a Category by ID**:
+2. **Delete an order item by ID**:
 
-    - Endpoint: `DELETE /categories/:id`
-    - Params: `id` (ID of the category to delete)
+    - Endpoint: `DELETE /order-items/:id`
+    - Parameters: `id` (ID of the order item to delete)
 
-3. **Retrieve All Categories**:
+3. **Get an order item by ID**:
 
-    - Endpoint: `GET /categories`
+    - Endpoint: `GET /order-items/:id`
+    - Parameters: `id` (ID of the order item to retrieve)
 
-4. **Update a Category's Name by ID**:
+4. **Update the quantity of an order item by ID**:
 
-    - Endpoint: `PUT /categories/:id`
-    - Params: `id` (ID of the category to update)
-    - Body: `{ "newName": "Updated Category Name" }`
+    - Endpoint: `PUT /order-items/:id`
+    - Parameters: `id` (ID of the order item to update)
+    - Body parameters: `{ "quantity": "New quantity" }`
+
+5. **Get all order items by order ID**:
+
+    - Endpoint: `GET /orders/:orderId/order-items`
+    - Parameters: `orderId` (ID of the order to retrieve items for)
 
 ## Conclusion 🚀
 
-These methods provide a robust way to manage `Category` records in the database.
-By following the CRUD principles, this setup allows for a streamlined experience when handling category data.
-Proper error handling and response messaging are implemented for reliable and user-friendly API interactions.
+These methods provide an efficient way to manage `OrderItem` records and keep order data up to date.
+With robust error handling and CRUD operations, these methods ensure reliable interaction with data via the API.
