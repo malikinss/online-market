@@ -5,7 +5,9 @@ const {
     containsFalsyValues,
 } = require("../../controllerUtils/dataValidations");
 const { findRecordByField } = require("../../controllerUtils/findHandlers");
-const { verifyPasswordMatch } = require("./passwordValidations");
+const {
+    verifyPasswordMatch,
+} = require("./passwordValidations/passwordValidations");
 const generateJWT = require("../../controllerUtils/generateJWT");
 const { messages } = require("../../controllerUtils/messagesHandler");
 

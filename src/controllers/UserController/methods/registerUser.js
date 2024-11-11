@@ -8,7 +8,9 @@ const {
 const {
     checkEmailAndPhoneUniqueness,
 } = require("../../controllerUtils/checkUniqueness");
-const { validateNewPassword } = require("./passwordValidations");
+const {
+    validateNewPassword,
+} = require("./passwordValidations/passwordValidations");
 const { messages } = require("../../controllerUtils/messagesHandler");
 
 const bcrypt = require("bcrypt");

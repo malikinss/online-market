@@ -9,7 +9,7 @@ const { findRecordByField } = require("../../controllerUtils/findHandlers");
 const {
     validateNewPassword,
     verifyPasswordMatch,
-} = require("./passwordValidations");
+} = require("./passwordValidations/passwordValidations");
 const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**
