@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const authMiddleware = require("../../middleware/authMiddleware");
-const UserController = require("../../controllers/UserController/UserController");
+const UserController = require("../../controllers/controllersToManageUsers/UserController/UserController");
 
 // Register a new user
 router.post("/register", UserController.createRecord);
