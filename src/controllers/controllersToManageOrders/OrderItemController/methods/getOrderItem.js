@@ -1,12 +1,12 @@
-const OrderItem = require("../../../models/OrderItems/OrderItems");
-const ApiError = require("../../../error/ApiError");
+const OrderItem = require("../../../../models/OrderItems/OrderItems");
+const ApiError = require("../../../../error/ApiError");
 
 const {
     findRecordByField,
-} = require("../../controllerUtils/findHandlers/findHandlers");
+} = require("../../../controllerUtils/findHandlers/findHandlers");
 const {
     messages,
-} = require("../../controllerUtils/messagesHandler/messagesHandler");
+} = require("../../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Retrieves an order item by its unique identifier.
