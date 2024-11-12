@@ -23,28 +23,35 @@ const colors = {
 /**
  * Returns a colored string for console output.
  * @param {string} text - The text to be colored.
- * @param {string} color - The color name for the text.
+ * @param {string} color - The color name for the text (must be a valid color from the colors object).
  * @returns {string} - The colored text wrapped with ANSI codes.
  */
 function coloredString(text, color) {
-    // Return the text with the specified color
+    // Check if the color is valid
+    if (!colors[color]) {
+        throw new Error(`Invalid color: ${color}`);
+    }
     return `${colors[color]}${text}${colors.reset}`;
 }
 
-messagesTypes = {
+const messageTypes = {
     success: (text) => coloredString(text, "green"),
     error: (text) => coloredString(text, "orangeRed"),
 };
 
 const messages = {
     success: (entity, action) =>
-        coloredString(`${entity} was ${action} successfully`, "green"),
+        messageTypes.success(`${entity} was ${action} successfully`),
     errors: {
-        actionFailed: (action, entity) => `Failed to ${action} ${entity}`,
+        actionFailed: (action, entity) =>
+            messageTypes.error(`Failed to ${action} ${entity}`),
         general: (action, entity, data) =>
-            `An error occured while ${action} ${entity}: ${data}`,
-        nullData: (entity, field) => `${entity} ${field} is required.`,
-        notNumber: "Required fields must be valid numbers.",
+            messageTypes.error(
+                `An error occurred while ${action} ${entity}: ${data}`
+            ),
+        nullData: (entity, field) =>
+            messageTypes.error(`${entity} ${field} is required.`),
+        notNumber: messageTypes.error("Required fields must be valid numbers."),
     },
 };
 

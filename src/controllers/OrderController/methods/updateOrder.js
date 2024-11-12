@@ -3,7 +3,9 @@ const ApiError = require("../../../error/ApiError");
 const {
     findRecordByField,
 } = require("../../controllerUtils/findHandlers/findHandlers");
-const { messages } = require("../../controllerUtils/messagesHandler");
+const {
+    messages,
+} = require("../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Update an order by ID.

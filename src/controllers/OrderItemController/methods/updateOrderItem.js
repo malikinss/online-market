@@ -8,7 +8,9 @@ const {
 const {
     findRecordByField,
 } = require("../../controllerUtils/findHandlers/findHandlers");
-const { messages } = require("../../controllerUtils/messagesHandler");
+const {
+    messages,
+} = require("../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Updates an order item identified by its unique identifier.

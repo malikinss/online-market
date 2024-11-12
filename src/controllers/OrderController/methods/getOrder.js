@@ -8,7 +8,9 @@ const {
     findRecordsByField,
     findRecordByFieldInclude,
 } = require("../../controllerUtils/findHandlers/findHandlers");
-const { messages } = require("../../controllerUtils/messagesHandler");
+const {
+    messages,
+} = require("../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Retrieves an order along with its associated items and payment details.

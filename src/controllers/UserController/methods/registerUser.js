@@ -11,7 +11,9 @@ const {
 const {
     validateNewPassword,
 } = require("./passwordValidations/passwordValidations");
-const { messages } = require("../../controllerUtils/messagesHandler");
+const {
+    messages,
+} = require("../../controllerUtils/messagesHandler/messagesHandler");
 
 const bcrypt = require("bcrypt");
 const generateJWT = require("../../controllerUtils/generateJWT");

@@ -9,7 +9,9 @@ const {
 const {
     containsFalsyValues,
 } = require("../../controllerUtils/containsFalsyValues/dataValidations");
-const { messages } = require("../../controllerUtils/messagesHandler");
+const {
+    messages,
+} = require("../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Create a new order item.

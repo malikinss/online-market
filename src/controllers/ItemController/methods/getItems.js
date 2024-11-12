@@ -4,7 +4,9 @@ const ApiError = require("../../../error/ApiError");
 const {
     findAllRecords,
 } = require("../../controllerUtils/findHandlers/findHandlers");
-const { messages } = require("../../controllerUtils/messagesHandler");
+const {
+    messages,
+} = require("../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Fetches items from the database.

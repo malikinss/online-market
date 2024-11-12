@@ -5,7 +5,9 @@ const ApiError = require("../../../error/ApiError");
 const {
     findRecordByField,
 } = require("../../controllerUtils/findHandlers/findHandlers");
-const { messages } = require("../../controllerUtils/messagesHandler");
+const {
+    messages,
+} = require("../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Deletes an order item identified by its unique identifier through a database lookup.

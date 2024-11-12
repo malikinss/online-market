@@ -1,6 +1,8 @@
 const Payment = require("../../../models/Payments/Payments");
 const ApiError = require("../../../error/ApiError");
-const { messages } = require("../../controllerUtils/messagesHandler");
+const {
+    messages,
+} = require("../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Create a new order payment.

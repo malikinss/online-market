@@ -7,7 +7,9 @@ const {
 const {
     containsFalsyValues,
 } = require("../../controllerUtils/containsFalsyValues/dataValidations");
-const { messages } = require("../../controllerUtils/messagesHandler");
+const {
+    messages,
+} = require("../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Update a user address by ID.

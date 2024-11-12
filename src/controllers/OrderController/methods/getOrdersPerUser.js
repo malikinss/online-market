@@ -6,7 +6,9 @@ const {
     findRecordByField,
     findRecordsByField,
 } = require("../../controllerUtils/findHandlers/findHandlers");
-const { messages } = require("../../controllerUtils/messagesHandler");
+const {
+    messages,
+} = require("../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Get all orders per specific User.

@@ -7,7 +7,9 @@ const {
 const {
     containsFalsyValues,
 } = require("../../controllerUtils/containsFalsyValues/dataValidations");
-const { messages } = require("../../controllerUtils/messagesHandler");
+const {
+    messages,
+} = require("../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Fetches an item based on the provided ID from the request parameters.

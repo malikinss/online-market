@@ -11,7 +11,9 @@ const {
     verifyPasswordMatch,
 } = require("./passwordValidations/passwordValidations");
 const generateJWT = require("../../controllerUtils/generateJWT");
-const { messages } = require("../../controllerUtils/messagesHandler");
+const {
+    messages,
+} = require("../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Logs in a user.

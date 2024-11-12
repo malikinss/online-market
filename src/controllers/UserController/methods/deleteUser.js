@@ -6,7 +6,9 @@ const UserAddressController = require("../../UserAddressController/UserAddressCo
 const {
     findRecordByField,
 } = require("../../controllerUtils/findHandlers/findHandlers");
-const { messages } = require("../../controllerUtils/messagesHandler");
+const {
+    messages,
+} = require("../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Deletes a user by ID.

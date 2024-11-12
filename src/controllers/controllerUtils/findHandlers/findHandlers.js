@@ -1,6 +1,6 @@
 const { Op } = require("sequelize");
 const ApiError = require("../../../error/ApiError");
-const { messages } = require("../messagesHandler");
+const { messages } = require("../messagesHandler/messagesHandler");
 
 /**
  * Finds a user by the given field, excluding the user with the given ID.

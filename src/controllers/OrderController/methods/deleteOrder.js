@@ -9,7 +9,9 @@ const {
     findRecordByField,
     findRecordsByField,
 } = require("../../controllerUtils/findHandlers/findHandlers");
-const { messages } = require("../../controllerUtils/messagesHandler");
+const {
+    messages,
+} = require("../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Removes an existing order from the system using its unique identifier.

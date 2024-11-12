@@ -4,7 +4,9 @@ const ApiError = require("../../../error/ApiError");
 const {
     findRecordsByField,
 } = require("../../controllerUtils/findHandlers/findHandlers");
-const { messages } = require("../../controllerUtils/messagesHandler");
+const {
+    messages,
+} = require("../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Retrieves all order items associated with a specific order identified by orderID.

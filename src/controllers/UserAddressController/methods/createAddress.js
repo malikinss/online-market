@@ -4,7 +4,9 @@ const ApiError = require("../../../error/ApiError");
 const {
     containsFalsyValues,
 } = require("../../controllerUtils/containsFalsyValues/dataValidations");
-const { messages } = require("../../controllerUtils/messagesHandler");
+const {
+    messages,
+} = require("../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Creates a new user address and saves it to the database.

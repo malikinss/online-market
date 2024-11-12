@@ -11,7 +11,9 @@ const {
 const {
     checkEmailAndPhoneUniqueness,
 } = require("../../controllerUtils/checkUniqueness/checkUniqueness");
-const { messages } = require("../../controllerUtils/messagesHandler");
+const {
+    messages,
+} = require("../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Updates the user's information.

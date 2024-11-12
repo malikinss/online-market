@@ -12,7 +12,9 @@ const {
     validateNewPassword,
     verifyPasswordMatch,
 } = require("./passwordValidations/passwordValidations");
-const { messages } = require("../../controllerUtils/messagesHandler");
+const {
+    messages,
+} = require("../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Changes the user's password.

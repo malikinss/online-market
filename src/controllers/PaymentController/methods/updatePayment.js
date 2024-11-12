@@ -5,7 +5,9 @@ const Order = require("../../../models/Orders/Orders");
 const {
     findRecordByField,
 } = require("../../controllerUtils/findHandlers/findHandlers");
-const { messages } = require("../../controllerUtils/messagesHandler");
+const {
+    messages,
+} = require("../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Update a payment by ID.
