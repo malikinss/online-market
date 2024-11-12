@@ -1,13 +1,13 @@
-const Payment = require("../../../models/Payments/Payments");
-const ApiError = require("../../../error/ApiError");
-const Order = require("../../../models/Orders/Orders");
+const Payment = require("../../../../models/Payments/Payments");
+const ApiError = require("../../../../error/ApiError");
+const Order = require("../../../../models/Orders/Orders");
 
 const {
     findRecordByField,
-} = require("../../controllerUtils/findHandlers/findHandlers");
+} = require("../../../controllerUtils/findHandlers/findHandlers");
 const {
     messages,
-} = require("../../controllerUtils/messagesHandler/messagesHandler");
+} = require("../../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Update a payment by ID.

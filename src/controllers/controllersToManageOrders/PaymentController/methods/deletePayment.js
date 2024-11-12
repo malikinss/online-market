@@ -1,12 +1,12 @@
-const Payment = require("../../../models/Payments/Payments");
-const ApiError = require("../../../error/ApiError");
+const Payment = require("../../../../models/Payments/Payments");
+const ApiError = require("../../../../error/ApiError");
 
 const {
     findRecordByField,
-} = require("../../controllerUtils/findHandlers/findHandlers");
+} = require("../../../controllerUtils/findHandlers/findHandlers");
 const {
     messages,
-} = require("../../controllerUtils/messagesHandler/messagesHandler");
+} = require("../../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Delete a payment by ID.
