@@ -1,15 +1,15 @@
-const Item = require("../../../models/Items/Items");
-const ApiError = require("../../../error/ApiError");
+const Item = require("../../../../models/Items/Items");
+const ApiError = require("../../../../error/ApiError");
 
 const {
     containsFalsyValues,
-} = require("../../controllerUtils/validations/dataValidation/dataValidations");
+} = require("../../../controllerUtils/validations/dataValidation/dataValidations");
 const {
     findRecordByField,
-} = require("../../controllerUtils/findHandlers/findHandlers");
+} = require("../../../controllerUtils/findHandlers/findHandlers");
 const {
     messages,
-} = require("../../controllerUtils/messagesHandler/messagesHandler");
+} = require("../../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Updates an existing item in the database based on the provided item ID and new data.

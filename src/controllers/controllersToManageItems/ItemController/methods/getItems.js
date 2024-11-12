@@ -1,12 +1,12 @@
-const Item = require("../../../models/Items/Items");
-const ApiError = require("../../../error/ApiError");
+const Item = require("../../../../models/Items/Items");
+const ApiError = require("../../../../error/ApiError");
 
 const {
     findAllRecords,
-} = require("../../controllerUtils/findHandlers/findHandlers");
+} = require("../../../controllerUtils/findHandlers/findHandlers");
 const {
     messages,
-} = require("../../controllerUtils/messagesHandler/messagesHandler");
+} = require("../../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Fetches items from the database.

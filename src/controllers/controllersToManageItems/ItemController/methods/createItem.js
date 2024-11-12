@@ -1,11 +1,11 @@
-const Item = require("../../../models/Items/Items");
-const ApiError = require("../../../error/ApiError");
+const Item = require("../../../../models/Items/Items");
+const ApiError = require("../../../../error/ApiError");
 const {
     containsFalsyValues,
-} = require("../../controllerUtils/validations/dataValidation/dataValidations");
+} = require("../../../controllerUtils/validations/dataValidation/dataValidations");
 const {
     messages,
-} = require("../../controllerUtils/messagesHandler/messagesHandler");
+} = require("../../../controllerUtils/messagesHandler/messagesHandler");
 
 const uuid = require("uuid");
 const path = require("path");
