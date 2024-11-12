@@ -15,6 +15,7 @@ import Login from "./components/Login";
 import Account from "./components/Account";
 import DeleteAccount from "./components/DeleteAccount";
 import Basket from "./components/Basket";
+import OrderHistory from "./components/OrderHistory";
 import ChangePassword from "./components/ChangePassword";
 import CreateCategory from "./components/CreateCategory";
 import UpdateCategory from "./components/UpdateCategory";
@@ -25,6 +26,7 @@ import DeleteItem from "./components/DeleteItem";
 import AdminPanel from "./components/AdminPanel";
 import UpdateUser from "./components/UpdateUser";
 import DeleteUser from "./components/DeleteUser";
+import UpdateOrder from "./components/UpdateOrder";
 import AuthContext from "./context/AuthProvider";
 
 const App = () => {
@@ -46,7 +48,6 @@ const App = () => {
         return response.json();
       })
       .then((data) => {
-        // console.log("Fetched data:", data);
         setItems(data);
         setCurrentItems(data);
       })
@@ -142,7 +143,6 @@ const App = () => {
             path="/account"
             element={auth ? <Account /> : <Navigate to="/login" replace />}
           />
-          {/* <Route path="/account/change_password"element={<ChangePassword userId={userId} />}/> TO DO!!! */}
           <Route
             path="/account/basket"
             element={
@@ -157,6 +157,10 @@ const App = () => {
                 <Navigate to="/login" replace />
               )
             }
+          />
+          <Route
+            path="/account/order-history"
+            element={auth ? <OrderHistory /> : <Navigate to="/login" replace />}
           />
           <Route
             path="/account/admin_panel"
@@ -211,6 +215,10 @@ const App = () => {
           <Route
             path="/account/delete_user"
             element={auth ? <DeleteUser /> : <Navigate to="/login" replace />}
+          />
+          <Route
+            path="/account/update_order"
+            element={auth ? <UpdateOrder /> : <Navigate to="/login" replace />}
           />
           <Route
             path="/account/delete_account"

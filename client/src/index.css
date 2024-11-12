@@ -248,8 +248,6 @@ footer {
   margin-top: 100px;
 }
 
-/*  */
-
 section {
   width: 100%;
   max-width: 420px;
@@ -426,7 +424,6 @@ button {
 
 /* UpdateUser */
 
-/* Center form and set max width */
 .form-container {
   max-width: 400px;
   margin: 0 auto;
@@ -574,8 +571,6 @@ button {
   width: 100%;
 }
 
-/* index.css */
-
 /* Container for the Delete Account component */
 .delete-account-container {
   max-width: 400px;
@@ -606,37 +601,6 @@ button {
 
 .button:hover {
   background-color: #30935c;
-}
-
-/* Modal styling for confirmation */
-.modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  width: 300px;
-  text-align: center;
-  z-index: 1000;
-}
-
-.modal p {
-  font-size: 16px;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.modal .button {
-  background-color: #3cb371;
-  width: 100px;
-  margin: 0 10px;
-}
-
-.modal .button:hover {
-  background-color: #cc0000;
 }
 
 /* Main container for the Account component */
@@ -823,15 +787,6 @@ button {
   font-size: 14px;
 }
 
-/* Стили для модального окна (оно уже задано в компоненте) */
-/* .modal-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-} */
-
 /* Style for Delete Category Page */
 .delete-category-container {
   width: 100%;
@@ -868,7 +823,7 @@ button {
   width: 100%;
   padding: 10px;
   font-size: 16px;
-  background-color: #3cb371;
+  background-color: #197542;
   color: white;
   border: none;
   border-radius: 4px;
@@ -885,4 +840,53 @@ button:hover {
   font-size: 16px;
   text-align: center;
   margin-top: 10px;
+}
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.order-item {
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.order-item button {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  max-width: 200px;
+  margin-left: auto;
+  display: block;
+}
+
+.order-item button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+.compact-select {
+  width: 150px;
+  padding: 8px 10px;
+  font-weight: 600;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+}
+
+.order-info {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.order-info .order-value {
+  font-weight: bold;
+  margin-top: 5px;
 }

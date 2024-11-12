@@ -40,6 +40,11 @@ const Account = () => {
               </Link>
             </li>
             <li>
+              <Link to="/account/order-history">
+                <button className="button">Order History</button>
+              </Link>
+            </li>
+            <li>
               <Link to="/account/update_user">
                 <button className="button">Update User</button>
               </Link>
