@@ -1,8 +1,8 @@
-# Validations Module 📦
+# Validations Directory 📦
 
 ## Description 📝
 
-The `validations` module provides a set of utility functions to ensure data integrity and security by validating various fields.
+The `validations` directory provides a set of utility functions to ensure data integrity and security by validating various fields.
 The module includes three main sub-modules:
 
 -   **checkUniqueness**: Validates the uniqueness of fields like email and phone numbers in the database.
