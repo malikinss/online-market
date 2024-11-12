@@ -4,24 +4,48 @@ const updateAddress = require("./methods/updateAddress");
 const deleteAddress = require("./methods/deleteAddress");
 
 /**
- * Controller for managing user addresses.
+ * Controller for managing user address-related operations.
  */
 class UserAddressController {
-    async createRecord(req, res, next) {
-        return createAddress(req, res, next);
-    }
+    /**
+     * Creates a new user address record.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of createAddress function.
+     */
+    createRecord = createAddress;
 
-    async getRecord(req, res, next) {
-        return getAddress(req, res, next);
-    }
+    /**
+     * Retrieves a specific user address record.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of getAddress function.
+     */
+    getRecord = getAddress;
 
-    async updateRecord(req, res, next) {
-        return updateAddress(req, res, next);
-    }
+    /**
+     * Updates an existing user address record.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of updateAddress function.
+     */
+    updateRecord = updateAddress;
 
-    async deleteRecord(req, res, next) {
-        return deleteAddress(req, res, next);
-    }
+    /**
+     * Deletes a user address record.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of deleteAddress function.
+     */
+    deleteRecord = deleteAddress;
 }
 
 module.exports = new UserAddressController();

@@ -4,37 +4,73 @@ const getUser = require("./methods/getUser");
 const updateUser = require("./methods/updateUser");
 const deleteUser = require("./methods/deleteUser");
 
-// Additional funcs
+// Additional functions
 const logInUserHandler = require("./methods/logInUserHandler");
 const passwordChanger = require("./methods/passwordChanger");
 
 /**
- * Controller for managing users.
+ * Controller for managing user-related operations.
  */
 class UserController {
-    async createRecord(req, res, next) {
-        return registerUser(req, res, next);
-    }
+    /**
+     * Registers a new user.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of registerUser function.
+     */
+    createRecord = registerUser;
 
-    async getRecord(req, res, next) {
-        return getUser(req, res, next);
-    }
+    /**
+     * Retrieves a specific user record.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of getUser function.
+     */
+    getRecord = getUser;
 
-    async updateRecord(req, res, next) {
-        return updateUser(req, res, next);
-    }
+    /**
+     * Updates an existing user record.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of updateUser function.
+     */
+    updateRecord = updateUser;
 
-    async deleteRecord(req, res, next) {
-        return deleteUser(req, res, next);
-    }
+    /**
+     * Deletes a user record.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of deleteUser function.
+     */
+    deleteRecord = deleteUser;
 
-    async logIn(req, res, next) {
-        return logInUserHandler(req, res, next);
-    }
+    /**
+     * Handles user login.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of logInUserHandler function.
+     */
+    logIn = logInUserHandler;
 
-    async changePassword(req, res, next) {
-        return passwordChanger(req, res, next);
-    }
+    /**
+     * Changes a user's password.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of passwordChanger function.
+     */
+    changePassword = passwordChanger;
 }
 
 module.exports = new UserController();

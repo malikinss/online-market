@@ -5,28 +5,58 @@ const updateOrderItem = require("./methods/updateOrderItem");
 const deleteOrderItem = require("./methods/deleteOrderItem");
 
 /**
- * Controller for managing order items.
+ * Controller for managing order item-related operations.
  */
 class OrderItemController {
-    async createRecord(req, res, next) {
-        return createOrderItem(req, res, next);
-    }
+    /**
+     * Creates a new order item record.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of createOrderItem function.
+     */
+    createRecord = createOrderItem;
 
-    async getRecord(req, res, next) {
-        return getOrderItem(req, res, next);
-    }
+    /**
+     * Retrieves a specific order item record.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of getOrderItem function.
+     */
+    getRecord = getOrderItem;
 
-    async getRecords(req, res, next) {
-        return getOrderItems(req, res, next);
-    }
+    /**
+     * Retrieves all order item records.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of getOrderItems function.
+     */
+    getRecords = getOrderItems;
 
-    async updateRecord(req, res, next) {
-        return updateOrderItem(req, res, next);
-    }
+    /**
+     * Updates an existing order item record.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of updateOrderItem function.
+     */
+    updateRecord = updateOrderItem;
 
-    async deleteRecord(req, res, next) {
-        return deleteOrderItem(req, res, next);
-    }
+    /**
+     * Deletes an order item record.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of deleteOrderItem function.
+     */
+    deleteRecord = deleteOrderItem;
 }
 
 module.exports = new OrderItemController();

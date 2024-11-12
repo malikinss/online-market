@@ -4,24 +4,48 @@ const updatePayment = require("./methods/updatePayment");
 const deletePayment = require("./methods/deletePayment");
 
 /**
- * Controller for managing order payments.
+ * Controller for managing payment-related operations.
  */
 class PaymentController {
-  async createRecord(req, res, next) {
-    return await createPayment(req, res, next);
-  }
+    /**
+     * Creates a new payment record.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of createPayment function.
+     */
+    createRecord = createPayment;
 
-  async getRecord(req, res, next) {
-    return await getPayment(req, res, next);
-  }
+    /**
+     * Retrieves a specific payment record.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of getPayment function.
+     */
+    getRecord = getPayment;
 
-  async updateRecord(req, res, next) {
-    return await updatePayment(req, res, next);
-  }
+    /**
+     * Updates an existing payment record.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of updatePayment function.
+     */
+    updateRecord = updatePayment;
 
-  async deleteRecord(req, res, next) {
-    return await deletePayment(req, res, next);
-  }
+    /**
+     * Deletes a payment record.
+     * @function
+     * @param {Object} req - The request object.
+     * @param {Object} res - The response object.
+     * @param {Function} next - The next middleware function.
+     * @returns {Promise} - Resolves to the result of deletePayment function.
+     */
+    deleteRecord = deletePayment;
 }
 
 module.exports = new PaymentController();
