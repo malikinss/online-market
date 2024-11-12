@@ -1,12 +1,12 @@
-const Category = require("../../../models/Categories/Categories");
-const ApiError = require("../../../error/ApiError");
+const Category = require("../../../../models/Categories/Categories");
+const ApiError = require("../../../../error/ApiError");
 
 const {
     findRecordByField,
-} = require("../../controllerUtils/findHandlers/findHandlers");
+} = require("../../../controllerUtils/findHandlers/findHandlers");
 const {
     messages,
-} = require("../../controllerUtils/messagesHandler/messagesHandler");
+} = require("../../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Updates the name of a category by ID in the database.

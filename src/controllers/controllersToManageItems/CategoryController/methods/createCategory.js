@@ -1,9 +1,9 @@
-const Category = require("../../../models/Categories/Categories");
-const ApiError = require("../../../error/ApiError");
+const Category = require("../../../../models/Categories/Categories");
+const ApiError = require("../../../../error/ApiError");
 
 const {
     messages,
-} = require("../../controllerUtils/messagesHandler/messagesHandler");
+} = require("../../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Creates a new item category in the database.

@@ -1,12 +1,12 @@
-const Category = require("../../../models/Categories/Categories");
-const ApiError = require("../../../error/ApiError");
+const Category = require("../../../../models/Categories/Categories");
+const ApiError = require("../../../../error/ApiError");
 
 const {
     findRecordByField,
-} = require("../../controllerUtils/findHandlers/findHandlers");
+} = require("../../../controllerUtils/findHandlers/findHandlers");
 const {
     messages,
-} = require("../../controllerUtils/messagesHandler/messagesHandler");
+} = require("../../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Deletes a category by ID from the database.
