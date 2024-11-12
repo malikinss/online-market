@@ -2,7 +2,7 @@ const Item = require("../../../models/Items/Items");
 const ApiError = require("../../../error/ApiError");
 const {
     containsFalsyValues,
-} = require("../../controllerUtils/dataValidations");
+} = require("../../controllerUtils/containsFalsyValues/dataValidations");
 const { messages } = require("../../controllerUtils/messagesHandler");
 
 const uuid = require("uuid");

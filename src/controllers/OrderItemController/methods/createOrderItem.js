@@ -6,7 +6,7 @@ const { findRecordByField } = require("../../controllerUtils/findHandlers");
 
 const {
     containsFalsyValues,
-} = require("../../controllerUtils/dataValidations");
+} = require("../../controllerUtils/containsFalsyValues/dataValidations");
 const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**

@@ -5,7 +5,7 @@ const PaymentController = require("../../PaymentController/PaymentController");
 
 const {
     containsFalsyValues,
-} = require("../../controllerUtils/dataValidations");
+} = require("../../controllerUtils/containsFalsyValues/dataValidations");
 const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**

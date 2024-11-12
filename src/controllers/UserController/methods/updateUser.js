@@ -5,7 +5,7 @@ const UserAddressController = require("../../UserAddressController/UserAddressCo
 const { findRecordByField } = require("../../controllerUtils/findHandlers");
 const {
     containsFalsyValues,
-} = require("../../controllerUtils/dataValidations");
+} = require("../../controllerUtils/containsFalsyValues/dataValidations");
 const {
     checkEmailAndPhoneUniqueness,
 } = require("../../controllerUtils/checkUniqueness/checkUniqueness");
