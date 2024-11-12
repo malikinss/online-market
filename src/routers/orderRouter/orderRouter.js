@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const checkRole = require("../../middleware/checkRoleMiddleware");
-const OrderController = require("../../controllers/OrderController/OrderController");
+const OrderController = require("../../controllers/controllersToManageOrders/OrderController/OrderController");
 
 // Routes for creating and receiving all orders
 router

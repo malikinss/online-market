@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const OrderItemController = require("../../controllers/OrderItemController/OrderItemController");
+const OrderItemController = require("../../controllers/controllersToManageOrders/OrderItemController/OrderItemController");
 
 // Routes for creating and retrieving order items
 router

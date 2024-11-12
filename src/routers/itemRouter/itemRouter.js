@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const ItemController = require("../../controllers/ItemController/ItemController");
+const ItemController = require("../../controllers/controllersToManageItems/ItemController/ItemController");
 const checkRole = require("../../middleware/checkRoleMiddleware");
 
 // Route for creating and retrieving items

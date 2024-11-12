@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const checkRole = require("../../middleware/checkRoleMiddleware");
-const CategoryController = require("../../controllers/CategoryController/CategoryController");
+const CategoryController = require("../../controllers/controllersToManageItems/CategoryController/CategoryController");
 
 // Creating and getting categories
 router
