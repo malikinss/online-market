@@ -1,14 +1,14 @@
-const Order = require("../../../models/Orders/Orders");
-const OrderItem = require("../../../models/OrderItems/OrderItems");
-const Payment = require("../../../models/Payments/Payments");
-const ApiError = require("../../../error/ApiError");
+const Order = require("../../../../models/Orders/Orders");
+const OrderItem = require("../../../../models/OrderItems/OrderItems");
+const Payment = require("../../../../models/Payments/Payments");
+const ApiError = require("../../../../error/ApiError");
 const {
     findRecordByField,
     findRecordsByField,
-} = require("../../controllerUtils/findHandlers/findHandlers");
+} = require("../../../controllerUtils/findHandlers/findHandlers");
 const {
     messages,
-} = require("../../controllerUtils/messagesHandler/messagesHandler");
+} = require("../../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Get all orders per specific User.

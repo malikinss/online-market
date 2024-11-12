@@ -1,14 +1,14 @@
-const Order = require("../../../models/Orders/Orders");
-const ApiError = require("../../../error/ApiError");
+const Order = require("../../../../models/Orders/Orders");
+const ApiError = require("../../../../error/ApiError");
 const OrderItemController = require("../../OrderItemController/OrderItemController");
 const PaymentController = require("../../PaymentController/PaymentController");
 
 const {
     containsFalsyValues,
-} = require("../../controllerUtils/validations/dataValidation/dataValidations");
+} = require("../../../controllerUtils/validations/dataValidation/dataValidations");
 const {
     messages,
-} = require("../../controllerUtils/messagesHandler/messagesHandler");
+} = require("../../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Create a new order.

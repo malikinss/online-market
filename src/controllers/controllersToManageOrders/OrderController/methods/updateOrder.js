@@ -1,11 +1,11 @@
-const Order = require("../../../models/Orders/Orders");
-const ApiError = require("../../../error/ApiError");
+const Order = require("../../../../models/Orders/Orders");
+const ApiError = require("../../../../error/ApiError");
 const {
     findRecordByField,
-} = require("../../controllerUtils/findHandlers/findHandlers");
+} = require("../../../controllerUtils/findHandlers/findHandlers");
 const {
     messages,
-} = require("../../controllerUtils/messagesHandler/messagesHandler");
+} = require("../../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Update an order by ID.

@@ -1,6 +1,6 @@
-const Order = require("../../../models/Orders/Orders");
-const OrderItem = require("../../../models/OrderItems/OrderItems");
-const ApiError = require("../../../error/ApiError");
+const Order = require("../../../../models/Orders/Orders");
+const OrderItem = require("../../../../models/OrderItems/OrderItems");
+const ApiError = require("../../../../error/ApiError");
 
 const OrderItemController = require("../../OrderItemController/OrderItemController");
 const PaymentController = require("../../PaymentController/PaymentController");
@@ -8,10 +8,10 @@ const PaymentController = require("../../PaymentController/PaymentController");
 const {
     findRecordByField,
     findRecordsByField,
-} = require("../../controllerUtils/findHandlers/findHandlers");
+} = require("../../../controllerUtils/findHandlers/findHandlers");
 const {
     messages,
-} = require("../../controllerUtils/messagesHandler/messagesHandler");
+} = require("../../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Removes an existing order from the system using its unique identifier.

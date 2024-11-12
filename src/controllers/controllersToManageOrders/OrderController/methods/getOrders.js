@@ -1,12 +1,12 @@
-const Order = require("../../../models/Orders/Orders");
-const ApiError = require("../../../error/ApiError");
+const Order = require("../../../../models/Orders/Orders");
+const ApiError = require("../../../../error/ApiError");
 
 const {
     findAllRecords,
-} = require("../../controllerUtils/findHandlers/findHandlers");
+} = require("../../../controllerUtils/findHandlers/findHandlers");
 const {
     messages,
-} = require("../../controllerUtils/messagesHandler/messagesHandler");
+} = require("../../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Retrieves all order records from the database and sends them as a JSON response.
