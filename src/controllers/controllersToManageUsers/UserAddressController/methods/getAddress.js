@@ -1,12 +1,12 @@
-const UserAddress = require("../../../models/UserAddresses/UserAddresses");
-const ApiError = require("../../../error/ApiError");
+const UserAddress = require("../../../../models/UserAddresses/UserAddresses");
+const ApiError = require("../../../../error/ApiError");
 
 const {
     findRecordByField,
-} = require("../../controllerUtils/findHandlers/findHandlers");
+} = require("../../../controllerUtils/findHandlers/findHandlers");
 const {
     messages,
-} = require("../../controllerUtils/messagesHandler/messagesHandler");
+} = require("../../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Get a user address by ID.

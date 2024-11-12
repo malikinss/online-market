@@ -1,12 +1,12 @@
-const UserAddress = require("../../../models/UserAddresses/UserAddresses");
-const ApiError = require("../../../error/ApiError");
+const UserAddress = require("../../../../models/UserAddresses/UserAddresses");
+const ApiError = require("../../../../error/ApiError");
 
 const {
     containsFalsyValues,
-} = require("../../controllerUtils/validations/dataValidation/dataValidations");
+} = require("../../../controllerUtils/validations/dataValidation/dataValidations");
 const {
     messages,
-} = require("../../controllerUtils/messagesHandler/messagesHandler");
+} = require("../../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Creates a new user address and saves it to the database.
