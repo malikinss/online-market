@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
-const ApiError = require("../../../error/ApiError");
-const { messages } = require("../messagesHandler/messagesHandler");
+const ApiError = require("../../../../error/ApiError");
+const { messages } = require("../../messagesHandler/messagesHandler");
 
 /**
  * Function to validate the password by comparing it with the current hashed password.
