@@ -1,14 +1,14 @@
-const User = require("../../../models/Users/Users");
-const UserAddress = require("../../../models/UserAddresses/UserAddresses");
-const ApiError = require("../../../error/ApiError");
-const UserAddressController = require("../../UserAddressController/UserAddressController");
+const User = require("../../../../models/Users/Users");
+const UserAddress = require("../../../../models/UserAddresses/UserAddresses");
+const ApiError = require("../../../../error/ApiError");
+const UserAddressController = require("../../../UserAddressController/UserAddressController");
 
 const {
     findRecordByField,
-} = require("../../controllerUtils/findHandlers/findHandlers");
+} = require("../../../controllerUtils/findHandlers/findHandlers");
 const {
     messages,
-} = require("../../controllerUtils/messagesHandler/messagesHandler");
+} = require("../../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Deletes a user by ID.

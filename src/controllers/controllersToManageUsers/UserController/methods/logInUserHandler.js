@@ -1,19 +1,19 @@
-const User = require("../../../models/Users/Users");
-const ApiError = require("../../../error/ApiError");
+const User = require("../../../../models/Users/Users");
+const ApiError = require("../../../../error/ApiError");
 
 const {
     containsFalsyValues,
-} = require("../../controllerUtils/validations/dataValidation/dataValidations");
+} = require("../../../controllerUtils/validations/dataValidation/dataValidations");
 const {
     findRecordByField,
-} = require("../../controllerUtils/findHandlers/findHandlers");
+} = require("../../../controllerUtils/findHandlers/findHandlers");
 const {
     verifyPasswordMatch,
 } = require("./passwordValidations/passwordValidations");
-const generateJWT = require("../../controllerUtils/generateJWT/generateJWT");
+const generateJWT = require("../../../controllerUtils/generateJWT/generateJWT");
 const {
     messages,
-} = require("../../controllerUtils/messagesHandler/messagesHandler");
+} = require("../../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Logs in a user.

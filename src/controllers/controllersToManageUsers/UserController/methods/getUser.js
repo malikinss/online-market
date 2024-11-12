@@ -1,13 +1,13 @@
-const User = require("../../../models/Users/Users");
-const ApiError = require("../../../error/ApiError");
-const UserAddressController = require("../../UserAddressController/UserAddressController");
+const User = require("../../../../models/Users/Users");
+const ApiError = require("../../../../error/ApiError");
+const UserAddressController = require("../../../UserAddressController/UserAddressController");
 
 const {
     findRecordByField,
-} = require("../../controllerUtils/findHandlers/findHandlers");
+} = require("../../../controllerUtils/findHandlers/findHandlers");
 const {
     messages,
-} = require("../../controllerUtils/messagesHandler/messagesHandler");
+} = require("../../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Retrieves the current user's information.

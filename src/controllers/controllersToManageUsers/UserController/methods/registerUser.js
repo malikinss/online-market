@@ -1,22 +1,22 @@
-const User = require("../../../models/Users/Users");
-const ApiError = require("../../../error/ApiError");
+const User = require("../../../../models/Users/Users");
+const ApiError = require("../../../../error/ApiError");
 const UserAddressController = require("../../UserAddressController/UserAddressController");
 
 const {
     containsFalsyValues,
-} = require("../../controllerUtils/validations/dataValidation/dataValidations");
+} = require("../../../controllerUtils/validations/dataValidation/dataValidations");
 const {
     checkEmailAndPhoneUniqueness,
-} = require("../../controllerUtils/validations/checkUniqueness/checkUniqueness");
+} = require("../../../controllerUtils/validations/checkUniqueness/checkUniqueness");
 const {
     validateNewPassword,
 } = require("./passwordValidations/passwordValidations");
 const {
     messages,
-} = require("../../controllerUtils/messagesHandler/messagesHandler");
+} = require("../../../controllerUtils/messagesHandler/messagesHandler");
 
 const bcrypt = require("bcrypt");
-const generateJWT = require("../../controllerUtils/generateJWT/generateJWT");
+const generateJWT = require("../../../controllerUtils/generateJWT/generateJWT");
 
 /**
  * Registers a new user.

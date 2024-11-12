@@ -1,20 +1,20 @@
 const bcrypt = require("bcrypt");
-const User = require("../../../models/Users/Users");
-const ApiError = require("../../../error/ApiError");
+const User = require("../../../../models/Users/Users");
+const ApiError = require("../../../../error/ApiError");
 
 const {
     containsFalsyValues,
-} = require("../../controllerUtils/validations/dataValidation/dataValidations");
+} = require("../../../controllerUtils/validations/dataValidation/dataValidations");
 const {
     findRecordByField,
-} = require("../../controllerUtils/findHandlers/findHandlers");
+} = require("../../../controllerUtils/findHandlers/findHandlers");
 const {
     validateNewPassword,
     verifyPasswordMatch,
 } = require("./passwordValidations/passwordValidations");
 const {
     messages,
-} = require("../../controllerUtils/messagesHandler/messagesHandler");
+} = require("../../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Changes the user's password.

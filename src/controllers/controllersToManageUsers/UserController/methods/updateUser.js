@@ -1,19 +1,19 @@
-const User = require("../../../models/Users/Users");
-const ApiError = require("../../../error/ApiError");
+const User = require("../../../../models/Users/Users");
+const ApiError = require("../../../../error/ApiError");
 const UserAddressController = require("../../UserAddressController/UserAddressController");
 
 const {
     findRecordByField,
-} = require("../../controllerUtils/findHandlers/findHandlers");
+} = require("../../../controllerUtils/findHandlers/findHandlers");
 const {
     containsFalsyValues,
-} = require("../../controllerUtils/validations/dataValidation/dataValidations");
+} = require("../../../controllerUtils/validations/dataValidation/dataValidations");
 const {
     checkEmailAndPhoneUniqueness,
-} = require("../../controllerUtils/validations/checkUniqueness/checkUniqueness");
+} = require("../../../controllerUtils/validations/checkUniqueness/checkUniqueness");
 const {
     messages,
-} = require("../../controllerUtils/messagesHandler/messagesHandler");
+} = require("../../../controllerUtils/messagesHandler/messagesHandler");
 
 /**
  * Updates the user's information.
