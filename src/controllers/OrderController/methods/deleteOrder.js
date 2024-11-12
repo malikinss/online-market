@@ -8,7 +8,7 @@ const PaymentController = require("../../PaymentController/PaymentController");
 const {
     findRecordByField,
     findRecordsByField,
-} = require("../../controllerUtils/findHandlers");
+} = require("../../controllerUtils/findHandlers/findHandlers");
 const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**

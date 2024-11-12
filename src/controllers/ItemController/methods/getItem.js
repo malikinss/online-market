@@ -1,7 +1,9 @@
 const Item = require("../../../models/Items/Items");
 const ApiError = require("../../../error/ApiError");
 
-const { findRecordByField } = require("../../controllerUtils/findHandlers");
+const {
+    findRecordByField,
+} = require("../../controllerUtils/findHandlers/findHandlers");
 const {
     containsFalsyValues,
 } = require("../../controllerUtils/containsFalsyValues/dataValidations");

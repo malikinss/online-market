@@ -1,7 +1,9 @@
 const OrderItem = require("../../../models/OrderItems/OrderItems");
 const ApiError = require("../../../error/ApiError");
 
-const { findRecordsByField } = require("../../controllerUtils/findHandlers");
+const {
+    findRecordsByField,
+} = require("../../controllerUtils/findHandlers/findHandlers");
 const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**

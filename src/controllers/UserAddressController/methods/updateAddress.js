@@ -1,7 +1,9 @@
 const UserAddress = require("../../../models/UserAddresses/UserAddresses");
 const ApiError = require("../../../error/ApiError");
 
-const { findRecordByField } = require("../../controllerUtils/findHandlers");
+const {
+    findRecordByField,
+} = require("../../controllerUtils/findHandlers/findHandlers");
 const {
     containsFalsyValues,
 } = require("../../controllerUtils/containsFalsyValues/dataValidations");

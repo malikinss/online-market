@@ -1,7 +1,9 @@
 const Category = require("../../../models/Categories/Categories");
 const ApiError = require("../../../error/ApiError");
 
-const { findRecordByField } = require("../../controllerUtils/findHandlers");
+const {
+    findRecordByField,
+} = require("../../controllerUtils/findHandlers/findHandlers");
 const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**

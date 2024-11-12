@@ -1,4 +1,4 @@
-const { findModelExcludingId } = require("../findHandlers");
+const { findModelExcludingId } = require("../findHandlers/findHandlers");
 const ApiError = require("../../../error/ApiError");
 
 /**

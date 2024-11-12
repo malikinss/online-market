@@ -5,7 +5,7 @@ const ApiError = require("../../../error/ApiError");
 const {
     findRecordByField,
     findRecordsByField,
-} = require("../../controllerUtils/findHandlers");
+} = require("../../controllerUtils/findHandlers/findHandlers");
 const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**

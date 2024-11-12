@@ -7,7 +7,7 @@ const {
     findRecordByField,
     findRecordsByField,
     findRecordByFieldInclude,
-} = require("../../controllerUtils/findHandlers");
+} = require("../../controllerUtils/findHandlers/findHandlers");
 const { messages } = require("../../controllerUtils/messagesHandler");
 
 /**
