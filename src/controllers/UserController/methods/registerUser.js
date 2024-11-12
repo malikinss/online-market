@@ -16,7 +16,7 @@ const {
 } = require("../../controllerUtils/messagesHandler/messagesHandler");
 
 const bcrypt = require("bcrypt");
-const generateJWT = require("../../controllerUtils/generateJWT");
+const generateJWT = require("../../controllerUtils/generateJWT/generateJWT");
 
 /**
  * Registers a new user.

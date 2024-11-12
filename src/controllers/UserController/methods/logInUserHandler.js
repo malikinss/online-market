@@ -10,7 +10,7 @@ const {
 const {
     verifyPasswordMatch,
 } = require("./passwordValidations/passwordValidations");
-const generateJWT = require("../../controllerUtils/generateJWT");
+const generateJWT = require("../../controllerUtils/generateJWT/generateJWT");
 const {
     messages,
 } = require("../../controllerUtils/messagesHandler/messagesHandler");
