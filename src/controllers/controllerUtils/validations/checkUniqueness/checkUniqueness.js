@@ -1,5 +1,5 @@
-const { findModelExcludingId } = require("../findHandlers/findHandlers");
-const ApiError = require("../../../error/ApiError");
+const { findModelExcludingId } = require("../../findHandlers/findHandlers");
+const ApiError = require("../../../../error/ApiError");
 
 /**
  * Checks if the specified field is unique.

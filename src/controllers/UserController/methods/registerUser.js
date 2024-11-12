@@ -4,10 +4,10 @@ const UserAddressController = require("../../UserAddressController/UserAddressCo
 
 const {
     containsFalsyValues,
-} = require("../../controllerUtils/containsFalsyValues/dataValidations");
+} = require("../../controllerUtils/validations/dataValidation/dataValidations");
 const {
     checkEmailAndPhoneUniqueness,
-} = require("../../controllerUtils/checkUniqueness/checkUniqueness");
+} = require("../../controllerUtils/validations/checkUniqueness/checkUniqueness");
 const {
     validateNewPassword,
 } = require("./passwordValidations/passwordValidations");

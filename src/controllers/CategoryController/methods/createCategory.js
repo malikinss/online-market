@@ -2,9 +2,6 @@ const Category = require("../../../models/Categories/Categories");
 const ApiError = require("../../../error/ApiError");
 
 const {
-    containsFalsyValues,
-} = require("../../controllerUtils/containsFalsyValues/dataValidations");
-const {
     messages,
 } = require("../../controllerUtils/messagesHandler/messagesHandler");
 
@@ -21,11 +18,15 @@ const createCategory = async (req, res, next) => {
         const { name } = req.body;
 
         // Validate input to ensure no falsy values
-        containsFalsyValues([name]);
+        if (!name) {
+            throw ApiError.internal(
+                messages.errors.nullData("Category", "Name")
+            );
+        }
 
         const newCategory = await Category.create({ name });
         if (!newCategory) {
-            throw new ApiError.internal(
+            throw ApiError.internal(
                 messages.errors.actionFailed("create", "Category")
             );
         }

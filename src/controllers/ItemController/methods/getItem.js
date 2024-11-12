@@ -5,9 +5,6 @@ const {
     findRecordByField,
 } = require("../../controllerUtils/findHandlers/findHandlers");
 const {
-    containsFalsyValues,
-} = require("../../controllerUtils/containsFalsyValues/dataValidations");
-const {
     messages,
 } = require("../../controllerUtils/messagesHandler/messagesHandler");
 
@@ -22,13 +19,15 @@ const {
 const getItem = async (req, res, next) => {
     try {
         // Extract item ID from the request parameters
-        const itemID = req.params.id;
+        const itemId = req.params.id;
 
         // Validate that the item ID does not contain any falsy values
-        containsFalsyValues([itemID]);
+        if (!itemId) {
+            throw ApiError.badRequest(messages.errors.nullData("Item", "id"));
+        }
 
         // Attempt to find the item in the database using the provided ID
-        const item = await findRecordByField("id", itemID, Item);
+        const item = await findRecordByField("id", itemId, Item);
 
         // If the item is not found, throw a not found error
         if (!item) {

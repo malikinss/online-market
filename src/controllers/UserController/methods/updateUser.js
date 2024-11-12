@@ -7,10 +7,10 @@ const {
 } = require("../../controllerUtils/findHandlers/findHandlers");
 const {
     containsFalsyValues,
-} = require("../../controllerUtils/containsFalsyValues/dataValidations");
+} = require("../../controllerUtils/validations/dataValidation/dataValidations");
 const {
     checkEmailAndPhoneUniqueness,
-} = require("../../controllerUtils/checkUniqueness/checkUniqueness");
+} = require("../../controllerUtils/validations/checkUniqueness/checkUniqueness");
 const {
     messages,
 } = require("../../controllerUtils/messagesHandler/messagesHandler");

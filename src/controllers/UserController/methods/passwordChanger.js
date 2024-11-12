@@ -4,7 +4,7 @@ const ApiError = require("../../../error/ApiError");
 
 const {
     containsFalsyValues,
-} = require("../../controllerUtils/containsFalsyValues/dataValidations");
+} = require("../../controllerUtils/validations/dataValidation/dataValidations");
 const {
     findRecordByField,
 } = require("../../controllerUtils/findHandlers/findHandlers");
