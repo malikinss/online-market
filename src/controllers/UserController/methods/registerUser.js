@@ -7,7 +7,7 @@ const {
 } = require("../../controllerUtils/dataValidations");
 const {
     checkEmailAndPhoneUniqueness,
-} = require("../../controllerUtils/checkUniqueness");
+} = require("../../controllerUtils/checkUniqueness/checkUniqueness");
 const {
     validateNewPassword,
 } = require("./passwordValidations/passwordValidations");
