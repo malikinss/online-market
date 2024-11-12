@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
-const ApiError = require("../../error/ApiError");
-const { messages } = require("../../views/messageHandling");
+const ApiError = require("../../../error/ApiError");
+const { messages } = require("../messagesHandler/messagesHandler");
 
 /**
  * Function to validate the password by comparing it with the current hashed password.
@@ -37,7 +37,7 @@ const validatePasswordCreation = (password, next) => {
         return regex.test(password);
     } catch (e) {
         return next(
-            ApiError.badRequest(messages.error.requirements("Password"))
+            ApiError.badRequest(messages.errors.requirements("Password"))
         );
     }
 };
@@ -63,7 +63,7 @@ const getValidHashedPassword = (password, next) => {
         return hashedPassword;
     } catch (e) {
         return next(
-            ApiError.badRequest(messages.error.requirements("Password"))
+            ApiError.badRequest(messages.errors.requirements("Password"))
         );
     }
 };
