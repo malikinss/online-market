@@ -30,7 +30,7 @@ const UpdateItem = () => {
     // Fetch categories without auth check
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:5000/api/category");
+        const response = await axios.get(`${process.env.REACT_APP_CATEGORIES}`);
         setCategories(response.data);
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -40,7 +40,7 @@ const UpdateItem = () => {
     // Fetch all items without auth check
     const fetchItems = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:5000/api/item");
+        const response = await axios.get(`${process.env.REACT_APP_ITEMS}`);
         setItems(response.data);
       } catch (error) {
         console.error("Error fetching items:", error);
@@ -58,7 +58,7 @@ const UpdateItem = () => {
 
     try {
       if (categoryId) {
-        const response = await axios.get("http://127.0.0.1:5000/api/item", {
+        const response = await axios.get(`${process.env.REACT_APP_ITEMS}`, {
           params: { categoryId: categoryId },
         });
         setItems(
@@ -68,7 +68,7 @@ const UpdateItem = () => {
         );
       } else {
         // Reset to all items if no category is selected
-        const response = await axios.get("http://127.0.0.1:5000/api/item");
+        const response = await axios.get(`${process.env.REACT_APP_ITEMS}`);
         setItems(response.data);
       }
     } catch (error) {
@@ -105,13 +105,6 @@ const UpdateItem = () => {
     }));
   };
 
-  const handleFileChange = (e) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      imgFile: e.target.files[0],
-    }));
-  };
-
   const handleUpdateItem = async (e) => {
     e.preventDefault();
 
@@ -127,13 +120,10 @@ const UpdateItem = () => {
     data.append("price", formData.price);
     data.append("stock", formData.stock);
     data.append("categoryId", formData.categoryId);
-    if (formData.imgFile) {
-      data.append("imgFile", formData.imgFile);
-    }
 
     try {
       const response = await axios.put(
-        `http://127.0.0.1:5000/api/item/${selectedItemId}`,
+        `${process.env.REACT_APP_ITEMS}/${selectedItemId}`,
         data,
         {
           headers: {
@@ -239,10 +229,6 @@ const UpdateItem = () => {
             onChange={handleChange}
             required
           />
-        </div>
-        <div>
-          <label>Image File:</label>
-          <input type="file" name="imgFile" onChange={handleFileChange} />
         </div>
         <button type="submit">Update Item</button>
       </form>

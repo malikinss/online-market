@@ -21,7 +21,7 @@ const DeleteItem = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:5000/api/category");
+        const response = await axios.get(`${process.env.REACT_APP_CATEGORIES}`);
         setCategories(response.data);
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -35,7 +35,7 @@ const DeleteItem = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:5000/api/item");
+        const response = await axios.get(`${process.env.REACT_APP_ITEMS}`);
         setItems(response.data);
         setFilteredItems(response.data); // Initial filter to show all items
       } catch (error) {
@@ -76,7 +76,7 @@ const DeleteItem = () => {
 
     try {
       const response = await axios.delete(
-        `http://127.0.0.1:5000/api/item/${selectedItemId}`,
+        `${process.env.REACT_APP_ITEMS}/${selectedItemId}`,
         {
           headers: {
             Authorization: `Bearer ${auth.token}`,

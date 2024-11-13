@@ -32,7 +32,7 @@ const DeleteUser = () => {
     try {
       // Fetch the user to check their role
       const userResponse = await axios.get(
-        `http://127.0.0.1:5000/api/user/${userId}`,
+        `${process.env.REACT_APP_USERS}/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${auth.token}`,
@@ -47,7 +47,7 @@ const DeleteUser = () => {
       }
 
       // Proceed to delete the user
-      await axios.delete(`http://127.0.0.1:5000/api/user/delete/${userId}`, {
+      await axios.delete(`${process.env.REACT_APP_DELETEUSER}${userId}`, {
         headers: {
           Authorization: `Bearer ${auth.token}`,
         },

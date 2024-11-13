@@ -16,7 +16,7 @@ const UpdateOrder = () => {
   const fetchOrders = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://127.0.0.1:5000/api/order", {
+      const response = await axios.get(`${process.env.REACT_APP_ORDERS}`, {
         headers: {
           Authorization: `Bearer ${auth.token}`,
         },
@@ -57,7 +57,7 @@ const UpdateOrder = () => {
     }
 
     try {
-      await axios.put(`http://127.0.0.1:5000/api/order/${orderId}`, {
+      await axios.put(`${process.env.REACT_APP_ORDERS}/${orderId}`, {
         status: statusToUpdate,
       });
 

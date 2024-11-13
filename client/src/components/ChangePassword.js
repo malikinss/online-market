@@ -36,7 +36,7 @@ const ChangePassword = () => {
 
     try {
       await axios.put(
-        `http://127.0.0.1:5000/api/user/change-password/${userId}`,
+        `${process.env.REACT_APP_CHANGEPASSWORD}${userId}`,
         { oldPassword, newPassword },
         { headers: { Authorization: `Bearer ${auth.token}` } }
       );

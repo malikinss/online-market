@@ -7,7 +7,7 @@ export class ShowFullItem extends Component {
       <div className="full-item">
         <div>
           <img
-            src={`http://127.0.0.1:5000/${img}`}
+            src={`${process.env.REACT_APP_BACKENDSERVER}/${img}`}
             alt={name}
             onClick={() => this.props.onShowItem(this.props.item)}
           />

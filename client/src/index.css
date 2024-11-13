@@ -375,10 +375,10 @@ button {
   background-color: #3cb371;
   color: white;
   border: none;
-  padding: 5px 10px; /* Увеличены отступы для кнопок */
+  padding: 5px 10px; /* Increased padding for buttons */
   cursor: pointer;
   border-radius: 5px;
-  margin: 5px 10px; /* одинаковое расстояние между кнопками */
+  margin: 5px 10px; /* equal distance between buttons */
 }
 
 .button-decrease {
@@ -386,21 +386,21 @@ button {
 }
 
 .button-increase {
-  margin-right: 0; /* Увеличен отступ от правого края */
+  margin-right: 0; /* Increased indent from the right edge */
 }
 
 .button-decrease:hover {
-  background-color: #d02d2d; /* Цвет при наведении - чуть темнее */
+  background-color: #d02d2d; /* The hover color is slightly darker */
 }
 
 .button-increase:hover {
-  background-color: #32a852; /* Цвет при наведении - чуть темнее */
+  background-color: #32a852; /* The hover color is slightly darker */
 }
 
 .delete-icon {
   font-weight: bold;
-  color: #dc3d3d; /* Цвет значка удаления */
-  margin-left: 20px; /* Расстояние между текстом и значком */
+  color: #dc3d3d; /* Delete icon color */
+  margin-left: 20px; /* Space between text and icon */
 }
 
 .summa {
@@ -669,7 +669,7 @@ button {
   width: 100%;
 }
 
-/* Стили для формы создания категории */
+/* Styles for the category creation form */
 .create-category-container {
   max-width: 400px;
   margin: 50px auto;
@@ -717,7 +717,7 @@ button {
   font-size: 14px;
 }
 
-/* Стили для контейнера компонента */
+/* Styles for the component container */
 .update-category-container {
   max-width: 400px;
   margin: 50px auto;
@@ -728,14 +728,14 @@ button {
   text-align: center;
 }
 
-/* Стили для заголовка */
+/* Header Styles */
 .update-category-container h2 {
   margin-bottom: 20px;
   font-size: 24px;
   color: #333;
 }
 
-/* Стили для селектора категорий */
+/* Styles for category selector */
 .update-category-container select {
   width: 100%;
   padding: 10px;
@@ -750,7 +750,7 @@ button {
   border-color: #3cb371;
 }
 
-/* Стили для формы ввода имени категории */
+/* Styles for the category name input form */
 .update-category-container input {
   width: 100%;
   padding: 10px;
@@ -765,7 +765,7 @@ button {
   border-color: #3cb371;
 }
 
-/* Стили для кнопки обновления категории */
+/* Styles for category update button */
 .update-category-container button {
   padding: 10px 20px;
   background-color: #3cb371;
@@ -780,7 +780,7 @@ button {
   background-color: #30935c;
 }
 
-/* Сообщение об ошибке */
+/* Error message */
 .error {
   color: #e74c3c;
   margin-top: 15px;

@@ -38,7 +38,7 @@ const App = () => {
   const [fullItem, setFullItem] = useState({});
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/api/item", {
+    fetch(`${process.env.REACT_APP_ITEMS}`, {
       credentials: "include",
     })
       .then((response) => {

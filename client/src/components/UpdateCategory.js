@@ -19,7 +19,7 @@ const UpdateCategory = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:5000/api/category");
+        const response = await axios.get(`${process.env.REACT_APP_CATEGORIES}`);
         setCategories(response.data);
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -64,7 +64,7 @@ const UpdateCategory = () => {
       const data = { name: categoryName };
 
       const response = await axios.put(
-        `http://127.0.0.1:5000/api/category/${selectedCategoryId}`,
+        `${process.env.REACT_APP_CATEGORIES}/${selectedCategoryId}`,
         data,
         {
           headers: {

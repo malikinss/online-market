@@ -14,7 +14,7 @@ const OrderHistory = () => {
   const fetchOrders = async () => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:5000/api/order/user/${userId}`,
+        `${process.env.REACT_APP_ORDERUSER}/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${auth.token}`,
@@ -38,7 +38,7 @@ const OrderHistory = () => {
   const handlePayOrder = async (orderId, paymentId) => {
     try {
       await axios.put(
-        `http://127.0.0.1:5000/api/order/${orderId}`,
+        `${process.env.REACT_APP_ORDERS}/${orderId}`,
         { status: "Paid" },
         {
           headers: {
@@ -48,7 +48,7 @@ const OrderHistory = () => {
       );
 
       await axios.put(
-        `http://127.0.0.1:5000/api/payment/${paymentId}`,
+        `${process.env.REACT_APP_PAYMENT}/${paymentId}`,
         {},
         {
           headers: {
@@ -88,7 +88,7 @@ const OrderHistory = () => {
               </p>
               <p className="order-info">
                 Total Price:{" "}
-                <span className="order-value">${order.order.totalPrice}</span>
+                <span className="order-value">{order.order.totalPrice} ₪</span>
               </p>
               <p className="order-info">
                 Status:{" "}

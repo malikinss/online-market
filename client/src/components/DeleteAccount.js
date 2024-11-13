@@ -17,7 +17,7 @@ const DeleteAccount = () => {
 
   const handleDeleteAccount = async () => {
     try {
-      await axios.delete(`http://127.0.0.1:5000/api/user/delete/${userId}`, {
+      await axios.delete(`${process.env.REACT_APP_DELETEUSER}${userId}`, {
         headers: { Authorization: `Bearer ${auth.token}` },
       });
       alert("Account deleted successfully");

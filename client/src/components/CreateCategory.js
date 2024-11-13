@@ -24,7 +24,7 @@ const CreateCategory = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/api/category",
+        `${process.env.REACT_APP_CATEGORIES}`,
         { name }, // Send the name in the request body
         {
           headers: {
@@ -38,7 +38,7 @@ const CreateCategory = () => {
         setErrorMessage(""); // Clear any previous error messages
       }
     } catch (error) {
-      console.error("Ошибка при создании категории:", error);
+      console.error("Error creating category:", error);
       setErrorMessage("Failed to create category. Please try again.");
     }
   };

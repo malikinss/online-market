@@ -6,7 +6,7 @@ const Order = (props) => {
 
   return (
     <div className="item">
-      <img src={`http://127.0.0.1:5000/${img}`} alt={name} />
+      <img src={`${process.env.REACT_APP_BACKENDSERVER}/${img}`} alt={name} />
       <h2>{name}</h2>
       <b>
         {price}₪ * {counter} = {(price * counter).toFixed(2)}

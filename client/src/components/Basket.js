@@ -10,22 +10,22 @@ const Basket = (props) => {
   const { auth } = useAuth();
   const user_id = jwtDecode(auth.token).id;
   const { orders, totalPrice, onDelete, onUpdate } = props;
-  const [showModal, setShowModal] = useState(false); // Состояние для модального окна
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   const handleIncrease = (id) => {
     const order = orders.find((item) => item.id === id);
     if (order) {
-      onUpdate(id, order.counter + 1); // Увеличение количества
+      onUpdate(id, order.counter + 1); // Increase in quantity
     }
   };
 
   const handleDecrease = (id) => {
     const order = orders.find((item) => item.id === id);
     if (order.counter > 1) {
-      onUpdate(id, order.counter - 1); // Уменьшение количества, если больше 1
+      onUpdate(id, order.counter - 1); // Decrease quantity if more than 1
     } else {
-      onDelete(id); // Удаление элемента, если количество 1
+      onDelete(id); // Remove element if quantity is 1
     }
   };
 
@@ -40,27 +40,29 @@ const Basket = (props) => {
       orderItems,
     };
 
-    // Отправка данных на сервер
+    // Sending data to the server
     axios
-      .post("http://127.0.0.1:5000/api/order", orderData, {
+      .post(`${process.env.REACT_APP_ORDERS}`, orderData, {
         headers: {
           Authorization: `Bearer ${auth.token}`,
         },
       })
       .then((response) => {
-        console.log(response.data); // Обработка ответа сервера
-        // Удаляем все элементы из корзины после успешного создания заказа
-        orders.forEach((order) => onDelete(order.id)); // Удаляем каждый элемент
+        console.log(response.data); // Processing the server response
 
-        // Показать модальное окно
+        // Clearing the shopping cart
+        orders.forEach((order) => onUpdate(order.id, 1));
+        orders.forEach((order) => onDelete(order.id));
+
+        // Show modal window
         setShowModal(true);
       })
       .catch((error) => console.error("Error:", error));
   };
 
   const closeModalAndNavigate = () => {
-    setShowModal(false); // Закрываем модальное окно
-    navigate("/account/order-history"); // Перенаправление на историю заказов
+    setShowModal(false); // Close the modal window
+    navigate("/account/order-history"); // Redirect to order history
   };
 
   const showOrders = () => (
@@ -103,7 +105,7 @@ const Basket = (props) => {
       <h1>Your Cart</h1>
       {orders.length > 0 ? showOrders() : showNothing()}
 
-      {/* Модальное окно */}
+      {/* Modal window */}
       {showModal && (
         <div className="modal-overlay">
           <div className="modal">

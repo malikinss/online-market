@@ -18,7 +18,7 @@ const DeleteCategory = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:5000/api/category");
+        const response = await axios.get(`${process.env.REACT_APP_CATEGORIES}`);
         setCategories(response.data);
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -44,7 +44,7 @@ const DeleteCategory = () => {
 
     try {
       // Check if there are any items in this category
-      const itemsResponse = await axios.get("http://127.0.0.1:5000/api/item");
+      const itemsResponse = await axios.get(`${process.env.REACT_APP_ITEMS}`);
       const categoryItems = itemsResponse.data.filter(
         (item) => item.categoryId === parseInt(selectedCategoryId)
       );
@@ -58,7 +58,7 @@ const DeleteCategory = () => {
 
       // Proceed to delete the category
       const response = await axios.delete(
-        `http://127.0.0.1:5000/api/category/${selectedCategoryId}`,
+        `${process.env.REACT_APP_CATEGORIES}/${selectedCategoryId}`,
         {
           headers: {
             Authorization: `Bearer ${auth.token}`,

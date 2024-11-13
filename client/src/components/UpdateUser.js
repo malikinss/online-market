@@ -31,7 +31,7 @@ const UpdateUser = () => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:5000/api/user/${userId}`,
+          `${process.env.REACT_APP_USERS}/${userId}`,
           { headers: { Authorization: `Bearer ${auth.token}` } }
         );
 
@@ -67,7 +67,7 @@ const UpdateUser = () => {
 
     try {
       await axios.put(
-        `http://127.0.0.1:5000/api/user/${userId}`,
+        `${process.env.REACT_APP_USERS}/${userId}`,
         {
           firstName: userData.firstName,
           lastName: userData.lastName,
