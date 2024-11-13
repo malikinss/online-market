@@ -28,7 +28,7 @@ Other: JSON Web Tokens (JWT) for authentication, bcrypt for password hashing
 
 ## Authors ✨
 
--   **Sam Malikin** - [GitHub Profile Link](https://github.com/yourusername)
+-   **Sam Malikin** - [GitHub Profile Link](https://github.com/malikinss)
 -   **Yuri Rusanovski** - [GitHub Profile Link](https://github.com/yurirusanovskiy)
 
 # Conclusion 🚀
