@@ -45,12 +45,12 @@ console.log(error.message); // "Resource not found"
 The error-handling middleware is a centralized function for managing errors within the Express.js request-response cycle.
 
 -   **Functionality**:
--           If the error is an ApiError instance, it logs the error and sends a JSON response with the specific status and message.
--           For other (unexpected) errors, it logs the details and sends a generic 500 status with an "Unexpected error!" message.
+-             If the error is an ApiError instance, it logs the error and sends a JSON response with the specific status and message.
+-             For other (unexpected) errors, it logs the details and sends a generic 500 status with an "Unexpected error!" message.
 
 -   **Response Structure**:
 
--           For `ApiError` instances:
+-             For `ApiError` instances:
 
     ```js
     {
@@ -59,7 +59,7 @@ The error-handling middleware is a centralized function for managing errors with
     }
     ```
 
--         For unexpected errors:
+-           For unexpected errors:
     ```js
     {
     "status": "error",
