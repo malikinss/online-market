@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const ItemController = require("../../controllers/controllersToManageItems/ItemController/ItemController");
-const checkRole = require("../../middleware/checkRoleMiddleware");
+const checkRole = require("../../middleware/authHandling/checkRole/checkRoleMiddleware");
 
 // Route for creating and retrieving items
 router
