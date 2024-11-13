@@ -12,19 +12,20 @@ The primary goal of this project is to demonstrate our skills in developing full
 It is intended to be a learning project that combines modern technologies to build a scalable and functional e-commerce platform.
 Key functionalities include:
 
-User authentication and management (sign up, log in, profile updates)
-Product and category management (CRUD operations)
-Order and payment management
-RESTful API endpoints for communication with the frontend
-Security features like JWT authentication and password encryption
-This project will also highlight my ability to integrate backend and frontend systems, providing a seamless user experience.
+-   User authentication and management (sign up, log in, profile updates)
+-   Product and category management (CRUD operations)
+-   Order and payment management
+-   RESTful API endpoints for communication with the frontend
+-   Security features like JWT authentication and password encryption
+
+This project will also highlight ability to integrate backend and frontend systems, providing a seamless user experience.
 
 ## Tech Stack 🛠️
 
-Backend: Node.js, Express.js, JWT, Bcrypt, Sequelize ORM
-Frontend: React.js
-Database: SQLite (for local development), PostgreSQL (for production)
-Other: JSON Web Tokens (JWT) for authentication, bcrypt for password hashing
+-   Backend: Node.js, Express.js, JWT, Bcrypt, Sequelize ORM
+-   Frontend: React.js
+-   Database: SQLite (for local development), PostgreSQL (for production)
+-   Other: JSON Web Tokens (JWT) for authentication, bcrypt for password hashing
 
 ## Authors ✨
 
