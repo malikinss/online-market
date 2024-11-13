@@ -1,5 +1,5 @@
 const Category = require("../../../../models/Categories/Categories");
-const ApiError = require("../../../../error/ApiError");
+const ApiError = require("../../../../middleware/errorHandling/ApiError/ApiError");
 
 const {
     findRecordByField,

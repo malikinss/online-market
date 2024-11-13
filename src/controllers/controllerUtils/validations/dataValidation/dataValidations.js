@@ -1,4 +1,4 @@
-const ApiError = require("../../../../error/ApiError");
+const ApiError = require("../../../../middleware/errorHandling/ApiError/ApiError");
 
 /**
  * Checks if all required field values are present and not empty.

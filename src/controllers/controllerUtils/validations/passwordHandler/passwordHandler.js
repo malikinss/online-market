@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const ApiError = require("../../../../error/ApiError");
+const ApiError = require("../../../../middleware/errorHandling/ApiError/ApiError");
 const { messages } = require("../../messagesHandler/messagesHandler");
 
 /**

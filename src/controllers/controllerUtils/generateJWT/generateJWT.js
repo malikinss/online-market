@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const ApiError = require("../../../error/ApiError");
+const ApiError = require("../../../middleware/errorHandling/ApiError/ApiError");
 
 /**
  * Creates a JSON Web Token (JWT) for a user.

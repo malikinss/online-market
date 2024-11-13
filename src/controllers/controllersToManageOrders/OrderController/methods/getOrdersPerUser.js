@@ -1,7 +1,7 @@
 const Order = require("../../../../models/Orders/Orders");
 const OrderItem = require("../../../../models/OrderItems/OrderItems");
 const Payment = require("../../../../models/Payments/Payments");
-const ApiError = require("../../../../error/ApiError");
+const ApiError = require("../../../../middleware/errorHandling/ApiError/ApiError");
 const {
     findRecordByField,
     findRecordsByField,

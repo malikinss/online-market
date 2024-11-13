@@ -1,5 +1,5 @@
 const UserAddress = require("../../../../models/UserAddresses/UserAddresses");
-const ApiError = require("../../../../error/ApiError");
+const ApiError = require("../../../../middleware/errorHandling/ApiError/ApiError");
 
 const {
     containsFalsyValues,

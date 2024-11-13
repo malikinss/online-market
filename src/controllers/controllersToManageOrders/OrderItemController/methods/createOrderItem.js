@@ -1,7 +1,7 @@
 const Order = require("../../../../models/Orders/Orders");
 const Item = require("../../../../models/Items/Items");
 const OrderItem = require("../../../../models/OrderItems/OrderItems");
-const ApiError = require("../../../../error/ApiError");
+const ApiError = require("../../../../middleware/errorHandling/ApiError/ApiError");
 const {
     findRecordByField,
 } = require("../../../controllerUtils/findHandlers/findHandlers");
