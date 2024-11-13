@@ -1,4 +1,4 @@
-const ApiError = require("../error/ApiError");
+const ApiError = require("./ApiError/ApiError");
 
 /**
  * Middleware for error handling.
